@@ -1,0 +1,25 @@
+{
+  "id": "71d155c5-f656-439e-b824-2b46daa7ca7e",
+  "name": "Hexagon BC14",
+  "publisher": "Hexagon AB",
+  "version": "1.0.0.2",
+  "brief": "",
+  "description": "Hexagon ERP Customizations",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "./logo/Hexagon.png",
+  "screenshots": [],
+  "platform": "14.0.0.0",
+  "application": "14.0.0.0",
+  "idRanges": [
+    {
+      "from": 50000,
+      "to": 59000
+    }
+  ],
+  "contextSensitiveHelpUrl": "https://Hex01.com/help/",
+  "showMyCode": true,
+  "runtime": "3.0"
+}
