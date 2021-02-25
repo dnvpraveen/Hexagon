@@ -1,119 +1,282 @@
-OBJECT Table 55014 ITD Proforma Records
+table 55014 "ITD Proforma Records"
 {
-  OBJECT-PROPERTIES
-  {
-    Date=04/06/20;
-           Time =[ 1:56:06 AM];
-           Modified =Yes;
-           Version List=Smax1.0;
-  }
-  PROPERTIES
-  {
-  }
-  FIELDS
-  {
-    { 1   ;   ;Job No.             ;Code20        ;CaptionML=[ENU=Job No.;
-                                                              ENG=Job No.];
-                                                   NotBlank=Yes }
-    { 2   ;   ;Job Task No.        ;Code20        ;OnValidate=VAR
-                                                                Job@1000 : Record 167;
-                                                                Cust@1001 : Record 18;
-                                                              BEGIN
-                                                              END;
+    DataClassification = ToBeClassified;
 
-                                                   CaptionML=[ENU=Job Task No.;
-                                                              ENG=Job Task No.];
-                                                   NotBlank=Yes }
-    { 3   ;   ;Line No.            ;Integer        }
-    { 4   ;   ;ERP Company No.     ;Code10         }
-    { 5   ;   ;Opportunity No.     ;Code10         }
-    { 6   ;   ;Customer No.        ;Code20         }
-    { 7   ;   ;Name                ;Text50         }
-    { 8   ;   ;Address             ;Text50         }
-    { 9   ;   ;Address 2           ;Text50         }
-    { 10  ;   ;Post Code           ;Code10         }
-    { 11  ;   ;Country /Region Code;Code10         }
-    { 12  ;   ;External Doc No.    ;Text35         }
-    { 13  ;   ;Order Type          ;Code2          }
-    { 14  ;   ;Sales Order No.     ;Code20         }
-    { 15  ;   ;Order Date          ;Date           }
-    { 16  ;   ;Promised Delivery Date;Date         }
-    { 17  ;   ;Location Code       ;Code10         }
-    { 18  ;   ;Type                ;Option        ;OptionCaptionML=ENU=Resource,Item,G/L Account,Text;
-                                                   OptionString=Resource,Item,G/L Account,Text }
-    { 19  ;   ;No.                 ;Code20         }
-    { 20  ;   ;Description         ;Text50         }
-    { 21  ;   ;Quantity            ;Decimal        }
-    { 22  ;   ;Unit Price          ;Decimal        }
-    { 23  ;   ;Activity Type       ;Option        ;OptionCaptionML=ENU=" ,Purchase,Installation,Training,Programming,Warranty";
-                                                   OptionString=[ ,Purchase,Installation,Training,Programming,Warranty] }
-    { 24  ;   ;IP                  ;Boolean        }
-    { 25  ;   ;Serial No.          ;Code20         }
-    { 26  ;   ;Shipment No.        ;Code20         }
-    { 27  ;   ;Shipment Date       ;Date           }
-    { 28  ;   ;Invoice No.         ;Code20         }
-    { 29  ;   ;Invoice Date        ;Date           }
-    { 30  ;   ;Start Date          ;Date           }
-    { 31  ;   ;End Date            ;Date           }
-    { 32  ;   ;CPQ Item            ;Code10         }
-    { 33  ;   ;Status              ;Option        ;OptionCaptionML=ENU=Planning,Quote,Open,Completed;
-                                                   OptionString=Planning,Quote,Open,Completed }
-    { 34  ;   ;Integration Status  ;Option        ;OptionCaptionML=ENU=" ,InProgress,Successful,Failure";
-                                                   OptionString=[ ,InProgress,Successful,Failure] }
-    { 35  ;   ;Response Status     ;Option        ;OptionCaptionML=ENU=" ,Created,Modified,Processed,UpdatedtoSmax";
-                                                   OptionString=[ ,Created,Modified,Processed,UpdatedtoSmax] }
-    { 36  ;   ;Integration Completed;Boolean       }
-    { 37  ;   ;Currency Code       ;Code10        ;TableRelation=Currency }
-    { 38  ;   ;Customer Type       ;Code2          }
-    { 39  ;   ;Sales Order LineNo  ;Integer        }
-    { 40  ;   ;Back Order Qty      ;Integer        }
-    { 41  ;   ;Message             ;Text250        }
-    { 42  ;   ;IP Code             ;Code20        ;FieldClass=Normal }
-    { 43  ;   ;IP Serial No.       ;Code20        ;FieldClass=Normal }
-    { 44  ;   ;Target System       ;Code10         }
-    { 45  ;   ;Shipment Status     ;Text30         }
-    { 46  ;   ;Smax Order No.      ;Text35         }
-    { 47  ;   ;Smax Order for IP   ;Text35         }
-    { 48  ;   ;IP Created          ;Boolean        }
-    { 49  ;   ;Shipment Done       ;Boolean        }
-    { 50  ;   ;Invoice Closed      ;Boolean        }
-    { 51  ;   ;Invoice Status      ;Text30         }
-    { 52  ;   ;PO Value            ;Decimal        }
-    { 53  ;   ;Invoice Inserted    ;Boolean        }
-    { 54  ;   ;Invoice Created     ;Boolean        }
-    { 55  ;   ;Smax Line No        ;Text30         }
-    { 56  ;   ;Smax Work order     ;Text30         }
-    { 107 ;   ;Qty to Invoice      ;Decimal        }
-    { 108 ;   ;Entry No.           ;Integer        }
-  }
-  KEYS
-  {
-    {    ;Job No.,Job Task No.,Line No.,Entry No. ;Clustered=Yes }
-    { No ;                                         }
-  }
-  FIELDGROUPS
-  {
-  }
-  CODE
-  {
+    fields
+    {
+        field(1; "Job No."; Code[20])
+        {
+            Description = 'Job No.';
+            NotBlank = true;
+        }
+        field(2; "Job Task No."; Code[20])
+        {
+            Description = 'Job Task No.';
+            NotBlank = true;
+        }
+        field(3; "Line No."; Integer)
+        {
+            Description = 'Line No.';
+        }
+        field(4; "ERP Company No."; Code[10])
+        {
+            Description = 'ERP Company No.';
+        }
+        field(5; "Opportunity No."; Code[10])
+        {
+            Description = 'Opportunity No.';
+        }
+        field(6; "Customer No."; Code[20])
+        {
+            Description = 'Customer No.';
+        }
+        field(7; Name; Text[50])
+        {
+            Description = 'Name';
+        }
+        field(8; Address; Text[50])
+        {
+            Description = 'Address';
+        }
+        field(9; "Address 2"; Text[50])
+        {
+            Description = 'Address 2';
+        }
+        field(10; "Post Code"; Code[10])
+        {
+            Description = 'Post Code';
+        }
+        field(11; "Country /Region Code"; Code[10])
+        {
+            Description = 'Country /Region Code';
+        }
+        field(12; "External Doc No."; Text[35])
+        {
+            Description = 'External Doc No.';
+        }
+        field(13; "Order Type"; Code[2])
+        {
+            Description = 'Order Type';
+        }
+        field(14; "Sales Order No."; Code[20])
+        {
+            Description = 'Sales Order No.';
+        }
+        field(15; "Order Date"; Date)
+        {
+            Description = 'Order Date';
+        }
+        field(16; "Promised Delivery Date"; Date)
+        {
+            Description = 'Promised Delivery Date';
+        }
+        field(17; "Location Code"; Code[10])
+        {
+            Description = 'Location Code';
+        }
+        field(18; Type; Option)
+        {
+            OptionCaption = 'Resource, Item, G/L Account, Text';
+            OptionMembers = Resource,Item,"G/L Account",Text;
+        }
+        field(19; "No."; Code[20])
+        {
+            Description = 'No.';
+        }
+        field(20; Description; Text[50])
+        {
+            Description = 'Description';
+        }
+        field(21; Quantity; Decimal)
+        {
+            Description = 'Quantity';
+        }
+        field(22; "Unit Price"; Decimal)
+        {
+            Description = 'Unit Price';
+        }
+        field(23; "Activity Type"; Option)
+        {
+            OptionCaption = ' ,Purchase,Installation,Training,Programming,Warranty';
+            OptionMembers = ,Purchase,Installation,Training,Programming,Warranty;
+        }
+        field(24; IP; Boolean)
+        {
+            Description = 'IP';
+        }
+        field(25; "Serial No."; Code[20])
+        {
+            Description = 'Serial No.';
+        }
+        field(26; "Shipment No."; Code[20])
+        {
+            Description = 'Shipment No.';
+        }
+        field(27; "Shipment Date"; Date)
+        {
+            Description = 'Shipment Date';
+        }
+        field(28; "Invoice No."; Code[20])
+        {
+            Description = 'Invoice No.';
+        }
+        field(29; "Invoice Date"; Date)
+        {
+            Description = 'Invoice Date';
+        }
+        field(30; "Start Date"; Date)
+        {
+            Description = 'Start Date';
+        }
+        field(31; "End Date"; Date)
+        {
+            Description = 'End Date';
+        }
+        field(32; "CPQ Item"; Code[10])
+        {
+            Description = 'CPQ Item';
+        }
+        field(33; Status; Option)
+        {
+            OptionCaption = 'Planning, Quote, Open, Completed';
+            OptionMembers = Planning,Quote,Open,Completed;
+        }
+        field(34; "Integration Status"; Option)
+        {
+            OptionCaption = ' ,InProgress,Successful,Failure';
+            OptionMembers = ,InProgress,Successful,Failure;
+        }
+        field(35; "Response Status"; Option)
+        {
+            OptionCaption = ' ,Created,Modified,Processed,UpdatedtoSmax';
+            OptionMembers = ,Created,Modified,Processed,UpdatedtoSmax;
+        }
+        field(36; "Integration Completed"; Boolean)
+        {
+            Description = 'Integration Completed';
+        }
+        field(37; "Currency Code"; Code[10])
+        {
+            TableRelation = Currency;
+            Description = 'Currency Code';
+        }
+        field(38; "Customer Type"; Code[2])
+        {
+            Description = 'Customer Type';
+        }
+        field(39; "Sales Order LineNo"; Integer)
+        {
+            Description = 'Sales Order LineNo';
+        }
+        field(40; "Back Order Qty"; Integer)
+        {
+            Description = 'Back Order Qty';
+        }
+        field(41; Message; Text[250])
+        {
+            Description = 'Message';
+        }
+        field(42; "IP Code"; Code[20])
+        {
+            Description = 'IP Code';
+            FieldClass = Normal;
+        }
+        field(43; "IP Serial No."; Code[20])
+        {
+            Description = 'IP Serial No.';
+            FieldClass = Normal;
+        }
+        field(44; "Target System"; Code[10])
+        {
+            Description = 'Target System';
+        }
+        field(45; "Shipment Status"; Text[30])
+        {
+            Description = 'Shipment Status';
+        }
+        field(46; "Smax Order No."; Text[35])
+        {
+            Description = 'Smax Order No.';
+        }
+        field(47; "Smax Order for IP"; Text[35])
+        {
+            Description = 'Smax Order for IP';
+        }
+        field(48; "IP Created"; Boolean)
+        {
+            Description = 'IP Created';
+        }
+        field(49; "Shipment Done"; Boolean)
+        {
+            Description = 'Shipment Done';
+        }
+        field(50; "Invoice Closed"; Boolean)
+        {
+            Description = 'Invoice Closed';
+        }
+        field(51; "Invoice Status"; Text[30])
+        {
+            Description = 'Invoice Status';
+        }
+        field(52; "PO Value"; Decimal)
+        {
+            Description = 'PO Value';
+        }
+        field(53; "Invoice Inserted"; Boolean)
+        {
+            Description = 'Invoice Inserted';
+        }
+        field(54; "Invoice Created"; Boolean)
+        {
+            Description = 'Invoice Created';
+        }
+        field(55; "Smax Line No"; Text[30])
+        {
+            Description = 'Smax Line No';
+        }
+        field(56; "Smax Work order"; Text[30])
+        {
+            Description = 'Smax Work order';
+        }
+        field(107; "Qty to Invoice"; Decimal)
+        {
+            Description = 'Qty to Invoice';
+        }
+        field(108; "Entry No."; Integer)
+        {
+            Description = 'Entry No.';
+        }
+    }
 
-    PROCEDURE IPCreated@1000000000(JobRecordsforSmax@1000000000 : Record 55000);
-    VAR
-      LJobRecordsforSmax@1000000001 : Record 55000;
-    BEGIN
-      IF JobRecordsforSmax."IP Created" THEN BEGIN
-        LJobRecordsforSmax.RESET;
-        LJobRecordsforSmax.SETRANGE("Job No.",JobRecordsforSmax."Job No.");
-        LJobRecordsforSmax.SETRANGE("IP Created",FALSE);
-        IF LJobRecordsforSmax.FINDSET THEN
-          REPEAT
-            LJobRecordsforSmax."IP Created" := TRUE;
-            LJobRecordsforSmax.MODIFY;
-          UNTIL LJobRecordsforSmax.NEXT = 0;
-      END;
-    END;
+    keys
+    {
+        key(PK; "Job No.", "Job Task No.", "Line No.", "Entry No.")
+        {
+            Clustered = true;
+        }
+    }
 
-    BEGIN
-    END.
-  }
+
+    trigger OnInsert()
+    begin
+
+    end;
+
+    trigger OnModify()
+    begin
+
+    end;
+
+    trigger OnDelete()
+    begin
+
+    end;
+
+    trigger OnRename()
+    begin
+
+    end;
+
 }
+
+

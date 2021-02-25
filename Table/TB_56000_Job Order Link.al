@@ -1,51 +1,90 @@
-OBJECT Table 50000 Job Order Link
+table 56000 "Job Order Link"
 {
-  OBJECT-PROPERTIES
-  {
-    Date=22-02-20;
-           Time =[ 5:17:34 AM];
-           Modified =Yes;
-           Version List=HEXGBJOB.01;
-  }
-  PROPERTIES
-  {
-    LookupPageID=Page50000;
-    DrillDownPageID=Page50000;
-  }
-  FIELDS
-  {
-    { 1   ;   ;Job No.             ;Code20         }
-    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
-                                                              ENG=Line No.] }
-    { 3   ;   ;Sales Doc. Type     ;Option        ;OptionCaptionML=[ENU=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order;
-                                                                    ENG=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order];
-                                                   OptionString=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order }
-    { 4   ;   ;Order No.           ;Code20         }
-    { 5   ;   ;Invoice Doc. Type   ;Option        ;OptionCaptionML=[ENU=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order;
-                                                                    ENG=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order];
-                                                   OptionString=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order }
-    { 6   ;   ;Invoice No.         ;Code20         }
-    { 7   ;   ;Purch Doc. Type     ;Option        ;OptionCaptionML=[ENU=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order;
-                                                                    ENG=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order];
-                                                   OptionString=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order }
-    { 8   ;   ;Purch Order No.     ;Code20         }
-    { 9   ;   ;Purch Invoice Doc. Type;Option     ;OptionCaptionML=[ENU=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order;
-                                                                    ENG=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order];
-                                                   OptionString=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order }
-    { 10  ;   ;Purch Invoice No.   ;Code20         }
-  }
-  KEYS
-  {
-    {    ;Job No.,Line No.                        ;Clustered=Yes }
-    {    ;Sales Doc. Type,Order No.                }
-  }
-  FIELDGROUPS
-  {
-  }
-  CODE
-  {
+    DataClassification = ToBeClassified;
+    //LookupPageID=Page50000;
+    //DrillDownPageID=Page50000;
+    fields
+    {
+        field(1; "Job No."; Code[20])
+        {
+            Description = 'Job No.';
+        }
+        field(2; "Line No."; Integer)
+        {
+            Description = 'Line No.';
+        }
+        field(3; "Sales Doc. Type"; Option)
+        {
 
-    BEGIN
-    END.
-  }
+            OptionCaption = 'Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order';
+            OptionMembers = Quote,Order,Invoice,"Credit Memo","Blanket Order","Return Order";
+        }
+        field(4; "Order No."; Code[20])
+        {
+            Description = 'Order No.';
+        }
+        field(5; "Invoice Doc. Type"; Option)
+        {
+
+            OptionCaption = 'Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order';
+            OptionMembers = Quote,Order,Invoice,"Credit Memo","Blanket Order","Return Order";
+        }
+        field(6; "Invoice No."; Code[20])
+        {
+            Description = 'Invoice No.';
+        }
+        field(7; "Purch Doc. Type"; Option)
+        {
+
+            OptionCaption = 'Quote,Order,Invoice,"Credit Memo","Blanket Order","Return Order"';
+            OptionMembers = Quote,Order,Invoice,"Credit Memo","Blanket Order","Return Order";
+        }
+        field(8; "Purch Order No."; Code[20])
+        {
+            Description = 'Purch Order No.';
+        }
+        field(9; "Purch Invoice Doc. Type"; Option)
+        {
+
+            OptionCaption = 'Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order';
+            OptionMembers = Quote,Order,Invoice,"Credit Memo","Blanket Order","Return Order";
+        }
+        field(10; "Purch Invoice No."; Code[20])
+        {
+            Description = 'Purch Invoice No.';
+        }
+    }
+
+    keys
+    {
+        key(PK; "Job No.", "Line No.")
+        {
+            Clustered = true;
+        }
+        key("Sales Doc. Type"; "Order No.")
+        {
+
+        }
+    }
+
+    trigger OnInsert()
+    begin
+
+    end;
+
+    trigger OnModify()
+    begin
+
+    end;
+
+    trigger OnDelete()
+    begin
+
+    end;
+
+    trigger OnRename()
+    begin
+
+    end;
+
 }
