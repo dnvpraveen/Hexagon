@@ -106,8 +106,7 @@ table 56054 HexPriceBook
         }
     }
 
-    var
-        myInt: Integer;
+
 
     trigger OnInsert()
     begin

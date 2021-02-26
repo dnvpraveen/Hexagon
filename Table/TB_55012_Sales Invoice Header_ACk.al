@@ -310,7 +310,7 @@ table 55012 "Sales Invoice Header_ACk"
         {
             TableRelation = "Post Code";
             ValidateTableRelation = false;
-            TestTableRelation = false;
+
             Description = 'Bill-to Post Code';
         }
         field(86; "Bill-to County"; Text[30])
@@ -326,7 +326,6 @@ table 55012 "Sales Invoice Header_ACk"
         {
             TableRelation = "Post Code";
             ValidateTableRelation = false;
-            TestTableRelation = false;
             Description = 'Sell-to Post Code';
         }
         field(89; "Sell-to County"; Text[30])
@@ -342,7 +341,6 @@ table 55012 "Sales Invoice Header_ACk"
         {
             TableRelation = "Post Code";
             ValidateTableRelation = false;
-            TestTableRelation = false;
             Description = 'Ship-to Post Code';
         }
         field(92; "Ship-to County"; Text[30])
@@ -425,7 +423,6 @@ table 55012 "Sales Invoice Header_ACk"
         field(112; "User ID"; Code[50])
         {
             TableRelation = User."User Name";
-            TestTableRelation = false;
             Description = 'User ID';
             trigger OnValidate()
             var
@@ -534,7 +531,6 @@ table 55012 "Sales Invoice Header_ACk"
         field(1304; "Cust. Ledger Entry No."; Integer)
         {
             TableRelation = "Cust. Ledger Entry"."Entry No.";
-            TestTableRelation = false;
             Description = 'Cust. Ledger Entry No.';
             Editable = false;
         }
@@ -657,11 +653,11 @@ table 55012 "Sales Invoice Header_ACk"
     //{ 2   ;Brick               ;No.,Sell-to Customer Name,Amount,Due Date,Amount Including VAT }
     //}
 
-    var
+    // var
 
-        PostedHeader: Record "Posted Deferral Header";
-        PostSalesDelete: Codeunit "PostSales-Delete";
-        DeferralUtilities: Codeunit "Deferral Utilities";
+    //     PostedHeader: Record "Posted Deferral Header";
+    //     PostSalesDelete: Codeunit "PostSales-Delete";
+    //     DeferralUtilities: Codeunit "Deferral Utilities";
 
     trigger OnInsert()
     begin
