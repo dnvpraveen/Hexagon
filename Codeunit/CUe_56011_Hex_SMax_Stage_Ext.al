@@ -64,4 +64,35 @@ codeunit 56011 "Hex Smax Stage Ext"
             EXIT(Result);
         END;
     END;
+
+    [EventSubscriber(ObjectType::Table, 123, 'OnAfterInitFromPurchLine', '', false, false)]
+    procedure SMAXPurchLine(PurchInvHeader: Record "Purch. Inv. Header"; PurchLine: Record "Purchase Line"; var PurchInvLine: Record "Purch. Inv. Line")
+
+    begin
+        //gk
+        PurchInvLine."Job Planning Line No." := PurchLine."Job Planning Line No.";
+        //gk
+    end;
+
+    // Filed trigger Validation
+    // [EventSubscriber(ObjectType::table, 123, 'OnAfterValidateEvent', 'Buy-from Vendor No.', false, false)]
+    // local procedure MyProcedure2(var Rec: Record "Purch. Inv. Line"; var xRec: Record "Purch. Inv. Line"; CurrFieldNo: Integer)
+    // var
+    //     myInt: Integer;
+    // begin
+
+    // end;
+    [EventSubscriber(ObjectType::Table, 36, 'OnBeforeSalesLineInsert', '', false, false)]
+    procedure SmaxSalesHeader(VAR SalesLine: Record "Sales Line"; VAR TempSalesLine: Record "Sales Line")
+    VAR
+        LCustomer: Record Customer;
+    begin
+        //gk
+        IF LCustomer.GET(TempSalesLine."Sell-to Customer No.") THEN begin
+            //gk
+            SalesLine."Gen. Bus. Posting Group" := LCustomer."Gen. Bus. Posting Group";
+            SalesLine."Smax Line No." := TempSalesLine."Smax Line No.";
+            //gk
+        end;
+    end;
 }

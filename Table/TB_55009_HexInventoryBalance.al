@@ -1,4 +1,4 @@
-table 56052 HexInventoryBalance
+table 55009 HexInventoryBalance
 {
     DataClassification = ToBeClassified;
 

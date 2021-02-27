@@ -10,19 +10,20 @@ tableextension 57016 "Hex Purch. Inv. Line" extends "Purch. Inv. Line"
         }
     }
 
-    PROCEDURE InitFromPurchLine@12(PurchInvHeader@1001 : Record 122; PurchLine@1002 : Record 39);
-    BEGIN
-        INIT;
-        TRANSFERFIELDS(PurchLine);
-        IF ("No." = '') AND (Type IN [Type::"G/L Account" .. Type::"Charge (Item)"]) THEN
-            Type := Type::" ";
-        "Posting Date" := PurchInvHeader."Posting Date";
-        "Document No." := PurchInvHeader."No.";
-        Quantity := PurchLine."Qty. to Invoice";
-        "Quantity (Base)" := PurchLine."Qty. to Invoice (Base)";
-        //gk
-        "Job Planning Line No." := PurchLine."Job Planning Line No.";
-        //gk
-    END;
+    // This function is moved to CUe 56011 Hex SMAX Stage Ext Praveen
+    // PROCEDURE InitFromPurchLine(PurchInvHeader : Record 122; PurchLine : Record 39);
+    // BEGIN
+    //     INIT;
+    //     TRANSFERFIELDS(PurchLine);
+    //     IF ("No." = '') AND (Type IN [Type::"G/L Account" .. Type::"Charge (Item)"]) THEN
+    //         Type := Type::" ";
+    //     "Posting Date" := PurchInvHeader."Posting Date";
+    //     "Document No." := PurchInvHeader."No.";
+    //     Quantity := PurchLine."Qty. to Invoice";
+    //     "Quantity (Base)" := PurchLine."Qty. to Invoice (Base)";
+    //     //gk
+    //     "Job Planning Line No." := PurchLine."Job Planning Line No.";
+    //     //gk
+    // END;
 
 }

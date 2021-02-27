@@ -1,5 +1,4 @@
-
-codeunit 56000 "Hexagon Cube Management"
+codeunit 50000 "Hexagon Cube Management"
 {
 
     //    Documentation

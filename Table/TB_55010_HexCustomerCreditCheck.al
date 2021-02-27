@@ -1,4 +1,4 @@
-table 56053 HexCustomerCreditCheck
+table 55010 HexCustomerCreditCheck
 {
     DataClassification = ToBeClassified;
 

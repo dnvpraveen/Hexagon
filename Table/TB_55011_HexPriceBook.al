@@ -1,5 +1,5 @@
 
-table 56054 HexPriceBook
+table 55011 HexPriceBook
 {
     DataClassification = ToBeClassified;
 

@@ -1,4 +1,4 @@
-codeunit 56010 "Hex Deferral Utilities"
+codeunit 56010 "Hex Deferral Ext"
 {
 
     PROCEDURE CalculateDeferralSchedule(VAR DefHeader: Record "Deferral Header");

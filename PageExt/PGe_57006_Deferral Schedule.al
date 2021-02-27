@@ -11,7 +11,7 @@ pageextension 57006 HexDeferral extends "Deferral Schedule"
         {
             trigger OnBeforeAction()
             var
-                DeferralUtilities: Codeunit "Hex Deferral Utilities";
+                DeferralUtilities: Codeunit "Hex Deferral Ext";
                 SelectionMsg: Label 'You must specify a deferral code for this line before you can view the deferral schedule.';
                 DeferralDescription: Text[50];
             begin
