@@ -1,4 +1,4 @@
-tableextension 57023 "Hex Sales Line" extends "Sales Line"
+tableextension 57033 "Hex Transfer Line" extends "Transfer Line"
 {
     fields
     {
@@ -11,25 +11,20 @@ tableextension 57023 "Hex Sales Line" extends "Sales Line"
         {
             Description = 'Action Code';
         }
+        field(55002; "Line Status"; Option)
+        {
+            Description = 'Line Status';
+            OptionMembers = " ",Open,Shipped,"Partially shipped",Completed;
+            OptionCaption = '" ",Open,Shipped,"Partially shipped",Completed';
+        }
         field(55004; "Order Inserted"; Boolean)
         {
+
             Description = 'Order Inserted';
         }
         field(55005; "Order Created"; Boolean)
         {
             Description = 'Order Created';
-        }
-        field(55006; "Order Type"; Code[10])
-        {
-            Description = 'Order Type';
-        }
-        field(55007; "Work Order No."; Text[30])
-        {
-            Description = 'Work Order No.';
-        }
-        field(55008; "Ready to Invoice"; Boolean)
-        {
-            Description = 'Ready to Invoice';
         }
     }
 

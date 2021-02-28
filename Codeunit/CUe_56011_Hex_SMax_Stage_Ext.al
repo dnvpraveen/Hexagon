@@ -65,6 +65,78 @@ codeunit 56011 "Hex Smax Stage Ext"
         END;
     END;
 
+    PROCEDURE CancelCloseOrder(VAR OrderStatus: Text[50]; VAR PurchaseHeader: Record "Purchase Header");
+    VAR
+        Text050: TextConst ENU = 'You cannot Canel/Short Close the order, Invoice is pending for Line No. %1 and Order No. %2';
+        Text051: TextConst ENU = 'You cannot Canel/Short Close the order,Return Qty. Invoice is pending for Line No. %1 and Order No. %2';
+        ArchiveManagement: Codeunit ArchiveManagement;
+        PurchLine: Record "Purchase Line";
+    BEGIN
+        PurchLine.RESET;
+        PurchLine.SETRANGE("Document No.", PurchaseHeader."No.");
+        PurchLine.SETRANGE("Document Type", PurchaseHeader."Document Type");
+        IF PurchLine.FIND('-') THEN BEGIN
+            REPEAT
+                IF PurchLine."Qty. Rcd. Not Invoiced" <> 0 THEN
+                    ERROR(Text050, PurchLine."Line No.", PurchaseHeader."No.");
+                IF PurchLine."Return Qty. Shipped Not Invd." <> 0 THEN
+                    ERROR(Text051, PurchLine."Line No.", PurchaseHeader."No.");
+            UNTIL PurchLine.NEXT = 0;
+        END;
+        IF OrderStatus = 'Close' THEN BEGIN
+            PurchaseHeader."Cancel Short Close" := PurchaseHeader."Cancel Short Close"::"Short Closed";
+            PurchaseHeader.MODIFY;
+        END;
+        IF OrderStatus = 'Cancel' THEN BEGIN
+            PurchaseHeader."Cancel Short Close" := PurchaseHeader."Cancel Short Close"::Cancelled;
+            PurchaseHeader.MODIFY;
+        END;
+
+        ArchiveManagement.ArchivePurchDocument(PurchaseHeader);
+        PurchLine.RESET;
+        PurchLine.SETRANGE("Document No.", PurchaseHeader."No.");
+        PurchLine.SETRANGE("Document Type", PurchaseHeader."Document Type");
+        PurchLine.DELETEALL;
+        PurchaseHeader.DELETE;
+    END;
+
+    PROCEDURE UpdateTotalRevenueLCY(var JobPlanningLine: record "Job Planning Line");
+    VAR
+        Currency: Record 4;
+        CurrExchRate: Record 330;
+    BEGIN
+        //gk
+        IF JobPlanningLine."Currency Code" <> '' THEN BEGIN
+            Currency.TESTFIELD("Unit-Amount Rounding Precision");
+            JobPlanningLine."IFRS15 Line Amount (LCY)" :=
+              ROUND(
+                CurrExchRate.ExchangeAmtFCYToLCY(
+                  GetDate(JobPlanningLine), JobPlanningLine."Currency Code",
+                  JobPlanningLine."IFRS15 Line Amount", JobPlanningLine."Currency Factor"),
+                Currency."Unit-Amount Rounding Precision")
+        END ELSE
+            JobPlanningLine."IFRS15 Line Amount (LCY)" := JobPlanningLine."IFRS15 Line Amount";
+
+        //gk
+    END;
+
+    LOCAL PROCEDURE GetDate(var JobPlanningLine2: record "Job Planning Line"): Date;
+    VAR
+        LJob: Record 167;
+    BEGIN
+        IF JobPlanningLine2."Currency Date" <> 0D THEN
+            EXIT(JobPlanningLine2."Currency Date")
+        ELSE
+            IF JobPlanningLine2."Planning Date" <> 0D THEN
+                EXIT(JobPlanningLine2."Planning Date")
+            ELSE
+                IF LJob.GET(JobPlanningLine2."Job No.") THEN BEGIN
+                    IF LJob."Creation Date" <> 0D THEN
+                        EXIT(LJob."Creation Date")
+                END ELSE
+                    EXIT(WORKDATE);
+    END;
+
     [EventSubscriber(ObjectType::Table, 123, 'OnAfterInitFromPurchLine', '', false, false)]
     procedure SMAXPurchLine(PurchInvHeader: Record "Purch. Inv. Header"; PurchLine: Record "Purchase Line"; var PurchInvLine: Record "Purch. Inv. Line")
 

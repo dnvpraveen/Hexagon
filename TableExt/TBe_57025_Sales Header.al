@@ -1,14 +1,8 @@
-tableextension 57010 "Hex Sales Invoice Header" extends "Sales Invoice Header"
+tableextension 57025 "Hex Sales Header" extends "Sales Header"
 {
     fields
     {
-        //Description=IFRS15
-        field(50100; "Assigned Job No."; Code[20])
-        {
-            Description = 'Assigned Job No.';
-
-        }
-
+        // Add changes to table fields here
         field(55000; "Order Type"; Code[10])
         {
             Description = 'Order Type';
@@ -33,8 +27,19 @@ tableextension 57010 "Hex Sales Invoice Header" extends "Sales Invoice Header"
         {
             Description = 'Order Created';
         }
+        field(55008; "Action Code"; Integer)
+        {
+            Description = 'Action Code';
+        }
+        field(60003; "Cancel / Short Close"; Option)
+        {
+            OptionCaption = ' ,Cancelled,Short Closed';
+            OptionMembers = ,Cancelled,"Short Closed";
+            Description = 'Cancel / Short Close';
+            Editable = false;
+        }
     }
 
-
+    var
+        myInt: Integer;
 }
-

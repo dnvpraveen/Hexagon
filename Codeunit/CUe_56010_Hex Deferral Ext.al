@@ -156,7 +156,7 @@ codeunit 56010 "Hex Deferral Ext"
         AdjustedDeferralAmount: Decimal;
         DeferralUtilities: codeunit "Deferral Utilities";
     BEGIN
-        DeferralUtilities.InitCurrency(CurrencyCode);
+        InitCurrency(CurrencyCode);
         DeferralTemplate.GET(DeferralCode);
         // "Start Date" passed in needs to be adjusted based on the Deferral Code's Start Date setting
 
@@ -187,7 +187,19 @@ codeunit 56010 "Hex Deferral Ext"
         END;
     END;
 
+    LOCAL PROCEDURE InitCurrency(CurrencyCode: Code[10]);
+    var
+        Currency: Record Currency;
+    BEGIN
+        IF (Currency.Code = CurrencyCode) AND CurrencyRead THEN
+            EXIT;
 
+        IF CurrencyCode <> '' THEN
+            Currency.GET(CurrencyCode)
+        ELSE
+            Currency.InitRoundingPrecision;
+        CurrencyRead := TRUE;
+    END;
     //TVT01 Changes to deferrals
 
     // var

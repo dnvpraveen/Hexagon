@@ -17,19 +17,19 @@ table 50101 "IFRS15 Cue"
         field(3; "Perf. Oblig Status Calc"; Integer)
         {
             FieldClass = FlowField;
-            CalcFormula = Count("Job Task" WHERE(IFRS15 Perf. Obligation Status=CONST(Calculated),Job Task Type=CONST(Posting)));
+            CalcFormula = Count("Job Task" WHERE("IFRS15 Perf. Obligation Status" = CONST(Calculated), "Job Task Type" = CONST(Posting)));
             Description = 'Perf. Obligation Status is Calculated';
         }
         field(4; "Perf. Oblig Status ReadyToPost"; Integer)
         {
             FieldClass = FlowField;
-            CalcFormula = Count("Job Task" WHERE(IFRS15 Perf. Obligation Status=CONST(Ready to Post),Job Task Type=CONST(Posting)));
+            CalcFormula = Count("Job Task" WHERE("IFRS15 Perf. Obligation Status" = CONST("Ready to Post"), "Job Task Type" = CONST(Posting)));
             Description = 'Perf. Obligation Status is Ready To Post';
         }
         field(5; "Perf. Oblig Status Posted"; Integer)
         {
             FieldClass = FlowField;
-            CalcFormula = Count("Job Task" WHERE(IFRS15 Perf. Obligation Status=CONST(Posted),Job Task Type=CONST(Posting)));
+            CalcFormula = Count("Job Task" WHERE("IFRS15 Perf. Obligation Status" = CONST(Posted), "Job Task Type" = CONST(Posting)));
             Description = 'Perf. Obligation Status is Posted';
         }
     }
