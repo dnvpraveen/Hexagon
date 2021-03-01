@@ -1,6 +1,6 @@
 table 55013 "Sales Invoice Line_Ack"
 {
-    DataClassification = ToBeClassified;
+    //DataClassification = ToBeClassified;
 
     fields
     {
@@ -102,7 +102,7 @@ table 55013 "Sales Invoice Line_Ack"
         }
         field(32; "Allow Invoice Disc."; Boolean)
         {
-            InitValue = Yes;
+            InitValue = true;
             Description = 'Allow Invoice Disc.';
         }
         field(34; "Gross Weight"; Decimal)
@@ -455,7 +455,7 @@ table 55013 "Sales Invoice Line_Ack"
         }
         field(7001; "Allow Line Disc."; Boolean)
         {
-            InitValue = Yes;
+            InitValue = true;
             Description = 'Allow Line Disc.';
         }
         field(7002; "Customer Disc. Group"; Code[20])

@@ -144,6 +144,7 @@ codeunit 55001 "Update ITDW to  Planning Lines"
         SalesShipLine: Record 111;
         Text050: TextConst ENU = 'Invoice is pending for Line No. %1 and Item No. %2, still want to Short Close the order?';
         ArchiveManagement: Codeunit ArchiveManagement;
+        HexSMAXarch: Codeunit "Hex Smax Stage Ext";
         NoShipment: Boolean;
     BEGIN
         SalesLine.RESET;
@@ -169,7 +170,7 @@ codeunit 55001 "Update ITDW to  Planning Lines"
             IF OrderStatus = 'Close' THEN BEGIN
                 SalesHeader."Cancel / Short Close" := SalesHeader."Cancel / Short Close"::"Short Closed";
                 SalesHeader.MODIFY;
-                ArchiveManagement.ArchiveSalesDocument2(SalesHeader);
+                HexSMAXarch.ArchiveSalesDocument2(SalesHeader);
             END;
             //END ELSE
             //EXIT;
@@ -177,7 +178,7 @@ codeunit 55001 "Update ITDW to  Planning Lines"
             IF OrderStatus = 'Close' THEN BEGIN
                 SalesHeader."Cancel / Short Close" := SalesHeader."Cancel / Short Close"::"Short Closed";
                 SalesHeader.MODIFY;
-                ArchiveManagement.ArchiveSalesDocument2(SalesHeader);
+                HexSMAXarch.ArchiveSalesDocument2(SalesHeader);
             END;
         END;
 

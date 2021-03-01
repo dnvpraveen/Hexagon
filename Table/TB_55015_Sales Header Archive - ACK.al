@@ -542,7 +542,7 @@ table 55015 "Sales Header Archive - ACK"
         }
         field(132; "Compress Prepayment"; Boolean)
         {
-            InitValue = Yes;
+            InitValue = True;
             Description = 'Compress Prepayment';
         }
         field(133; "Prepayment Due Date"; Date)

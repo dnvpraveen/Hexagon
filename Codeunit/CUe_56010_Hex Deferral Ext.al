@@ -156,50 +156,52 @@ codeunit 56010 "Hex Deferral Ext"
         AdjustedDeferralAmount: Decimal;
         DeferralUtilities: codeunit "Deferral Utilities";
     BEGIN
-        InitCurrency(CurrencyCode);
+        //****InitCurrency(CurrencyCode2);
+        //InitCurrency(CurrencyCode); old code
         DeferralTemplate.GET(DeferralCode);
         // "Start Date" passed in needs to be adjusted based on the Deferral Code's Start Date setting
 
-        IF AdjustStartDate THEN
-            AdjustedStartDate := DeferralUtilities.SetStartDate(DeferralTemplate, StartDate)
-        ELSE
-            AdjustedStartDate := StartDate;
+        // IF AdjustStartDate THEN
+        //     AdjustedStartDate := DeferralUtilities.SetStartDate(DeferralTemplate, StartDate)
+
+        // ELSE
+        //     AdjustedStartDate := StartDate;
 
 
-        AdjustedDeferralAmount := AmountToDefer;
-        IF ApplyDeferralPercentage THEN
-            AdjustedDeferralAmount := ROUND(AdjustedDeferralAmount * (DeferralTemplate."Deferral %" / 100), AmountRoundingPrecision);
+        // AdjustedDeferralAmount := AmountToDefer;
+        // IF ApplyDeferralPercentage THEN
+        //     AdjustedDeferralAmount := ROUND(AdjustedDeferralAmount * (DeferralTemplate."Deferral %" / 100), AmountRoundingPrecision);
 
-        DeferralUtilities.SetDeferralRecords(DeferralHeader, DeferralDocType, GenJnlTemplateName, GenJnlBatchName, DocumentType, DocumentNo, LineNo,
-         CalcMethod, NoOfPeriods, AdjustedDeferralAmount, AdjustedStartDate,
-         DeferralCode, DeferralDescription, AmountToDefer, TRUE, CurrencyCode);
+        // DeferralUtilities.SetDeferralRecords(DeferralHeader, DeferralDocType, GenJnlTemplateName, GenJnlBatchName, DocumentType, DocumentNo, LineNo,
+        //  CalcMethod, NoOfPeriods, AdjustedDeferralAmount, AdjustedStartDate,
+        //  DeferralCode, DeferralDescription, AmountToDefer, TRUE, CurrencyCode2);
 
 
-        CASE CalcMethod OF
-            CalcMethod::"Straight-Line":
-                DeferralUtilities.CalculateStraightline(DeferralHeader, DeferralLine, DeferralTemplate);
-            CalcMethod::"Equal per Period":
-                DeferralUtilities.CalculateEqualPerPeriod(DeferralHeader, DeferralLine, DeferralTemplate);
-            CalcMethod::"Days per Period":
-                DeferralUtilities.CalculateDaysPerPeriod(DeferralHeader, DeferralLine, DeferralTemplate);
-            CalcMethod::"User-Defined":
-                DeferralUtilities.CalculateUserDefined(DeferralHeader, DeferralLine, DeferralTemplate);
-        END;
+        // CASE CalcMethod OF
+        //     CalcMethod::"Straight-Line":
+        //         DeferralUtilities.CalculateStraightline(DeferralHeader, DeferralLine, DeferralTemplate);
+        //     CalcMethod::"Equal per Period":
+        //         DeferralUtilities.CalculateEqualPerPeriod(DeferralHeader, DeferralLine, DeferralTemplate);
+        //     CalcMethod::"Days per Period":
+        //         DeferralUtilities.CalculateDaysPerPeriod(DeferralHeader, DeferralLine, DeferralTemplate);
+        //     CalcMethod::"User-Defined":
+        //         DeferralUtilities.CalculateUserDefined(DeferralHeader, DeferralLine, DeferralTemplate);
+        // END;
     END;
 
-    LOCAL PROCEDURE InitCurrency(CurrencyCode: Code[10]);
-    var
-        Currency: Record Currency;
-    BEGIN
-        IF (Currency.Code = CurrencyCode) AND CurrencyRead THEN
-            EXIT;
+    // LOCAL PROCEDURE InitCurrency(CurrencyCode: Code[10]);
+    // var
+    //     Currency: Record Currency;
+    // BEGIN
+    //     IF (Currency.Code = CurrencyCode) AND Currency.CurrencyRead THEN
+    //         EXIT;
 
-        IF CurrencyCode <> '' THEN
-            Currency.GET(CurrencyCode)
-        ELSE
-            Currency.InitRoundingPrecision;
-        CurrencyRead := TRUE;
-    END;
+    //     IF CurrencyCode <> '' THEN
+    //         Currency.GET(CurrencyCode)
+    //     ELSE
+    //         Currency.InitRoundingPrecision;
+    //     CurrencyRead := TRUE;
+    // END;
     //TVT01 Changes to deferrals
 
     // var

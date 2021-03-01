@@ -139,7 +139,7 @@ table 55016 "Sales Line Archive - ACK"
         }
         field(32; "Allow Invoice Disc."; Boolean)
         {
-            InitValue = Yes;
+            InitValue = True;
             Description = 'Allow Invoice Disc.';
         }
         field(34; "Gross Weight"; Decimal)
@@ -186,7 +186,7 @@ table 55016 "Sales Line Archive - ACK"
         }
         field(43; "Allow Quantity Disc."; Boolean)
         {
-            InitValue = Yes;
+            InitValue = True;
             Description = 'Allow Quantity Disc.';
         }
         field(45; "Job No."; Code[20])
@@ -758,7 +758,7 @@ table 55016 "Sales Line Archive - ACK"
         }
         field(5800; "Allow Item Charge Assignment"; Boolean)
         {
-            InitValue = Yes;
+            InitValue = True;
             AccessByPermission = TableData 5800 = R;
             Description = 'Allow Item Charge Assignment';
         }
@@ -857,7 +857,7 @@ table 55016 "Sales Line Archive - ACK"
         }
         field(7001; "Allow Line Disc."; Boolean)
         {
-            InitValue = Yes;
+            InitValue = True;
             Description = 'Allow Line Disc.';
         }
         field(7002; "Customer Disc. Group"; Code[20])
