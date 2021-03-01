@@ -1,6 +1,6 @@
 table 55008 "Job Task Master_New"
 {
-    DataClassification = ToBeClassified;
+    //DataClassification = ToBeClassified;
     //LookupPageId =
     fields
     {
