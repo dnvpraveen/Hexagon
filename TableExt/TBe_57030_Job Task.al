@@ -75,8 +75,8 @@ tableextension 57030 "Job Task" extends "Job Task"
         field(55003; "Activity Type"; Option)
         {
             Description = 'Activity Type';
-            OptionCaption = ' ,Purchase,Installation,Training,Programming,Warranty';
-            OptionMembers = ,Purchase,Installation,Training,Programming,Warranty;
+            OptionCaption = '" ",Purchase,Installation,Training,Programming,Warranty';
+            OptionMembers = " ",Purchase,Installation,Training,Programming,Warranty;
         }
         field(55004; "Performance Obligation"; Text[50])
         {

@@ -624,6 +624,7 @@ table 55012 "Sales Invoice Header_ACk"
         {
             Description = 'Order Created';
         }
+
     }
 
     keys

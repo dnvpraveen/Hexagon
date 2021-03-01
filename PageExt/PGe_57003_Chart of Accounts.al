@@ -1,4 +1,4 @@
-pageextension 57003 "Hex GMDD List" extends "Chart of Accounts"
+pageextension 57003 "hex Chart of Accounts" extends "Chart of Accounts"
 {
 
     layout

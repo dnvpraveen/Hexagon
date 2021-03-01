@@ -120,7 +120,7 @@ codeunit 56011 "Hex Smax Stage Ext"
         //gk
     END;
 
-    LOCAL PROCEDURE GetDate(var JobPlanningLine2: record "Job Planning Line"): Date;
+    PROCEDURE GetDate(var JobPlanningLine2: record "Job Planning Line"): Date;
     VAR
         LJob: Record 167;
     BEGIN
@@ -167,4 +167,190 @@ codeunit 56011 "Hex Smax Stage Ext"
             //gk
         end;
     end;
+    /// <summary>
+    /// Thsi code is from ArchiveManagement
+    /// </summary>
+    PROCEDURE "--Hex1.0---Codeunit 5063 ArchiveManagement"();
+    BEGIN
+    END;
+
+    PROCEDURE ArchivePurchDocumentdirect(VAR PurchHeader: Record 38);
+    var
+        Text001: TextConst ENU = 'Document %1 has been archived.', PTB = 'O documento %1 foi arquivado.';
+    BEGIN
+        ArchiveMgt.StorePurchDocument(PurchHeader, FALSE);
+        MESSAGE(Text001, PurchHeader."No.");
+    END;
+
+    PROCEDURE ArchiveSalesDocumentdirect(VAR SalesHeader: Record 36);
+    var
+        Text001: TextConst ENU = 'Document %1 has been archived.', PTB = 'O documento %1 foi arquivado.';
+    BEGIN
+        ArchiveMgt.StoreSalesDocument(SalesHeader, FALSE);
+        MESSAGE(Text001, SalesHeader."No.");
+    END;
+
+    PROCEDURE ArchiveSalesDocument1(VAR SalesHeader: Record 36);
+    var
+        Text001: TextConst ENU = 'Document %1 has been archived.', PTB = 'O documento %1 foi arquivado.';
+        Text007: TextConst ENU = 'Archive %1 no.: %2?', PTB = 'Arquivo %1 n�: %2?';
+    BEGIN
+        IF CONFIRM(
+             Text007, TRUE, SalesHeader."Document Type",
+             SalesHeader."No.")
+        THEN BEGIN
+            StoreSalesDocument1(SalesHeader, FALSE);
+            MESSAGE(Text001, SalesHeader."No.");
+        END;
+    END;
+
+    PROCEDURE StoreSalesDocument1(VAR SalesHeader: Record 36; InteractionExist: Boolean);
+    VAR
+        SalesLine: Record 37;
+        SalesHeaderArchive: Record 5107;
+        SalesLineArchive: Record 5108;
+        RecordLinkManagement: Codeunit 447;
+        LSalesHeader: Record 36;
+        LSalesLine: Record 37;
+        SalesHeaderArchiveACK: Record 55015;
+        SalesLineArchiveACK: Record 55016;
+        DeferralUtilities: Codeunit "Deferral Utilities";
+    BEGIN
+        SalesHeaderArchive.INIT;
+        SalesHeaderArchive.TRANSFERFIELDS(SalesHeader);
+        SalesHeaderArchive."Archived By" := USERID;
+        SalesHeaderArchive."Date Archived" := WORKDATE;
+        SalesHeaderArchive."Time Archived" := TIME;
+        SalesHeaderArchive."Version No." := ArchiveMgt.GetNextVersionNo(
+            DATABASE::"Sales Header", SalesHeader."Document Type", SalesHeader."No.", SalesHeader."Doc. No. Occurrence");
+        SalesHeaderArchive."Interaction Exist" := InteractionExist;
+        RecordLinkManagement.CopyLinks(SalesHeader, SalesHeaderArchive);
+        SalesHeaderArchive.INSERT;
+
+        //for smax
+        LSalesHeader.RESET;
+        LSalesHeader.SETRANGE("Document Type", SalesHeader."Document Type");
+        LSalesHeader.SETRANGE("No.", SalesHeader."No.");
+        LSalesHeader.SETRANGE("Order Created", TRUE);
+        IF LSalesHeader.FINDFIRST THEN BEGIN
+            SalesHeaderArchiveACK.INIT;
+            SalesHeaderArchiveACK.TRANSFERFIELDS(LSalesHeader);
+            SalesHeaderArchiveACK."Archived By" := USERID;
+            SalesHeaderArchiveACK."Date Archived" := WORKDATE;
+            SalesHeaderArchiveACK."Time Archived" := TIME;
+            //SalesHeaderArchiveACK."Cancel / ShortClose" := TRUE;
+            SalesHeaderArchiveACK."Version No." := ArchiveMgt.GetNextVersionNo(
+                DATABASE::"Sales Header", LSalesHeader."Document Type", LSalesHeader."No.", LSalesHeader."Doc. No. Occurrence");
+            SalesHeaderArchiveACK."Interaction Exist" := InteractionExist;
+            RecordLinkManagement.CopyLinks(LSalesHeader, SalesHeaderArchiveACK);
+            SalesHeaderArchiveACK.INSERT;
+        END;
+        //for smax
+
+        StoreSalesDocumentComments(
+           SalesHeader."Document Type", SalesHeader."No.",
+           SalesHeader."Doc. No. Occurrence", SalesHeaderArchive."Version No.");
+
+        SalesLine.SETRANGE("Document Type", SalesHeader."Document Type");
+        SalesLine.SETRANGE("Document No.", SalesHeader."No.");
+        IF SalesLine.FINDSET THEN
+            REPEAT
+                WITH SalesLineArchive DO BEGIN
+                    INIT;
+                    TRANSFERFIELDS(SalesLine);
+                    SalesLineArchive.Quantity := SalesLine."Quantity Invoiced";
+                    SalesLineArchive."Quantity (Base)" := SalesLine."Quantity Invoiced";
+                    "Doc. No. Occurrence" := SalesHeader."Doc. No. Occurrence";
+                    "Version No." := SalesHeaderArchive."Version No.";
+                    RecordLinkManagement.CopyLinks(SalesLine, SalesLineArchive);
+                    INSERT;
+                END;
+                IF SalesLine."Deferral Code" <> '' THEN
+                    StoreDeferrals(DeferralUtilities.GetSalesDeferralDocType, SalesLine."Document Type",
+                      SalesLine."Document No.", SalesLine."Line No.", SalesHeader."Doc. No. Occurrence", SalesHeaderArchive."Version No.");
+
+            UNTIL SalesLine.NEXT = 0;
+
+        //for smax
+        LSalesLine.RESET;
+        LSalesLine.SETRANGE("Document Type", LSalesHeader."Document Type");
+        LSalesLine.SETRANGE("Document No.", LSalesHeader."No.");
+        IF LSalesLine.FINDSET THEN
+            REPEAT
+                WITH SalesLineArchiveACK DO BEGIN
+                    INIT;
+                    TRANSFERFIELDS(LSalesLine);
+                    "Doc. No. Occurrence" := LSalesHeader."Doc. No. Occurrence";
+                    "Version No." := SalesHeaderArchiveACK."Version No.";
+                    "Smax Line No." := LSalesLine."Smax Line No.";
+                    SalesLineArchiveACK.Quantity := LSalesLine."Quantity Invoiced";
+                    SalesLineArchiveACK."Quantity (Base)" := LSalesLine."Quantity Invoiced";
+                    RecordLinkManagement.CopyLinks(LSalesLine, SalesLineArchiveACK);
+                    INSERT;
+                END;
+                IF LSalesLine."Deferral Code" <> '' THEN
+                    StoreDeferrals(DeferralUtilities.GetSalesDeferralDocType, LSalesLine."Document Type",
+                      LSalesLine."Document No.", LSalesLine."Line No.", LSalesHeader."Doc. No. Occurrence", SalesHeaderArchiveACK."Version No.");
+
+            UNTIL LSalesLine.NEXT = 0;
+
+        //for smax
+    END;
+
+    PROCEDURE ArchiveSalesDocument2(VAR SalesHeader: Record 36);
+    BEGIN
+        StoreSalesDocument1(SalesHeader, FALSE);
+    END;
+
+    LOCAL PROCEDURE StoreSalesDocumentComments(DocType: Option; DocNo: Code[20]; DocNoOccurrence: Integer; VersionNo: Integer);
+    VAR
+        SalesCommentLine: Record 44;
+        SalesCommentLineArch: Record 5126;
+    BEGIN
+        SalesCommentLine.SETRANGE("Document Type", DocType);
+        SalesCommentLine.SETRANGE("No.", DocNo);
+        IF SalesCommentLine.FINDSET THEN
+            REPEAT
+                SalesCommentLineArch.INIT;
+                SalesCommentLineArch.TRANSFERFIELDS(SalesCommentLine);
+                SalesCommentLineArch."Doc. No. Occurrence" := DocNoOccurrence;
+                SalesCommentLineArch."Version No." := VersionNo;
+                SalesCommentLineArch.INSERT;
+            UNTIL SalesCommentLine.NEXT = 0;
+    END;
+
+    LOCAL PROCEDURE StoreDeferrals(DeferralDocType: Integer; DocType: Integer; DocNo: Code[20]; LineNo: Integer; DocNoOccurrence: Integer; VersionNo: Integer);
+    VAR
+        DeferralHeaderArchive: Record 5127;
+        DeferralLineArchive: Record 5128;
+        DeferralHeader: Record 1701;
+        DeferralLine: Record 1702;
+    BEGIN
+        IF DeferralHeader.GET(DeferralDocType, '', '', DocType, DocNo, LineNo) THEN BEGIN
+            DeferralHeaderArchive.INIT;
+            DeferralHeaderArchive.TRANSFERFIELDS(DeferralHeader);
+            DeferralHeaderArchive."Doc. No. Occurrence" := DocNoOccurrence;
+            DeferralHeaderArchive."Version No." := VersionNo;
+            DeferralHeaderArchive.INSERT;
+
+            DeferralLine.SETRANGE("Deferral Doc. Type", DeferralDocType);
+            DeferralLine.SETRANGE("Gen. Jnl. Template Name", '');
+            DeferralLine.SETRANGE("Gen. Jnl. Batch Name", '');
+            DeferralLine.SETRANGE("Document Type", DocType);
+            DeferralLine.SETRANGE("Document No.", DocNo);
+            DeferralLine.SETRANGE("Line No.", LineNo);
+            IF DeferralLine.FINDSET THEN
+                REPEAT
+                    DeferralLineArchive.INIT;
+                    DeferralLineArchive.TRANSFERFIELDS(DeferralLine);
+                    DeferralLineArchive."Doc. No. Occurrence" := DocNoOccurrence;
+                    DeferralLineArchive."Version No." := VersionNo;
+                    DeferralLineArchive.INSERT;
+                UNTIL DeferralLine.NEXT = 0;
+        END;
+    END;
+
+    var
+        ArchiveMgt: Codeunit ArchiveManagement;
+
 }

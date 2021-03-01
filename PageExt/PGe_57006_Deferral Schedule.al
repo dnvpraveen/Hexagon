@@ -1,4 +1,4 @@
-pageextension 57006 HexDeferral extends "Deferral Schedule"
+pageextension 57006 "Hex Deferral" extends "Deferral Schedule"
 {
     layout
     {

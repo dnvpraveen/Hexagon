@@ -1,5 +1,5 @@
 
-pageextension 57004 ItemCategoryHexpage extends "Item Categories"
+pageextension 57004 "Hex Item Categories" extends "Item Categories"
 {
 
     layout

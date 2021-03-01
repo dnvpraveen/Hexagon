@@ -1,4 +1,4 @@
-pageextension 57000 "Hex Dimension" extends "Dimension Values"
+pageextension 57000 "Hex Dimension Values" extends "Dimension Values"
 {
 
     layout

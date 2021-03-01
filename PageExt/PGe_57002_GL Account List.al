@@ -1,4 +1,4 @@
-pageextension 57002 "Hex GMDDList" extends "G/L Account List"
+pageextension 57002 "Hex G/L Account List" extends "G/L Account List"
 {
 
     layout
