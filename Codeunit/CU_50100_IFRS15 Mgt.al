@@ -25,13 +25,18 @@ codeunit 50100 "IFRS15 Mgt"
         IFRS15Setup: Record "IFRS15 Setup";
     BEGIN
         // TM TF IFRS15 29/06/18 Start
-        WITH Rec DO BEGIN
-            IF ISTEMPORARY THEN
-                EXIT;
-            IFRS15Setup.GET;
-            IF IFRS15Setup."IFRS15 Active" THEN
-                "Is IFRS15 Job" := TRUE;
-        END;
+        IF rec.ISTEMPORARY THEN
+            EXIT;
+        IFRS15Setup.GET;
+        IF IFRS15Setup."IFRS15 Active" THEN
+            rec."Is IFRS15 Job" := TRUE;
+        // WITH Rec DO BEGIN
+        //     IF ISTEMPORARY THEN
+        //         EXIT;
+        //     IFRS15Setup.GET;
+        //     IF IFRS15Setup."IFRS15 Active" THEN
+        //         "Is IFRS15 Job" := TRUE;
+        // END;
         // TM TF IFRS15 29/06/18 End
     END;
 

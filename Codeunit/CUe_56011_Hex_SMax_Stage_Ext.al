@@ -255,16 +255,26 @@ codeunit 56011 "Hex Smax Stage Ext"
         SalesLine.SETRANGE("Document No.", SalesHeader."No.");
         IF SalesLine.FINDSET THEN
             REPEAT
-                WITH SalesLineArchive DO BEGIN
-                    INIT;
-                    TRANSFERFIELDS(SalesLine);
-                    SalesLineArchive.Quantity := SalesLine."Quantity Invoiced";
-                    SalesLineArchive."Quantity (Base)" := SalesLine."Quantity Invoiced";
-                    "Doc. No. Occurrence" := SalesHeader."Doc. No. Occurrence";
-                    "Version No." := SalesHeaderArchive."Version No.";
-                    RecordLinkManagement.CopyLinks(SalesLine, SalesLineArchive);
-                    INSERT;
-                END;
+
+                SalesLineArchive.INIT;
+                SalesLineArchive.TRANSFERFIELDS(SalesLine);
+                SalesLineArchive.Quantity := SalesLine."Quantity Invoiced";
+                SalesLineArchive."Quantity (Base)" := SalesLine."Quantity Invoiced";
+                SalesLineArchive."Doc. No. Occurrence" := SalesHeader."Doc. No. Occurrence";
+                SalesLineArchive."Version No." := SalesHeaderArchive."Version No.";
+                RecordLinkManagement.CopyLinks(SalesLine, SalesLineArchive);
+                SalesLineArchive.INSERT;
+
+                // WITH SalesLineArchive DO BEGIN
+                //     INIT;
+                //     TRANSFERFIELDS(SalesLine);
+                //     SalesLineArchive.Quantity := SalesLine."Quantity Invoiced";
+                //     SalesLineArchive."Quantity (Base)" := SalesLine."Quantity Invoiced";
+                //     "Doc. No. Occurrence" := SalesHeader."Doc. No. Occurrence";
+                //     "Version No." := SalesHeaderArchive."Version No.";
+                //     RecordLinkManagement.CopyLinks(SalesLine, SalesLineArchive);
+                //     INSERT;
+                // END;
                 IF SalesLine."Deferral Code" <> '' THEN
                     StoreDeferrals(DeferralUtilities.GetSalesDeferralDocType, SalesLine."Document Type",
                       SalesLine."Document No.", SalesLine."Line No.", SalesHeader."Doc. No. Occurrence", SalesHeaderArchive."Version No.");
@@ -277,17 +287,26 @@ codeunit 56011 "Hex Smax Stage Ext"
         LSalesLine.SETRANGE("Document No.", LSalesHeader."No.");
         IF LSalesLine.FINDSET THEN
             REPEAT
-                WITH SalesLineArchiveACK DO BEGIN
-                    INIT;
-                    TRANSFERFIELDS(LSalesLine);
-                    "Doc. No. Occurrence" := LSalesHeader."Doc. No. Occurrence";
-                    "Version No." := SalesHeaderArchiveACK."Version No.";
-                    "Smax Line No." := LSalesLine."Smax Line No.";
-                    SalesLineArchiveACK.Quantity := LSalesLine."Quantity Invoiced";
-                    SalesLineArchiveACK."Quantity (Base)" := LSalesLine."Quantity Invoiced";
-                    RecordLinkManagement.CopyLinks(LSalesLine, SalesLineArchiveACK);
-                    INSERT;
-                END;
+                SalesLineArchiveACK.INIT;
+                SalesLineArchiveACK.TRANSFERFIELDS(LSalesLine);
+                SalesLineArchiveACK."Doc. No. Occurrence" := LSalesHeader."Doc. No. Occurrence";
+                SalesLineArchiveACK."Version No." := SalesHeaderArchiveACK."Version No.";
+                SalesLineArchiveACK."Smax Line No." := LSalesLine."Smax Line No.";
+                SalesLineArchiveACK.Quantity := LSalesLine."Quantity Invoiced";
+                SalesLineArchiveACK."Quantity (Base)" := LSalesLine."Quantity Invoiced";
+                RecordLinkManagement.CopyLinks(LSalesLine, SalesLineArchiveACK);
+                SalesLineArchiveACK.INSERT;
+                // WITH SalesLineArchiveACK DO BEGIN
+                //     INIT;
+                //     TRANSFERFIELDS(LSalesLine);
+                //     "Doc. No. Occurrence" := LSalesHeader."Doc. No. Occurrence";
+                //     "Version No." := SalesHeaderArchiveACK."Version No.";
+                //     "Smax Line No." := LSalesLine."Smax Line No.";
+                //     SalesLineArchiveACK.Quantity := LSalesLine."Quantity Invoiced";
+                //     SalesLineArchiveACK."Quantity (Base)" := LSalesLine."Quantity Invoiced";
+                //     RecordLinkManagement.CopyLinks(LSalesLine, SalesLineArchiveACK);
+                //     INSERT;
+                //      END;
                 IF LSalesLine."Deferral Code" <> '' THEN
                     StoreDeferrals(DeferralUtilities.GetSalesDeferralDocType, LSalesLine."Document Type",
                       LSalesLine."Document No.", LSalesLine."Line No.", LSalesHeader."Doc. No. Occurrence", SalesHeaderArchiveACK."Version No.");
