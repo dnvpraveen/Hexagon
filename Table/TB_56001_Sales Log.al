@@ -1,6 +1,6 @@
 table 56001 "Sales Log"
 {
-    DataClassification = ToBeClassified;
+    //DataClassification = ToBeClassified;
 
     fields
     {

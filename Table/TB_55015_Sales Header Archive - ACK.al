@@ -1,6 +1,6 @@
 table 55015 "Sales Header Archive - ACK"
 {
-    DataClassification = ToBeClassified;
+    //DataClassification = ToBeClassified;
     //LookupPageID=Page5161;
     //DrillDownPageID=Page5161;
 

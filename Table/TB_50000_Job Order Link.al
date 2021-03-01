@@ -1,6 +1,6 @@
 table 56000 "Job Order Link"
 {
-    DataClassification = ToBeClassified;
+    //DataClassification = ToBeClassified;
     //LookupPageID=Page50000;
     //DrillDownPageID=Page50000;
     fields

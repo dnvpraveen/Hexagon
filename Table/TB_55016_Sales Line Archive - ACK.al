@@ -1,6 +1,6 @@
 table 55016 "Sales Line Archive - ACK"
 {
-    DataClassification = ToBeClassified;
+    //DataClassification = ToBeClassified;
 
     fields
     {
