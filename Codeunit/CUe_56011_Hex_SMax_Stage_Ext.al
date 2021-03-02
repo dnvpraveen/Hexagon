@@ -167,9 +167,73 @@ codeunit 56011 "Hex Smax Stage Ext"
             //gk
         end;
     end;
+
     /// <summary>
     /// Thsi code is from ArchiveManagement
     /// </summary>
+    [EventSubscriber(ObjectType::Codeunit, 5063, 'OnAfterSalesHeaderArchiveInsert', '', false, false)]
+    procedure SmaxStoreSalesDocument(VAR SalesHeaderArchive: Record "Sales Header Archive"; SalesHeader: Record "Sales Header")
+    VAR
+        RecordLinkManagement: Codeunit 447;
+        LSalesHeader: Record 36;
+        LSalesLine: Record 37;
+        SalesHeaderArchiveACK: Record 55015;
+        SalesLineArchiveACK: Record 55016;
+    begin
+        //for smax
+        LSalesHeader.RESET;
+        LSalesHeader.SETRANGE("Document Type", SalesHeader."Document Type");
+        LSalesHeader.SETRANGE("No.", SalesHeader."No.");
+        LSalesHeader.SETRANGE("Order Created", TRUE);
+        IF LSalesHeader.FINDFIRST THEN BEGIN
+            SalesHeaderArchiveACK.INIT;
+            SalesHeaderArchiveACK.TRANSFERFIELDS(LSalesHeader);
+            SalesHeaderArchiveACK."Archived By" := USERID;
+            SalesHeaderArchiveACK."Date Archived" := WORKDATE;
+            SalesHeaderArchiveACK."Time Archived" := TIME;
+            SalesHeaderArchiveACK."Version No." := ArchiveMgt.GetNextVersionNo(
+                DATABASE::"Sales Header", LSalesHeader."Document Type", LSalesHeader."No.", LSalesHeader."Doc. No. Occurrence");
+            SalesHeaderArchiveACK."Interaction Exist" := SalesHeaderArchive."Interaction Exist";
+            RecordLinkManagement.CopyLinks(LSalesHeader, SalesHeaderArchiveACK);
+            SalesHeaderArchiveACK.INSERT;
+        END;
+        //for smax
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 5063, 'OnAfterStoreSalesDocument', '', false, false)]
+    procedure SmaxStoreSalesDocument2(VAR SalesHeader: Record "Sales Header"; VAR SalesHeaderArchive: Record "Sales Header Archive")
+    VAR
+        RecordLinkManagement: Codeunit 447;
+        LSalesHeader: Record 36;
+        LSalesLine: Record 37;
+        SalesHeaderArchiveACK: Record 55015;
+        SalesLineArchiveACK: Record 55016;
+        DeferralUtilities: Codeunit "Deferral Utilities";
+    begin
+        //for smax
+        LSalesLine.RESET;
+        LSalesLine.SETRANGE("Document Type", LSalesHeader."Document Type");
+        LSalesLine.SETRANGE("Document No.", LSalesHeader."No.");
+        IF LSalesLine.FINDSET THEN
+            REPEAT
+
+                SalesLineArchiveACK.INIT;
+                SalesLineArchiveACK.TRANSFERFIELDS(LSalesLine);
+                SalesLineArchiveACK."Doc. No. Occurrence" := LSalesHeader."Doc. No. Occurrence";
+                SalesLineArchiveACK."Version No." := SalesHeaderArchiveACK."Version No.";
+                SalesLineArchiveACK."Smax Line No." := LSalesLine."Smax Line No.";
+                RecordLinkManagement.CopyLinks(LSalesLine, SalesLineArchiveACK);
+                SalesLineArchiveACK.INSERT;
+
+                IF LSalesLine."Deferral Code" <> '' THEN
+                    StoreDeferrals(DeferralUtilities.GetSalesDeferralDocType, LSalesLine."Document Type",
+                      LSalesLine."Document No.", LSalesLine."Line No.", LSalesHeader."Doc. No. Occurrence", SalesHeaderArchiveACK."Version No.");
+
+            UNTIL LSalesLine.NEXT = 0;
+
+        //for smax
+    end;
+
     PROCEDURE "--Hex1.0---Codeunit 5063 ArchiveManagement"();
     BEGIN
     END;
@@ -367,6 +431,123 @@ codeunit 56011 "Hex Smax Stage Ext"
                     DeferralLineArchive.INSERT;
                 UNTIL DeferralLine.NEXT = 0;
         END;
+    END;
+    //Add new function hear for SMAX  Sales Header TB36
+
+    PROCEDURE "-------Hex-Sales Order table 36---"();
+    BEGIN
+    END;
+
+    PROCEDURE CancelOrder(Var SalesHeader: Record "Sales Header");
+    VAR
+        OrderStatusValue: Text[50];
+        SalesLine: record "Sales Line";
+        Text001: TextConst ENU = 'Do you want to Cancel the Order No. %1';
+        Text052: TextConst ENU = 'You cananot Cancel the order,You have to Short Close the order for Line No. %1 and Item No. %2';
+        Text051: TextConst ENU = 'You cannot Canel/Short Close the order,Project is pending for this Order';
+    BEGIN
+        IF CONFIRM(Text001, FALSE, SalesHeader."No.") THEN BEGIN
+            OrderStatusValue := 'Cancel';
+            IF OrderStatusValue = 'Cancel' THEN BEGIN
+                SalesLine.RESET;
+                SalesLine.SETRANGE("Document No.", SalesHeader."No.");
+                SalesLine.SETRANGE("Document Type", SalesHeader."Document Type");
+                IF SalesLine.FIND('-') THEN
+                    REPEAT
+                        IF SalesLine."Quantity Shipped" > 0 THEN
+                            ERROR(Text052, SalesLine."Line No.", SalesLine."No.");
+                    UNTIL SalesLine.NEXT = 0;
+            END;
+            //CancelCloseOrder(OrderStatusValue, SalesHeader);
+        END;
+    END;
+
+    PROCEDURE ShortCloseOrder(Var SalesHeader: Record "Sales Header");
+    VAR
+        OrderStatusValue: Text[50];
+        SalesLine: record "Sales Line";
+        Text001: TextConst ENU = 'Do you want to Short Close the Order No. %1';
+        Text051: TextConst ENU = 'You cananot Close  the order,You have to Cancel the order for Line No. %1and Item No. %2';
+        Text052: TextConst ENU = 'You cannot Canel/Short Close the order,Project is pending for this Order';
+    BEGIN
+        IF CONFIRM(Text001, FALSE, SalesHeader."No.") THEN BEGIN
+            OrderStatusValue := 'Close';
+
+            IF OrderStatusValue = 'Close' THEN BEGIN
+                SalesLine.RESET;
+                SalesLine.SETRANGE("Document No.", SalesHeader."No.");
+                SalesLine.SETRANGE("Document Type", SalesHeader."Document Type");
+                IF SalesLine.FIND('-') THEN
+                    REPEAT
+                        IF SalesLine."Quantity Shipped" = 0 THEN
+                            ERROR(Text051, SalesLine."Line No.", SalesLine."No.");
+                    UNTIL SalesLine.NEXT = 0;
+            END;
+
+            //CancelCloseOrder(OrderStatusValue,SalesHeader);
+        END;
+    END;
+
+    PROCEDURE CancelCloseOrder(VAR OrderStatus: Text[50]; VAR SalesHeader: Record 36);
+    VAR
+        CancelShortClose: Text[50];
+        SalesLine: Record 37;
+        SalesShipLine: Record 111;
+        Text050: TextConst ENU = 'Invoice is pending for Line No. %1 and Item No. %2, still want to Short Close the order?';
+        //ArchiveManagement : Codeunit 5063;
+        NoShipment: Boolean;
+    BEGIN
+        SalesLine.RESET;
+        SalesLine.SETRANGE("Document No.", SalesHeader."No.");
+        SalesLine.SETRANGE("Document Type", SalesHeader."Document Type");
+        SalesLine.SETFILTER(Type, '<>%1', SalesLine.Type::" ");
+        IF SalesLine.FIND('-') THEN BEGIN
+            REPEAT
+                SalesShipLine.INIT;
+                SalesShipLine.SETRANGE(SalesShipLine."Order No.", SalesLine."Document No.");
+                SalesShipLine.SETRANGE(SalesShipLine."Order Line No.", SalesLine."Line No.");
+                IF SalesShipLine.FIND('-') THEN BEGIN
+                    REPEAT
+                        IF SalesShipLine."Qty. Shipped Not Invoiced" <> 0 THEN
+                            NoShipment := TRUE;
+                    //ERROR(Text050,SalesShipLine."Order Line No.",SalesShipLine."No.");
+                    UNTIL SalesShipLine.NEXT = 0;
+                END;
+            UNTIL SalesLine.NEXT = 0;
+        END;
+
+        IF NOT NoShipment THEN BEGIN
+            IF CONFIRM(Text050, FALSE, SalesShipLine."Order Line No.", SalesShipLine."No.") THEN BEGIN
+                IF OrderStatus = 'Close' THEN BEGIN
+                    SalesHeader."Cancel / Short Close" := SalesHeader."Cancel / Short Close"::"Short Closed";
+                    SalesHeader.MODIFY;
+                    ArchiveSalesDocument1(SalesHeader);
+                END;
+            END ELSE
+                EXIT;
+        END ELSE BEGIN
+            IF OrderStatus = 'Close' THEN BEGIN
+                SalesHeader."Cancel / Short Close" := SalesHeader."Cancel / Short Close"::"Short Closed";
+                SalesHeader.MODIFY;
+                ArchiveSalesDocument1(SalesHeader);
+            END;
+        END;
+
+        IF OrderStatus = 'Cancel' THEN BEGIN
+            SalesHeader."Cancel / Short Close" := SalesHeader."Cancel / Short Close"::Cancelled;
+            SalesHeader.MODIFY;
+            ArchiveMgt.ArchiveSalesDocument(SalesHeader);
+        END;
+
+        SalesLine.RESET;
+        SalesLine.SETRANGE("Document No.", SalesHeader."No.");
+        SalesLine.SETRANGE("Document Type", SalesHeader."Document Type");
+        IF SalesLine.FIND('-') THEN BEGIN
+            REPEAT
+                SalesLine.DELETE;
+            UNTIL SalesLine.NEXT = 0;
+        END;
+        SalesHeader.DELETE;
     END;
 
     var

@@ -156,54 +156,80 @@ codeunit 56010 "Hex Deferral Ext"
         AdjustedDeferralAmount: Decimal;
         DeferralUtilities: codeunit "Deferral Utilities";
     BEGIN
-        //****InitCurrency(CurrencyCode2);
+        InitCurrency(CurrencyCode2);
         //InitCurrency(CurrencyCode); old code
         DeferralTemplate.GET(DeferralCode);
         // "Start Date" passed in needs to be adjusted based on the Deferral Code's Start Date setting
 
-        // IF AdjustStartDate THEN
-        //     AdjustedStartDate := DeferralUtilities.SetStartDate(DeferralTemplate, StartDate)
+        IF AdjustStartDate THEN
+            AdjustedStartDate := DeferralUtilities.SetStartDate(DeferralTemplate, StartDate)
 
-        // ELSE
-        //     AdjustedStartDate := StartDate;
-
-
-        // AdjustedDeferralAmount := AmountToDefer;
-        // IF ApplyDeferralPercentage THEN
-        //     AdjustedDeferralAmount := ROUND(AdjustedDeferralAmount * (DeferralTemplate."Deferral %" / 100), AmountRoundingPrecision);
-
-        // DeferralUtilities.SetDeferralRecords(DeferralHeader, DeferralDocType, GenJnlTemplateName, GenJnlBatchName, DocumentType, DocumentNo, LineNo,
-        //  CalcMethod, NoOfPeriods, AdjustedDeferralAmount, AdjustedStartDate,
-        //  DeferralCode, DeferralDescription, AmountToDefer, TRUE, CurrencyCode2);
+        ELSE
+            AdjustedStartDate := StartDate;
 
 
-        // CASE CalcMethod OF
-        //     CalcMethod::"Straight-Line":
-        //         DeferralUtilities.CalculateStraightline(DeferralHeader, DeferralLine, DeferralTemplate);
-        //     CalcMethod::"Equal per Period":
-        //         DeferralUtilities.CalculateEqualPerPeriod(DeferralHeader, DeferralLine, DeferralTemplate);
-        //     CalcMethod::"Days per Period":
-        //         DeferralUtilities.CalculateDaysPerPeriod(DeferralHeader, DeferralLine, DeferralTemplate);
-        //     CalcMethod::"User-Defined":
-        //         DeferralUtilities.CalculateUserDefined(DeferralHeader, DeferralLine, DeferralTemplate);
-        // END;
+        AdjustedDeferralAmount := AmountToDefer;
+        IF ApplyDeferralPercentage THEN
+            AdjustedDeferralAmount := ROUND(AdjustedDeferralAmount * (DeferralTemplate."Deferral %" / 100), AmountRoundingPrecision);
+
+        DeferralUtilities.SetDeferralRecords(DeferralHeader, DeferralDocType, GenJnlTemplateName, GenJnlBatchName, DocumentType, DocumentNo, LineNo,
+         CalcMethod, NoOfPeriods, AdjustedDeferralAmount, AdjustedStartDate,
+         DeferralCode, DeferralDescription, AmountToDefer, TRUE, CurrencyCode2);
+
+
+        CASE CalcMethod OF
+            CalcMethod::"Straight-Line":
+                CalculateStraightline(DeferralHeader, DeferralLine, DeferralTemplate);
+            CalcMethod::"Equal per Period":
+                CalculateEqualPerPeriod(DeferralHeader, DeferralLine, DeferralTemplate);
+            CalcMethod::"Days per Period":
+                CalculateDaysPerPeriod(DeferralHeader, DeferralLine, DeferralTemplate);
+            CalcMethod::"User-Defined":
+                CalculateUserDefined(DeferralHeader, DeferralLine, DeferralTemplate);
+        END;
     END;
 
-    // LOCAL PROCEDURE InitCurrency(CurrencyCode: Code[10]);
-    // var
-    //     Currency: Record Currency;
-    // BEGIN
-    //     IF (Currency.Code = CurrencyCode) AND Currency.CurrencyRead THEN
-    //         EXIT;
+    LOCAL PROCEDURE InitCurrency(CurrencyCode: Code[10]);
+    var
+        Currency: Record Currency;
+    BEGIN
+        IF (Currency.Code = CurrencyCode) AND CurrencyRead THEN
+            EXIT;
 
-    //     IF CurrencyCode <> '' THEN
-    //         Currency.GET(CurrencyCode)
-    //     ELSE
-    //         Currency.InitRoundingPrecision;
-    //     CurrencyRead := TRUE;
-    // END;
+        IF CurrencyCode <> '' THEN
+            Currency.GET(CurrencyCode)
+        ELSE
+            Currency.InitRoundingPrecision;
+        CurrencyRead := TRUE;
+    END;
     //TVT01 Changes to deferrals
 
-    // var
+    [EventSubscriber(ObjectType::Codeunit, 1720, 'OnBeforeCalculateStraightline', '', false, false)]
+    procedure CalculateStraightline(DeferralHeader: Record "Deferral Header"; VAR DeferralLine: Record "Deferral Line"; DeferralTemplate: Record "Deferral Template")
+
+    begin
+
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 1720, 'OnBeforeCalculateEqualPerPeriod', '', false, false)]
+    procedure CalculateEqualPerPeriod(DeferralHeader: Record "Deferral Header"; VAR DeferralLine: Record "Deferral Line"; DeferralTemplate: Record "Deferral Template")
+
+    begin
+
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 1720, 'OnBeforeCalculateDaysPerPeriod', '', false, false)]
+    procedure CalculateDaysPerPeriod(DeferralHeader: Record "Deferral Header"; VAR DeferralLine: Record "Deferral Line"; DeferralTemplate: Record "Deferral Template")
+
+    begin
+
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 1720, 'OnBeforeCalculateUserDefined', '', false, false)]
+    procedure CalculateUserDefined(DeferralHeader: Record "Deferral Header"; VAR DeferralLine: Record "Deferral Line"; DeferralTemplate: Record "Deferral Template")
+
+    begin
+
+    end;
 
 }

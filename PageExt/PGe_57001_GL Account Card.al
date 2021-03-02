@@ -15,3 +15,4 @@ pageextension 57001 "Hex G/L Account Card" extends "G/L Account Card"
 
 
     }
+}

@@ -3,6 +3,25 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
     fields
     {
         // Add changes to table fields here
+        field(50000; "Exchange Rate Date"; Date)
+        {
+            Description = 'Exchange Rate Date';
+        }
+        field(50001; "Exch. Rate Table"; Code[20])
+        {
+            Description = 'Exch. Rate Table';
+        }
+        field(50002; "VAT Bank Account No."; Code[20])
+        {
+            Description = 'VAT Bank Account No.';
+        }
+        field(50003; "Job No."; Code[20])
+        {
+            Description = 'Job No.';
+        }
+        field(50100; "Assigned Job No."; Code[20])
+        {
+        }
         field(55000; "Order Type"; Code[10])
         {
             Description = 'Order Type';
@@ -31,12 +50,16 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
         {
             Description = 'Action Code';
         }
-        field(60003; "Cancel / Short Close"; Option)
+        field(60000; "Cancel / Short Close"; Option)
         {
             OptionCaption = ' ,Cancelled,Short Closed';
             OptionMembers = ,Cancelled,"Short Closed";
             Description = 'Cancel / Short Close';
             Editable = false;
+        }
+        field(60001; "User Created"; Boolean)
+        {
+            Description = 'User Created';
         }
     }
 
