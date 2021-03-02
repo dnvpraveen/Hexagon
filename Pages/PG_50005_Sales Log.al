@@ -1,4 +1,4 @@
-page 57005 "Sales Log"
+page 50005 "Sales Log"
 {
     PageType = List;
     ApplicationArea = All;
