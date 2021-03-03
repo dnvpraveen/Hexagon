@@ -1,5 +1,3 @@
-
-
 page 56010 "GL Analysis"
 {
     PageType = List;

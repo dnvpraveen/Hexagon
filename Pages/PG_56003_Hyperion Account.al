@@ -1,4 +1,3 @@
-
 page 56003 "Hyperion Account"
 {
     PageType = List;

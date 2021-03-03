@@ -1,4 +1,3 @@
-
 page 56006 "Product Cat Hierarchy"
 {
     PageType = List;
