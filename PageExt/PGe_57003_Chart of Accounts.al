@@ -30,7 +30,7 @@ pageextension 57003 "hex Chart of Accounts" extends "Chart of Accounts"
                 begin
                     Message('Please wait for GL Analysis records to update');
                     HexAnalysis.UpdateGLAnalysisRecords();
-                    Page.Run(50111);
+                    Page.Run(50010);
                 end;
 
 
