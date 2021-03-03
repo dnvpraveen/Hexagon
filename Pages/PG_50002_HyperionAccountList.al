@@ -1,13 +1,15 @@
-page 50003 "Hyperion Account"
+page 50002 "Hyperion Account List"
 {
-    PageType = Card;
+    CardPageID = "Hyperion Account";
+    Editable = false;
+    PageType = List;
     SourceTable = "Hyperion Account";
 
     layout
     {
         area(content)
         {
-            group(General)
+            repeater(Group)
             {
                 field(Code; Code)
                 {
@@ -28,12 +30,6 @@ page 50003 "Hyperion Account"
                 {
                 }
             }
-            part(test; 50004)
-            {
-                ShowFilter = false;
-                SubPageLink = "Hyperion Account" = FIELD(Code);
-                SubPageView = SORTING("Hyperion Account");
-            }
         }
     }
 
@@ -53,8 +49,8 @@ page 50003 "Hyperion Account"
                     var
                         lmodHexagonCubeManagement: Codeunit 50000;
                     begin
-                        IF CONFIRM('Do you want re-create Hyperion Account Details?') THEN
-                            lmodHexagonCubeManagement.gfncGenerateHyperionAccountMembers(Rec);
+                        IF CONFIRM('Do you want re-create details for all Hyperion Accounts?') THEN
+                            lmodHexagonCubeManagement.gfncGenerateAllHyperionAccountMembers();
                     end;
                 }
             }
