@@ -1,4 +1,4 @@
-page 56010 "GL Analysis"
+page 50010 "GL Analysis"
 {
     PageType = List;
     ApplicationArea = All;
