@@ -57,44 +57,42 @@ codeunit 50013 "IFRS15 Mgt Rev"
         GJobTask := JobTask;
         JobPlanningLine.TESTFIELD("Gen. Prod. Posting Group");
         GeneralPostingSetup.GET(Customer."Gen. Bus. Posting Group", JobPlanningLine."Gen. Prod. Posting Group");
-        WITH GenJournalLine DO BEGIN
-            INIT;
-            "Journal Template Name" := GlobalTemplateName;
-            "Journal Batch Name" := GlobalBatch;
-            "IFRS15 Posting" := TRUE;
-            VALIDATE("Line No.", GlobalLineNo);
-            GlobalLineNo += 10000;
-            VALIDATE("Document No.", DocumentNo);
-            VALIDATE("Posting Date", DocumentDate);
-            VALIDATE("Account Type", "Account Type"::"G/L Account");
-            //VALIDATE("Account No.", GeneralPostingSetup."Sales Account");                //Original Code
-            VALIDATE("Account No.", IFRS15Setup."Revenue Recognition Account");            //Hexagon Changes
-            VALIDATE("Bal. Account Type", "Bal. Account Type"::"G/L Account");
-            //VALIDATE("Bal. Account No.", IFRS15Setup."Revenue Recognition Account");      //Original Code
-            VALIDATE("Bal. Account No.", GeneralPostingSetup."Sales Account");              //Hexagon Changes
-            VALIDATE("Source Code", IFRS15Setup."Source Code");
-            VALIDATE(Amount, JobPlanningLine."IFRS15 Line Amount");
-            VALIDATE("Dimension Set ID", DimMgt.CreateDimSetFromJobTaskDim(
-                                                JobTask."Job No.", JobTask."Job Task No.", JobTask."Global Dimension 1 Code", JobTask."Global Dimension 2 Code")
-                    );
-            "Shortcut Dimension 1 Code" := JobTask."Global Dimension 1 Code";
-            "Shortcut Dimension 2 Code" := JobTask."Global Dimension 2 Code";
-
-            "Job Task No." := JobTask."Job Task No.";
-            VALIDATE("Gen. Prod. Posting Group", JobPlanningLine."Gen. Prod. Posting Group");
-            VALIDATE("Deferral Code", JobTask."Deferral Template");
-            CLEAR("Gen. Posting Type");
-            CLEAR("Gen. Bus. Posting Group");
-            CLEAR("Gen. Prod. Posting Group");
-            CLEAR("VAT Bus. Posting Group");
-            CLEAR("VAT Prod. Posting Group");
-            CLEAR("Bal. Gen. Posting Type");
-            CLEAR("Bal. Gen. Bus. Posting Group");
-            CLEAR("Bal. Gen. Prod. Posting Group");
-            CLEAR("Bal. VAT Bus. Posting Group");
-            CLEAR("Bal. VAT Prod. Posting Group");
-            INSERT;
-        END;
+        //WITH GenJournalLine DO BEGIN
+        GenJournalLine.INIT;
+        GenJournalLine."Journal Template Name" := GlobalTemplateName;
+        GenJournalLine."Journal Batch Name" := GlobalBatch;
+        GenJournalLine."IFRS15 Posting" := TRUE;
+        GenJournalLine.VALIDATE("Line No.", GlobalLineNo);
+        GlobalLineNo += 10000;
+        GenJournalLine.VALIDATE("Document No.", DocumentNo);
+        GenJournalLine.VALIDATE("Posting Date", DocumentDate);
+        GenJournalLine.VALIDATE("Account Type", GenJournalLine."Account Type"::"G/L Account");
+        //VALIDATE("Account No.", GeneralPostingSetup."Sales Account");                //Original Code
+        GenJournalLine.VALIDATE("Account No.", IFRS15Setup."Revenue Recognition Account");            //Hexagon Changes
+        GenJournalLine.VALIDATE("Bal. Account Type", GenJournalLine."Bal. Account Type"::"G/L Account");
+        //VALIDATE("Bal. Account No.", IFRS15Setup."Revenue Recognition Account");      //Original Code
+        GenJournalLine.VALIDATE("Bal. Account No.", GeneralPostingSetup."Sales Account");              //Hexagon Changes
+        GenJournalLine.VALIDATE("Source Code", IFRS15Setup."Source Code");
+        GenJournalLine.VALIDATE(Amount, JobPlanningLine."IFRS15 Line Amount");
+        GenJournalLine.VALIDATE("Dimension Set ID", DimMgt.CreateDimSetFromJobTaskDim(
+                                            JobTask."Job No.", JobTask."Job Task No.", JobTask."Global Dimension 1 Code", JobTask."Global Dimension 2 Code"));
+        GenJournalLine."Shortcut Dimension 1 Code" := JobTask."Global Dimension 1 Code";
+        GenJournalLine."Shortcut Dimension 2 Code" := JobTask."Global Dimension 2 Code";
+        GenJournalLine."Job Task No." := JobTask."Job Task No.";
+        GenJournalLine.VALIDATE("Gen. Prod. Posting Group", JobPlanningLine."Gen. Prod. Posting Group");
+        GenJournalLine.VALIDATE("Deferral Code", JobTask."Deferral Template");
+        CLEAR(GenJournalLine."Gen. Posting Type");
+        CLEAR(GenJournalLine."Gen. Bus. Posting Group");
+        CLEAR(GenJournalLine."Gen. Prod. Posting Group");
+        CLEAR(GenJournalLine."VAT Bus. Posting Group");
+        CLEAR(GenJournalLine."VAT Prod. Posting Group");
+        CLEAR(GenJournalLine."Bal. Gen. Posting Type");
+        CLEAR(GenJournalLine."Bal. Gen. Bus. Posting Group");
+        CLEAR(GenJournalLine."Bal. Gen. Prod. Posting Group");
+        CLEAR(GenJournalLine."Bal. VAT Bus. Posting Group");
+        CLEAR(GenJournalLine."Bal. VAT Prod. Posting Group");
+        GenJournalLine.INSERT;
+        //END;
         COMMIT;
         //GenJnlPostBatch.Preview(GenJournalLine);
         GenJnlPost.Preview(GenJournalLine);
@@ -120,15 +118,15 @@ codeunit 50013 "IFRS15 Mgt Rev"
         GenJournalBatch: Record 232;
         BatchTxt: Code[10];
     BEGIN
-        WITH GenJournalLine DO BEGIN
-            BatchTxt := FORMAT(CURRENTDATETIME, 0, '<year,2><Month,2><day,2><hour,2><Minute,2>');
-            IF NOT GenJournalBatch.GET(GlobalTemplateName, BatchTxt) THEN BEGIN
-                GenJournalBatch.INIT;
-                GenJournalBatch."Journal Template Name" := GlobalTemplateName;
-                GenJournalBatch.Name := BatchTxt;
-                GenJournalBatch.INSERT(TRUE);
-            END;
+        //WITH GenJournalLine DO BEGIN
+        BatchTxt := FORMAT(CURRENTDATETIME, 0, '<year,2><Month,2><day,2><hour,2><Minute,2>');
+        IF NOT GenJournalBatch.GET(GlobalTemplateName, BatchTxt) THEN BEGIN
+            GenJournalBatch.INIT;
+            GenJournalBatch."Journal Template Name" := GlobalTemplateName;
+            GenJournalBatch.Name := BatchTxt;
+            GenJournalBatch.INSERT(TRUE);
         END;
+        //END;
         EXIT(BatchTxt);
     END;
 
@@ -193,43 +191,43 @@ codeunit 50013 "IFRS15 Mgt Rev"
             REPEAT
                 JobPlanningLine.TESTFIELD("Gen. Prod. Posting Group");
                 GeneralPostingSetup.GET(Customer."Gen. Bus. Posting Group", JobPlanningLine."Gen. Prod. Posting Group");
-                WITH GenJournalLine DO BEGIN
-                    INIT;
-                    "Journal Template Name" := GlobalTemplateName;
-                    "Journal Batch Name" := GlobalBatch;
-                    "IFRS15 Posting" := TRUE;
-                    VALIDATE("Line No.", GlobalLineNo);
-                    GlobalLineNo += 10000;
-                    VALIDATE("Document No.", DocumentNo);
-                    VALIDATE("Posting Date", DocumentDate);
-                    VALIDATE("Account Type", "Account Type"::"G/L Account");
-                    //VALIDATE("Account No.", GeneralPostingSetup."Sales Account");                //Original Code
-                    VALIDATE("Account No.", IFRS15Setup."Revenue Recognition Account");            //Hexagon Changes
-                    VALIDATE("Bal. Account Type", "Bal. Account Type"::"G/L Account");
-                    //VALIDATE("Bal. Account No.", IFRS15Setup."Revenue Recognition Account");      //Original Code
-                    VALIDATE("Bal. Account No.", GeneralPostingSetup."Sales Account");              //Hexagon Changes
-                    VALIDATE("Source Code", IFRS15Setup."Source Code");
-                    VALIDATE(Amount, JobPlanningLine."IFRS15 Line Amount");
-                    VALIDATE("Dimension Set ID", DimMgt.CreateDimSetFromJobTaskDim(
-                                                        JobTask."Job No.", JobTask."Job Task No.", JobTask."Global Dimension 1 Code", JobTask."Global Dimension 2 Code")
-                            );
-                    "Shortcut Dimension 1 Code" := JobTask."Global Dimension 1 Code";
-                    "Shortcut Dimension 2 Code" := JobTask."Global Dimension 2 Code";
+                //WITH GenJournalLine DO BEGIN
+                GenJournalLine.INIT;
+                GenJournalLine."Journal Template Name" := GlobalTemplateName;
+                GenJournalLine."Journal Batch Name" := GlobalBatch;
+                GenJournalLine."IFRS15 Posting" := TRUE;
+                GenJournalLine.VALIDATE("Line No.", GlobalLineNo);
+                GlobalLineNo += 10000;
+                GenJournalLine.VALIDATE("Document No.", DocumentNo);
+                GenJournalLine.VALIDATE("Posting Date", DocumentDate);
+                GenJournalLine.VALIDATE("Account Type", GenJournalLine."Account Type"::"G/L Account");
+                //VALIDATE("Account No.", GeneralPostingSetup."Sales Account");                //Original Code
+                GenJournalLine.VALIDATE("Account No.", IFRS15Setup."Revenue Recognition Account");            //Hexagon Changes
+                GenJournalLine.VALIDATE("Bal. Account Type", GenJournalLine."Bal. Account Type"::"G/L Account");
+                //VALIDATE("Bal. Account No.", IFRS15Setup."Revenue Recognition Account");      //Original Code
+                GenJournalLine.VALIDATE("Bal. Account No.", GeneralPostingSetup."Sales Account");              //Hexagon Changes
+                GenJournalLine.VALIDATE("Source Code", IFRS15Setup."Source Code");
+                GenJournalLine.VALIDATE(Amount, JobPlanningLine."IFRS15 Line Amount");
+                GenJournalLine.VALIDATE("Dimension Set ID", DimMgt.CreateDimSetFromJobTaskDim(
+                                                    JobTask."Job No.", JobTask."Job Task No.", JobTask."Global Dimension 1 Code", JobTask."Global Dimension 2 Code")
+                        );
+                GenJournalLine."Shortcut Dimension 1 Code" := JobTask."Global Dimension 1 Code";
+                GenJournalLine."Shortcut Dimension 2 Code" := JobTask."Global Dimension 2 Code";
 
-                    "Job Task No." := JobTask."Job Task No.";
-                    VALIDATE("Deferral Code", JobTask."Deferral Template");
-                    CLEAR("Gen. Posting Type");
-                    CLEAR("Gen. Bus. Posting Group");
-                    CLEAR("Gen. Prod. Posting Group");
-                    CLEAR("VAT Bus. Posting Group");
-                    CLEAR("VAT Prod. Posting Group");
-                    CLEAR("Bal. Gen. Posting Type");
-                    CLEAR("Bal. Gen. Bus. Posting Group");
-                    CLEAR("Bal. Gen. Prod. Posting Group");
-                    CLEAR("Bal. VAT Bus. Posting Group");
-                    CLEAR("Bal. VAT Prod. Posting Group");
-                    INSERT;
-                END;
+                GenJournalLine."Job Task No." := JobTask."Job Task No.";
+                GenJournalLine.VALIDATE("Deferral Code", JobTask."Deferral Template");
+                CLEAR(GenJournalLine."Gen. Posting Type");
+                CLEAR(GenJournalLine."Gen. Bus. Posting Group");
+                CLEAR(GenJournalLine."Gen. Prod. Posting Group");
+                CLEAR(GenJournalLine."VAT Bus. Posting Group");
+                CLEAR(GenJournalLine."VAT Prod. Posting Group");
+                CLEAR(GenJournalLine."Bal. Gen. Posting Type");
+                CLEAR(GenJournalLine."Bal. Gen. Bus. Posting Group");
+                CLEAR(GenJournalLine."Bal. Gen. Prod. Posting Group");
+                CLEAR(GenJournalLine."Bal. VAT Bus. Posting Group");
+                CLEAR(GenJournalLine."Bal. VAT Prod. Posting Group");
+                GenJournalLine.INSERT;
+            //END;
             UNTIL JobPlanningLine.NEXT = 0;
         COMMIT;
         //    GenJnlPostBatch.Preview(GenJournalLine);

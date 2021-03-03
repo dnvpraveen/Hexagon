@@ -46,18 +46,18 @@ codeunit 50100 "IFRS15 Mgt"
         JobTask: Record 1001;
     BEGIN
         // TM TF IFRS15 08/08/18 Start
-        WITH Rec DO BEGIN
-            IF CurrFieldNo <> FIELDNO("Is IFRS15 Job") THEN
-                EXIT;
-            IF ISTEMPORARY THEN
-                EXIT;
-            IF xRec."Is IFRS15 Job" AND NOT "Is IFRS15 Job" THEN BEGIN
-                JobTask.SETRANGE("Job No.", "No.");
-                JobTask.SetFilter("IFRS15 Perf. Obligation Status", '<>%1', JobTask."IFRS15 Perf. Obligation Status"::" ");
-                IF NOT JobTask.ISEMPTY THEN
-                    ERROR(CannotChangeIFRS, FIELDCAPTION("Is IFRS15 Job"), FALSE, JobTask.TABLECAPTION, JobTask.FIELDCAPTION("IFRS15 Perf. Obligation Status"));
-            END;
+        //WITH Rec DO BEGIN
+        IF CurrFieldNo <> rec.FIELDNO(rec."Is IFRS15 Job") THEN
+            EXIT;
+        IF rec.ISTEMPORARY THEN
+            EXIT;
+        IF xRec."Is IFRS15 Job" AND NOT rec."Is IFRS15 Job" THEN BEGIN
+            JobTask.SETRANGE("Job No.", rec."No.");
+            JobTask.SetFilter("IFRS15 Perf. Obligation Status", '<>%1', JobTask."IFRS15 Perf. Obligation Status"::" ");
+            IF NOT JobTask.ISEMPTY THEN
+                ERROR(CannotChangeIFRS, rec.FIELDCAPTION(rec."Is IFRS15 Job"), FALSE, JobTask.TABLECAPTION, JobTask.FIELDCAPTION("IFRS15 Perf. Obligation Status"));
         END;
+        //END;
         // TM TF IFRS15 08/08/18 End
     END;
 
@@ -69,46 +69,46 @@ codeunit 50100 "IFRS15 Mgt"
         Job: Record 167;
     BEGIN
         // TM TF IFRS15 02/07/18 Start
-        WITH Rec DO BEGIN
-            IFRS15Setup.GET;
-            IF NOT IFRS15Setup."IFRS15 Active" THEN
-                EXIT;
-            IF ("IFRS15 Perf. Obligation Status" = "IFRS15 Perf. Obligation Status"::Posted) AND NOT "IFRS15 Process" THEN
-                ERROR(CannotChaneManuallyError, FIELDCAPTION("IFRS15 Perf. Obligation Status"), FORMAT("IFRS15 Perf. Obligation Status"::Posted));
+        //WITH Rec DO BEGIN
+        IFRS15Setup.GET;
+        IF NOT IFRS15Setup."IFRS15 Active" THEN
+            EXIT;
+        IF (rec."IFRS15 Perf. Obligation Status" = rec."IFRS15 Perf. Obligation Status"::Posted) AND NOT rec."IFRS15 Process" THEN
+            ERROR(CannotChaneManuallyError, rec.FIELDCAPTION(rec."IFRS15 Perf. Obligation Status"), FORMAT(rec."IFRS15 Perf. Obligation Status"::Posted));
 
-            IF ("IFRS15 Perf. Obligation Status" IN ["IFRS15 Perf. Obligation Status"::Calculated, "IFRS15 Perf. Obligation Status"::"Ready to Post"]) THEN BEGIN
-                JobPlanningLine.SETRANGE("Job No.", "Job No.");
-                JobPlanningLine.SETRANGE("Job Task No.", "Job Task No.");
-                IF JobPlanningLine.ISEMPTY THEN
-                    ERROR(CannotChangeTheStatusNoPlanningLinesErr, FIELDCAPTION("IFRS15 Perf. Obligation Status"), FORMAT("IFRS15 Perf. Obligation Status"), JobPlanningLine.TABLECAPTION,
-                          FIELDCAPTION("Job No."), "Job No.", FIELDCAPTION("Job Task No."), "Job Task No.");
-            END;
-            IF (xRec."IFRS15 Perf. Obligation Status" <> xRec."IFRS15 Perf. Obligation Status"::" ") AND ("IFRS15 Perf. Obligation Status" = "IFRS15 Perf. Obligation Status"::" ") AND (CurrFieldNo = FIELDNO("IFRS15 Perf. Obligation Status")) THEN BEGIN
-                JobPlanningLine.SETRANGE("Job No.", "Job No.");
-                JobPlanningLine.SETRANGE("Job Task No.", "Job Task No.");
-                JobPlanningLine.MODIFYALL("IFRS15 Line Amount", 0, FALSE);
-            END;
-
-            IFRS15Setup.TESTFIELD("Recognise Revenue Confirm. Msg");
-            IF (xRec."IFRS15 Perf. Obligation Status" <> xRec."IFRS15 Perf. Obligation Status"::"Ready to Post") AND
-               ("IFRS15 Perf. Obligation Status" = "IFRS15 Perf. Obligation Status"::"Ready to Post")
-            THEN BEGIN
-                Job.GET("Job No.");
-                Job.TESTFIELD("Is IFRS15 Job");
-                JobPlanningLine.SETRANGE("Job No.", "Job No.");
-                JobPlanningLine.SETRANGE("Job Task No.", "Job Task No.");
-                JobPlanningLine.SETRANGE(Type, JobPlanningLine.Type::Item);
-                JobPlanningLine.SETFILTER("Location Code", '%1', '');
-                IF JobPlanningLine.FINDSET THEN
-                    REPEAT
-                        JobPlanningLine.TESTFIELD("Location Code");
-                    UNTIL JobPlanningLine.NEXT = 0;
-                IF NOT CONFIRM(IFRS15Setup."Recognise Revenue Confirm. Msg") THEN
-                    ERROR('');
-            END;
+        IF (rec."IFRS15 Perf. Obligation Status" IN [rec."IFRS15 Perf. Obligation Status"::Calculated, rec."IFRS15 Perf. Obligation Status"::"Ready to Post"]) THEN BEGIN
+            JobPlanningLine.SETRANGE("Job No.", rec."Job No.");
+            JobPlanningLine.SETRANGE("Job Task No.", rec."Job Task No.");
+            IF JobPlanningLine.ISEMPTY THEN
+                ERROR(CannotChangeTheStatusNoPlanningLinesErr, rec.FIELDCAPTION(rec."IFRS15 Perf. Obligation Status"), FORMAT(rec."IFRS15 Perf. Obligation Status"), JobPlanningLine.TABLECAPTION,
+                      rec.FIELDCAPTION(rec."Job No."), rec."Job No.", rec.FIELDCAPTION(rec."Job Task No."), rec."Job Task No.");
         END;
-        // TM TF IFRS15 02/07/18 End
+        IF (xRec."IFRS15 Perf. Obligation Status" <> xRec."IFRS15 Perf. Obligation Status"::" ") AND (rec."IFRS15 Perf. Obligation Status" = rec."IFRS15 Perf. Obligation Status"::" ") AND (CurrFieldNo = rec.FIELDNO(rec."IFRS15 Perf. Obligation Status")) THEN BEGIN
+            JobPlanningLine.SETRANGE("Job No.", rec."Job No.");
+            JobPlanningLine.SETRANGE("Job Task No.", rec."Job Task No.");
+            JobPlanningLine.MODIFYALL("IFRS15 Line Amount", 0, FALSE);
+        END;
+
+        IFRS15Setup.TESTFIELD("Recognise Revenue Confirm. Msg");
+        IF (xRec."IFRS15 Perf. Obligation Status" <> xRec."IFRS15 Perf. Obligation Status"::"Ready to Post") AND
+           (rec."IFRS15 Perf. Obligation Status" = rec."IFRS15 Perf. Obligation Status"::"Ready to Post")
+        THEN BEGIN
+            Job.GET(rec."Job No.");
+            Job.TESTFIELD("Is IFRS15 Job");
+            JobPlanningLine.SETRANGE("Job No.", rec."Job No.");
+            JobPlanningLine.SETRANGE("Job Task No.", rec."Job Task No.");
+            JobPlanningLine.SETRANGE(Type, JobPlanningLine.Type::Item);
+            JobPlanningLine.SETFILTER("Location Code", '%1', '');
+            IF JobPlanningLine.FINDSET THEN
+                REPEAT
+                    JobPlanningLine.TESTFIELD("Location Code");
+                UNTIL JobPlanningLine.NEXT = 0;
+            IF NOT CONFIRM(IFRS15Setup."Recognise Revenue Confirm. Msg") THEN
+                ERROR('');
+        END;
     END;
+    // TM TF IFRS15 02/07/18 End
+    //END;
 
     [EventSubscriber(ObjectType::Table, 1003, 'OnBeforeModifyEvent', '', false, false)]
     LOCAL PROCEDURE JobPlanningLineOnBeforeModify(VAR Rec: Record 1003; VAR xRec: Record 1003; RunTrigger: Boolean);
@@ -117,26 +117,26 @@ codeunit 50100 "IFRS15 Mgt"
         OldRec: Record 1003;
     BEGIN
         // TM TF IFRS15 03/07/18 Start
-        WITH Rec DO BEGIN
-            IF ISTEMPORARY THEN
-                EXIT;
-            IF NOT RunTrigger THEN
-                EXIT;
-            OldRec.GET(Rec.RECORDID);
-            CALCFIELDS("IFRS15 Perf. Obligation Status");
-            IF "IFRS15 Perf. Obligation Status" = "IFRS15 Perf. Obligation Status"::Posted THEN
-                EXIT;
-            IF "Total Cost" <> OldRec."Total Cost" THEN
-                "IFRS15 Line Amount" := 0;
-            IF "IFRS15 Line Amount" = OldRec."IFRS15 Line Amount" THEN
-                EXIT;
-            IF NOT JobTask.GET("Job No.", "Job Task No.") THEN
-                EXIT;
-            JobTask.VALIDATE("IFRS15 Perf. Obligation Status", JobTask."IFRS15 Perf. Obligation Status"::" ");
-            JobTask.MODIFY(TRUE);
-        END;
-        // TM TF IFRS15 03/07/18 End
+        //WITH Rec DO BEGIN
+        IF rec.ISTEMPORARY THEN
+            EXIT;
+        IF NOT RunTrigger THEN
+            EXIT;
+        OldRec.GET(Rec.RECORDID);
+        rec.CALCFIELDS("IFRS15 Perf. Obligation Status");
+        IF rec."IFRS15 Perf. Obligation Status" = rec."IFRS15 Perf. Obligation Status"::Posted THEN
+            EXIT;
+        IF rec."Total Cost" <> OldRec."Total Cost" THEN
+            rec."IFRS15 Line Amount" := 0;
+        IF rec."IFRS15 Line Amount" = OldRec."IFRS15 Line Amount" THEN
+            EXIT;
+        IF NOT JobTask.GET(rec."Job No.", rec."Job Task No.") THEN
+            EXIT;
+        JobTask.VALIDATE("IFRS15 Perf. Obligation Status", JobTask."IFRS15 Perf. Obligation Status"::" ");
+        JobTask.MODIFY(TRUE);
     END;
+    // TM TF IFRS15 03/07/18 End
+    //END;
 
     [EventSubscriber(ObjectType::Table, 1003, 'OnBeforeDeleteEvent', '', false, false)]
     LOCAL PROCEDURE JobPlanningLineOnBeforeDelete(VAR Rec: Record 1003; RunTrigger: Boolean);
@@ -144,21 +144,21 @@ codeunit 50100 "IFRS15 Mgt"
         JobTask: Record 1001;
     BEGIN
         // TM TF IFRS15 03/07/18 Start
-        WITH Rec DO BEGIN
-            IF ISTEMPORARY THEN
-                EXIT;
-            IF NOT RunTrigger THEN
-                EXIT;
-            CALCFIELDS("IFRS15 Perf. Obligation Status");
-            IF "IFRS15 Perf. Obligation Status" = "IFRS15 Perf. Obligation Status"::Posted THEN
-                EXIT;
-            IF NOT JobTask.GET("Job No.", "Job Task No.") THEN
-                EXIT;
-            JobTask.VALIDATE("IFRS15 Perf. Obligation Status", JobTask."IFRS15 Perf. Obligation Status"::" ");
-            JobTask.MODIFY(TRUE);
-        END;
-        // TM TF IFRS15 03/07/18 End
+        //WITH Rec DO BEGIN
+        IF rec.ISTEMPORARY THEN
+            EXIT;
+        IF NOT RunTrigger THEN
+            EXIT;
+        rec.CALCFIELDS("IFRS15 Perf. Obligation Status");
+        IF rec."IFRS15 Perf. Obligation Status" = rec."IFRS15 Perf. Obligation Status"::Posted THEN
+            EXIT;
+        IF NOT JobTask.GET(rec."Job No.", rec."Job Task No.") THEN
+            EXIT;
+        JobTask.VALIDATE("IFRS15 Perf. Obligation Status", JobTask."IFRS15 Perf. Obligation Status"::" ");
+        JobTask.MODIFY(TRUE);
     END;
+    // TM TF IFRS15 03/07/18 End
+    //END;
 
     [EventSubscriber(ObjectType::Table, 1003, 'OnBeforeInsertEvent', '', false, false)]
     LOCAL PROCEDURE JobPlanningLineOnBeforeInsert(VAR Rec: Record 1003; RunTrigger: Boolean);
@@ -166,21 +166,21 @@ codeunit 50100 "IFRS15 Mgt"
         JobTask: Record 1001;
     BEGIN
         // TM TF IFRS15 03/07/18 Start
-        WITH Rec DO BEGIN
-            IF ISTEMPORARY THEN
-                EXIT;
-            IF NOT RunTrigger THEN
-                EXIT;
-            CALCFIELDS("IFRS15 Perf. Obligation Status");
-            IF "IFRS15 Perf. Obligation Status" = "IFRS15 Perf. Obligation Status"::Posted THEN
-                EXIT;
-            IF NOT JobTask.GET("Job No.", "Job Task No.") THEN
-                EXIT;
-            JobTask.VALIDATE("IFRS15 Perf. Obligation Status", JobTask."IFRS15 Perf. Obligation Status"::" ");
-            JobTask.MODIFY(TRUE);
-        END;
-        // TM TF IFRS15 03/07/18 End
+        //WITH Rec DO BEGIN
+        IF rec.ISTEMPORARY THEN
+            EXIT;
+        IF NOT RunTrigger THEN
+            EXIT;
+        rec.CALCFIELDS("IFRS15 Perf. Obligation Status");
+        IF rec."IFRS15 Perf. Obligation Status" = rec."IFRS15 Perf. Obligation Status"::Posted THEN
+            EXIT;
+        IF NOT JobTask.GET(rec."Job No.", rec."Job Task No.") THEN
+            EXIT;
+        JobTask.VALIDATE("IFRS15 Perf. Obligation Status", JobTask."IFRS15 Perf. Obligation Status"::" ");
+        JobTask.MODIFY(TRUE);
     END;
+    // TM TF IFRS15 03/07/18 End
+    //END;
 
     LOCAL PROCEDURE ">> Functions"();
     BEGIN
@@ -267,33 +267,33 @@ codeunit 50100 "IFRS15 Mgt"
         //LCYFactor := ROUND(TotalRevenueToRecognizeLCY/TotalCostLCY, 0.00001);
         //gk
 
-        WITH JobPlanningLine DO BEGIN
-            SETRANGE("Job No.", JobTask."Job No.");
-            SETRANGE("IFRS15 Perf. Obligation Status", "IFRS15 Perf. Obligation Status"::Calculated);
-            MODIFYALL("IFRS15 Line Amount", 0);
-            SETFILTER("Total Cost", '<>0');
-            IF FINDLAST THEN
-                LastJobPlanningRecID := JobPlanningLine.RECORDID;
-            IF FINDSET THEN BEGIN
-                REPEAT
-                    IF RECORDID <> LastJobPlanningRecID THEN BEGIN
-                        VALIDATE("IFRS15 Line Amount", ROUND("Total Cost" * RevFactor, 0.01));
-                        TotalIFRS15Amount += "IFRS15 Line Amount";
-                        //gk
-                        //VALIDATE("IFRS15 Line Amount (LCY)", ROUND("Total Cost (LCY)"*LCYFactor, 0.01));
-                        TotalIFRS15AmountLCY += "IFRS15 Line Amount (LCY)";
-                        //gk
-                    END ELSE BEGIN
-                        //Last Line
-                        VALIDATE("IFRS15 Line Amount", ROUND(TotalRevenueToRecognize - TotalIFRS15Amount, 0.01));
-                        //gk
-                        //VALIDATE("IFRS15 Line Amount (LCY)", ROUND(TotalRevenueToRecognizeLCY-TotalIFRS15AmountLCY, 0.01));
-                        //gk
-                    END;
-                    MODIFY;
-                UNTIL NEXT = 0;
-            END;
+        //WITH JobPlanningLine DO BEGIN
+        JobPlanningLine.SETRANGE("Job No.", JobTask."Job No.");
+        JobPlanningLine.SETRANGE("IFRS15 Perf. Obligation Status", JobPlanningLine."IFRS15 Perf. Obligation Status"::Calculated);
+        JobPlanningLine.MODIFYALL("IFRS15 Line Amount", 0);
+        JobPlanningLine.SETFILTER("Total Cost", '<>0');
+        IF JobPlanningLine.FINDLAST THEN
+            LastJobPlanningRecID := JobPlanningLine.RECORDID;
+        IF JobPlanningLine.FINDSET THEN BEGIN
+            REPEAT
+                IF JobPlanningLine.RECORDID <> LastJobPlanningRecID THEN BEGIN
+                    JobPlanningLine.VALIDATE("IFRS15 Line Amount", ROUND(JobPlanningLine."Total Cost" * RevFactor, 0.01));
+                    TotalIFRS15Amount += JobPlanningLine."IFRS15 Line Amount";
+                    //gk
+                    //VALIDATE("IFRS15 Line Amount (LCY)", ROUND("Total Cost (LCY)"*LCYFactor, 0.01));
+                    TotalIFRS15AmountLCY += JobPlanningLine."IFRS15 Line Amount (LCY)";
+                    //gk
+                END ELSE BEGIN
+                    //Last Line
+                    JobPlanningLine.VALIDATE("IFRS15 Line Amount", ROUND(TotalRevenueToRecognize - TotalIFRS15Amount, 0.01));
+                    //gk
+                    //VALIDATE("IFRS15 Line Amount (LCY)", ROUND(TotalRevenueToRecognizeLCY-TotalIFRS15AmountLCY, 0.01));
+                    //gk
+                END;
+                JobPlanningLine.MODIFY;
+            UNTIL JobPlanningLine.NEXT = 0;
         END;
+        //END;
 
         // TM TF IFRS15 02/07/18 End
     END;

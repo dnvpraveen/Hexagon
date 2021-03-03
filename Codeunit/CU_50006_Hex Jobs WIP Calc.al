@@ -208,96 +208,96 @@ codeunit 50006 "Hex Jobs WIP Calc"
     PROCEDURE HexInsertDiffBuffer(VAR JobLedgEntry: Record 169; VAR JobPlanningLine: Record 1003; LineType: Option Schedule,Usage; CurrencyType: Option LCY,FCY);
     BEGIN
         IF LineType = LineType::Schedule THEN
-            WITH JobPlanningLine DO BEGIN
-                IF Type = Type::Text THEN
-                    EXIT;
-                IF NOT "Schedule Line" THEN
-                    EXIT;
-                JobDiffBuffer[1].Type := Type;
-                JobDiffBuffer[1]."No." := "No.";
-                JobDiffBuffer[1]."Entry type" := JobDiffBuffer[1]."Entry type"::Budget;
-                JobDiffBuffer[1]."Unit of Measure code" := "Unit of Measure Code";
-                JobDiffBuffer[1]."Work Type Code" := "Work Type Code";
-                //JobDiffBuffer[1].Quantity := Quantity; HEXGBJOB.01
-                JobDiffBuffer[1].Quantity := "Qty. Posted";  //HEXGBJOB.01
-                JobDiffBuffer[1]."Original Quantity" := "Original Quantity"; // HEXGBJOB.01
-                JobDiffBuffer[1]."Original Purchase Unit Cost" := JobPlanningLine."Original Purchase Unit Cost";
-                JobDiffBuffer[1]."Original IFRS15 Line Amt (LCY)" := JobPlanningLine."Original IFRS15 Line Amt (LCY)";
-                JobDiffBuffer[1]."IFRS15 Line Amount (LCY)" := JobPlanningLine."IFRS15 Line Amount (LCY)";
-                //MESSAGE('Job Planning Line Item %1, Quantity Poated %2',"No.", "Qty. Posted");
-                IF CurrencyType = CurrencyType::LCY THEN BEGIN
-                    JobDiffBuffer[1]."Total Cost" := "Posted Total Cost (LCY)"; //HEXGBJOB.01 "Total Cost(LCY);
-                    JobDiffBuffer[1]."Line Amount" := "Posted Line Amount (LCY)"; // HEXGBJOB.01 "Line Amount (LCY)";
-                    JobDiffBuffer[1]."Original Total Cost" := "Original Total Cost (LCY)"; //HEXGBJOB.01
-                END ELSE BEGIN
-                    JobDiffBuffer[1]."Total Cost" := "Posted Total Cost";   // HEXGBJOB.01 "Total Cost";
-                    JobDiffBuffer[1]."Line Amount" := "Posted Line Amount"; //HEXGBJOB.01 "Line Amount";
-                    JobDiffBuffer[1]."Original Total Cost" := "Original Total Cost"; //HEXGBJOB.01
-                END;
-                JobDiffBuffer[2] := JobDiffBuffer[1];
-                IF JobDiffBuffer[2].FIND THEN BEGIN
-                    JobDiffBuffer[2].Quantity :=
-                      JobDiffBuffer[2].Quantity + JobDiffBuffer[1].Quantity;
-                    JobDiffBuffer[2]."Original Quantity" :=
-                      JobDiffBuffer[2]."Original Quantity" + JobDiffBuffer[1]."Original Quantity"; //HEXGBJOB.01
-                    JobDiffBuffer[2]."Total Cost" :=
-                      JobDiffBuffer[2]."Total Cost" + JobDiffBuffer[1]."Total Cost"; //HEXGBJOB.01
-                    JobDiffBuffer[2]."Original Total Cost" :=
-                      JobDiffBuffer[2]."Original Total Cost" + JobDiffBuffer[1]."Original Total Cost"; //HEXGBJOB.01
-                    JobDiffBuffer[2]."Line Amount" :=
-                      JobDiffBuffer[2]."Line Amount" + JobDiffBuffer[1]."Line Amount";
-                    JobDiffBuffer[2]."Original IFRS15 Line Amt (LCY)" := JobDiffBuffer[2]."Original IFRS15 Line Amt (LCY)" + JobDiffBuffer[1]."Original IFRS15 Line Amt (LCY)"; //HEX
-                    JobDiffBuffer[2]."IFRS15 Line Amount (LCY)" := JobDiffBuffer[2]."IFRS15 Line Amount (LCY)" + JobDiffBuffer[1]."IFRS15 Line Amount (LCY)";
-                    JobDiffBuffer[2].MODIFY;
-                END ELSE
-                    JobDiffBuffer[1].INSERT;
-            END;
+            //WITH JobPlanningLine DO BEGIN
+                IF JobPlanningLine.Type = JobPlanningLine.Type::Text THEN
+                EXIT;
+        IF NOT JobPlanningLine."Schedule Line" THEN
+            EXIT;
+        JobDiffBuffer[1].Type := JobPlanningLine.Type;
+        JobDiffBuffer[1]."No." := JobPlanningLine."No.";
+        JobDiffBuffer[1]."Entry type" := JobDiffBuffer[1]."Entry type"::Budget;
+        JobDiffBuffer[1]."Unit of Measure code" := JobPlanningLine."Unit of Measure Code";
+        JobDiffBuffer[1]."Work Type Code" := JobPlanningLine."Work Type Code";
+        //JobDiffBuffer[1].Quantity := Quantity; HEXGBJOB.01
+        JobDiffBuffer[1].Quantity := JobPlanningLine."Qty. Posted";  //HEXGBJOB.01
+        JobDiffBuffer[1]."Original Quantity" := JobPlanningLine."Original Quantity"; // HEXGBJOB.01
+        JobDiffBuffer[1]."Original Purchase Unit Cost" := JobPlanningLine."Original Purchase Unit Cost";
+        JobDiffBuffer[1]."Original IFRS15 Line Amt (LCY)" := JobPlanningLine."Original IFRS15 Line Amt (LCY)";
+        JobDiffBuffer[1]."IFRS15 Line Amount (LCY)" := JobPlanningLine."IFRS15 Line Amount (LCY)";
+        //MESSAGE('Job Planning Line Item %1, Quantity Poated %2',"No.", "Qty. Posted");
+        IF CurrencyType = CurrencyType::LCY THEN BEGIN
+            JobDiffBuffer[1]."Total Cost" := JobPlanningLine."Posted Total Cost (LCY)"; //HEXGBJOB.01 "Total Cost(LCY);
+            JobDiffBuffer[1]."Line Amount" := JobPlanningLine."Posted Line Amount (LCY)"; // HEXGBJOB.01 "Line Amount (LCY)";
+            JobDiffBuffer[1]."Original Total Cost" := JobPlanningLine."Original Total Cost (LCY)"; //HEXGBJOB.01
+        END ELSE BEGIN
+            JobDiffBuffer[1]."Total Cost" := JobPlanningLine."Posted Total Cost";   // HEXGBJOB.01 "Total Cost";
+            JobDiffBuffer[1]."Line Amount" := JobPlanningLine."Posted Line Amount"; //HEXGBJOB.01 "Line Amount";
+            JobDiffBuffer[1]."Original Total Cost" := JobPlanningLine."Original Total Cost"; //HEXGBJOB.01
+        END;
+        JobDiffBuffer[2] := JobDiffBuffer[1];
+        IF JobDiffBuffer[2].FIND THEN BEGIN
+            JobDiffBuffer[2].Quantity :=
+              JobDiffBuffer[2].Quantity + JobDiffBuffer[1].Quantity;
+            JobDiffBuffer[2]."Original Quantity" :=
+              JobDiffBuffer[2]."Original Quantity" + JobDiffBuffer[1]."Original Quantity"; //HEXGBJOB.01
+            JobDiffBuffer[2]."Total Cost" :=
+              JobDiffBuffer[2]."Total Cost" + JobDiffBuffer[1]."Total Cost"; //HEXGBJOB.01
+            JobDiffBuffer[2]."Original Total Cost" :=
+              JobDiffBuffer[2]."Original Total Cost" + JobDiffBuffer[1]."Original Total Cost"; //HEXGBJOB.01
+            JobDiffBuffer[2]."Line Amount" :=
+              JobDiffBuffer[2]."Line Amount" + JobDiffBuffer[1]."Line Amount";
+            JobDiffBuffer[2]."Original IFRS15 Line Amt (LCY)" := JobDiffBuffer[2]."Original IFRS15 Line Amt (LCY)" + JobDiffBuffer[1]."Original IFRS15 Line Amt (LCY)"; //HEX
+            JobDiffBuffer[2]."IFRS15 Line Amount (LCY)" := JobDiffBuffer[2]."IFRS15 Line Amount (LCY)" + JobDiffBuffer[1]."IFRS15 Line Amount (LCY)";
+            JobDiffBuffer[2].MODIFY;
+        END ELSE
+            JobDiffBuffer[1].INSERT;
+        //END;
 
         IF LineType = LineType::Usage THEN
-            WITH JobLedgEntry DO BEGIN
-                IF "Entry Type" <> "Entry Type"::Usage THEN
-                    EXIT;
-                JobDiffBuffer[1].Type := Type;
-                JobDiffBuffer[1]."No." := "No.";
-                JobDiffBuffer[1]."Entry type" := JobDiffBuffer[1]."Entry type"::Usage;
-                JobDiffBuffer[1]."Unit of Measure code" := "Unit of Measure Code";
-                JobDiffBuffer[1]."Work Type Code" := "Work Type Code";
-                JobDiffBuffer[1].Quantity := Quantity;
-                JobDiffBuffer[1]."Original Quantity" := Quantity; //HEXGBJOB.01
-                                                                  //MESSAGE('Item %1, Quantity Poated %2',"No.",Quantity);
-                IF CurrencyType = CurrencyType::LCY THEN BEGIN
-                    JobDiffBuffer[1]."Total Cost" := "Total Cost (LCY)";
-                    JobDiffBuffer[1]."Line Amount" := "Line Amount (LCY)";
-                    JobDiffBuffer[1]."Original Total Cost" := "Original Total Cost (LCY)"; //HEXGBJOB.01
-                END ELSE BEGIN
-                    JobDiffBuffer[1]."Total Cost" := "Original Total Cost";
-                    JobDiffBuffer[1]."Line Amount" := "Line Amount";
-                    // HEXGBJOB.01 >>
-                    JobDiffBuffer[1]."Original Total Cost" := "Original Total Cost";
-                    JobDiffBuffer[1]."Original Line Amount" := "Line Amount";
-                    // HEXGBJOB.01 <<
-                END;
-                JobDiffBuffer[2] := JobDiffBuffer[1];
-                IF JobDiffBuffer[2].FIND THEN BEGIN
-                    JobDiffBuffer[2].Quantity :=
-                      JobDiffBuffer[2].Quantity + JobDiffBuffer[1].Quantity;
-                    // HEXGBJOB.01 >>
-                    JobDiffBuffer[2]."Original Quantity" :=
-                      JobDiffBuffer[2]."Original Quantity" + JobDiffBuffer[1]."Original Quantity";
-                    // HEXGBJOB.013 <<
-                    JobDiffBuffer[2]."Total Cost" :=
-                      JobDiffBuffer[2]."Total Cost" + JobDiffBuffer[1]."Total Cost";
-                    // HEXGBJOB.01 >>
-                    JobDiffBuffer[2]."Original Total Cost" :=
-                      JobDiffBuffer[2]."Original Total Cost" + JobDiffBuffer[1]."Original Total Cost";
-                    // HEXGBJOB.01 <<
-                    JobDiffBuffer[2]."Line Amount" :=
-                      JobDiffBuffer[2]."Line Amount" + JobDiffBuffer[1]."Line Amount";
-                    JobDiffBuffer[2].MODIFY;
-                END ELSE
-                    JobDiffBuffer[1].INSERT;
-            END;
+            //WITH JobLedgEntry DO BEGIN
+                IF JobLedgEntry."Entry Type" <> JobLedgEntry."Entry Type"::Usage THEN
+                EXIT;
+        JobDiffBuffer[1].Type := JobLedgEntry.Type;
+        JobDiffBuffer[1]."No." := JobLedgEntry."No.";
+        JobDiffBuffer[1]."Entry type" := JobDiffBuffer[1]."Entry type"::Usage;
+        JobDiffBuffer[1]."Unit of Measure code" := JobLedgEntry."Unit of Measure Code";
+        JobDiffBuffer[1]."Work Type Code" := JobLedgEntry."Work Type Code";
+        JobDiffBuffer[1].Quantity := JobLedgEntry.Quantity;
+        JobDiffBuffer[1]."Original Quantity" := JobLedgEntry.Quantity; //HEXGBJOB.01
+                                                                       //MESSAGE('Item %1, Quantity Poated %2',"No.",Quantity);
+        IF CurrencyType = CurrencyType::LCY THEN BEGIN
+            JobDiffBuffer[1]."Total Cost" := JobLedgEntry."Total Cost (LCY)";
+            JobDiffBuffer[1]."Line Amount" := JobLedgEntry."Line Amount (LCY)";
+            JobDiffBuffer[1]."Original Total Cost" := JobLedgEntry."Original Total Cost (LCY)"; //HEXGBJOB.01
+        END ELSE BEGIN
+            JobDiffBuffer[1]."Total Cost" := JobLedgEntry."Original Total Cost";
+            JobDiffBuffer[1]."Line Amount" := JobLedgEntry."Line Amount";
+            // HEXGBJOB.01 >>
+            JobDiffBuffer[1]."Original Total Cost" := JobLedgEntry."Original Total Cost";
+            JobDiffBuffer[1]."Original Line Amount" := JobLedgEntry."Line Amount";
+            // HEXGBJOB.01 <<
+        END;
+        JobDiffBuffer[2] := JobDiffBuffer[1];
+        IF JobDiffBuffer[2].FIND THEN BEGIN
+            JobDiffBuffer[2].Quantity :=
+              JobDiffBuffer[2].Quantity + JobDiffBuffer[1].Quantity;
+            // HEXGBJOB.01 >>
+            JobDiffBuffer[2]."Original Quantity" :=
+              JobDiffBuffer[2]."Original Quantity" + JobDiffBuffer[1]."Original Quantity";
+            // HEXGBJOB.013 <<
+            JobDiffBuffer[2]."Total Cost" :=
+              JobDiffBuffer[2]."Total Cost" + JobDiffBuffer[1]."Total Cost";
+            // HEXGBJOB.01 >>
+            JobDiffBuffer[2]."Original Total Cost" :=
+              JobDiffBuffer[2]."Original Total Cost" + JobDiffBuffer[1]."Original Total Cost";
+            // HEXGBJOB.01 <<
+            JobDiffBuffer[2]."Line Amount" :=
+              JobDiffBuffer[2]."Line Amount" + JobDiffBuffer[1]."Line Amount";
+            JobDiffBuffer[2].MODIFY;
+        END ELSE
+            JobDiffBuffer[1].INSERT;
     END;
+    //END;
 
     PROCEDURE UpdateGLAnalysisRecords();
     VAR
