@@ -38,6 +38,7 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
                 Editable = fill;
             }
         }
+
         addafter("% Invoiced")
         {
             field("Total Revenue to Recognize"; "Total Revenue to Recognize")
@@ -50,32 +51,34 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
             }
         }
     }
-}
-
     actions
     {
         // Add changes to page actions here
-        action(OrderPlanning)
+        addafter("Plan&ning")
         {
-            ApplicationArea = Suite;
-            Caption = 'Order Planning';
-            RunObject =Page '5522';
-            Image = "Order";
 
-        }
-        action(RevenueRecognistion)
-        {
-            ApplicationArea = Suite;
-            Caption = 'Revenue Recognistion';
-            Runobject = Report 50099;
-                            Image = "Order";
+            action(OrderPlanning)
+            {
+                ApplicationArea = Suite;
+                Caption = 'Order Planning';
+                RunObject = Page 5522;
+                Image = "Order";
 
+            }
+            action(RevenueRecognistion)
+            {
+                ApplicationArea = Suite;
+                Caption = 'Revenue Recognistion';
+                //Runobject = Report 50099;
+                Image = "Order";
+
+
+            }
         }
     }
 
     var
-        myInt: Integer;
         fill: Boolean;
-        
-    
+
+
 }

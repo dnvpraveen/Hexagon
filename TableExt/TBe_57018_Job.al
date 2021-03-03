@@ -131,4 +131,12 @@ tableextension 57018 "Hex Job" extends Job
         //HEXGBJOB.01 >>
     end;
 
+    PROCEDURE CurrencyCheck();
+    var
+        DifferentCurrenciesErr: TextConst ENU = 'You cannot plan and invoice a job in different currencies.';
+    BEGIN
+        IF ("Invoice Currency Code" <> "Currency Code") AND ("Invoice Currency Code" <> '') AND ("Currency Code" <> '') THEN
+            ERROR(DifferentCurrenciesErr);
+    END;
+
 }

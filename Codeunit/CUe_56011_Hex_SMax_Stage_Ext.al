@@ -550,6 +550,12 @@ codeunit 56011 "Hex Smax Stage Ext"
         SalesHeader.DELETE;
     END;
 
+
+    //JOB table 167 Functions
+
+
+
+
     var
         ArchiveMgt: Codeunit ArchiveManagement;
 

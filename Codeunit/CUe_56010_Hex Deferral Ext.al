@@ -162,7 +162,7 @@ codeunit 56010 "Hex Deferral Ext"
         // "Start Date" passed in needs to be adjusted based on the Deferral Code's Start Date setting
 
         IF AdjustStartDate THEN
-            AdjustedStartDate := DeferralUtilities.SetStartDate(DeferralTemplate, StartDate)
+            AdjustedStartDate := SetStartDate(DeferralTemplate, StartDate)
 
         ELSE
             AdjustedStartDate := StartDate;
@@ -190,17 +190,54 @@ codeunit 56010 "Hex Deferral Ext"
     END;
 
     LOCAL PROCEDURE InitCurrency(CurrencyCode: Code[10]);
-    var
-        Currency: Record Currency;
+    VAR
+        Currency: Record 4;
     BEGIN
-        IF (Currency.Code = CurrencyCode) AND CurrencyRead THEN
-            EXIT;
+        IF CurrencyCode = '' THEN
+            Currency.InitRoundingPrecision
+        ELSE BEGIN
+            Currency.GET(CurrencyCode);
+            Currency.TESTFIELD("Amount Rounding Precision");
+        END;
+        AmountRoundingPrecision := Currency."Amount Rounding Precision";
+    END;
 
-        IF CurrencyCode <> '' THEN
-            Currency.GET(CurrencyCode)
-        ELSE
-            Currency.InitRoundingPrecision;
-        CurrencyRead := TRUE;
+    LOCAL PROCEDURE SetStartDate(DeferralTemplate: Record 1700; StartDate: Date) AdjustedStartDate: Date;
+    VAR
+        AccountingPeriod: Record 50;
+        DeferralStartOption: Option "Posting Date","Beginning of Period","End of Period","Beginning of Next Period";
+    BEGIN
+        // "Start Date" passed in needs to be adjusted based on the Deferral Code's Start Date setting;
+        CASE DeferralTemplate."Start Date" OF
+            DeferralStartOption::"Posting Date":
+                AdjustedStartDate := StartDate;
+            DeferralStartOption::"Beginning of Period":
+                BEGIN
+                    IF AccountingPeriod.ISEMPTY THEN
+                        EXIT(CALCDATE('<-CM>', StartDate));
+                    AccountingPeriod.SETRANGE("Starting Date", 0D, StartDate);
+                    IF AccountingPeriod.FINDLAST THEN
+                        AdjustedStartDate := AccountingPeriod."Starting Date";
+                END;
+            DeferralStartOption::"End of Period":
+                BEGIN
+                    IF AccountingPeriod.ISEMPTY THEN
+                        EXIT(CALCDATE('<CM>', StartDate));
+                    AccountingPeriod.SETFILTER("Starting Date", '>%1', StartDate);
+                    IF AccountingPeriod.FINDFIRST THEN
+                        AdjustedStartDate := CALCDATE('<-1D>', AccountingPeriod."Starting Date");
+                END;
+            DeferralStartOption::"Beginning of Next Period":
+                BEGIN
+                    IF AccountingPeriod.ISEMPTY THEN
+                        EXIT(CALCDATE('<CM + 1D>', StartDate));
+                    AccountingPeriod.SETFILTER("Starting Date", '>%1', StartDate);
+                    IF AccountingPeriod.FINDFIRST THEN
+                        AdjustedStartDate := AccountingPeriod."Starting Date";
+                END;
+        END;
+
+        //OnAfterSetStartDate(DeferralTemplate, StartDate);
     END;
     //TVT01 Changes to deferrals
 
@@ -231,5 +268,8 @@ codeunit 56010 "Hex Deferral Ext"
     begin
 
     end;
+
+    var
+        AmountRoundingPrecision: Decimal;
 
 }

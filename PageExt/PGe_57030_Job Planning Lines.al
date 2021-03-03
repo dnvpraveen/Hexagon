@@ -69,16 +69,16 @@ pageextension 57030 "Hex Job Planning Lines" extends "Job Planning Lines"
         JobTaskNo: Code[20];
         IFRSPreview: Codeunit "IFRS15 Mgt Rev";
 
-    trigger OnNewRecord(var Newre: Boolean)
-    var
-        JobTask: Record "Job Task";
-    begin
-        // TM TF IFRS15 06/07/18 Start
-        IF JobTask.GET(JobNo, GETFILTER("Job Task No.")) THEN
-            CurrPage.EDITABLE(NOT (JobTask."IFRS15 Perf. Obligation Status" = JobTask."IFRS15 Perf. Obligation Status"::Posted));
-        // TM TF IFRS15 06/07/18 End
-    end;
-    //trigger 
+    // trigger OnNewRecord(var Newre: Boolean)
+    // var
+    //     JobTask: Record "Job Task";
+    // begin
+    //     // TM TF IFRS15 06/07/18 Start
+    //     IF JobTask.GET(JobNo, GETFILTER("Job Task No.")) THEN
+    //         CurrPage.EDITABLE(NOT (JobTask."IFRS15 Perf. Obligation Status" = JobTask."IFRS15 Perf. Obligation Status"::Posted));
+    //     // TM TF IFRS15 06/07/18 End
+    // end;
+    // //trigger 
 
     Local Procedure SetJobTaskNo(No: Code[20])
     begin
