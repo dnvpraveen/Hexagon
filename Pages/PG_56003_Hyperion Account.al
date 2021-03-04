@@ -28,12 +28,12 @@ page 50003 "Hyperion Account"
                 {
                 }
             }
-            part(test; 50004)
-            {
-                ShowFilter = false;
-                SubPageLink = "Hyperion Account" = FIELD(Code);
-                SubPageView = SORTING("Hyperion Account");
-            }
+            // part(test; 50004)
+            // {
+            //     ShowFilter = false;
+            //     SubPageLink = "Hyperion Account" = FIELD(Code);
+            //     SubPageView = SORTING("Hyperion Account");
+            // }
         }
     }
 
