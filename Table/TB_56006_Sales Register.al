@@ -126,12 +126,12 @@ table 56006 "Sales Register"
         {
             Description = 'Sales Order Line No.';
         }
-        // field(30; "Type"; Option)
-        // {
-
-        //     OptionCaption = ' , G/L Account, Item, Resource, Fixed Asset, Charge (Item)';
-        //     OptionString = ,"G/L Account",Item,Resource,"Fixed Asset","Charge (Item)";
-        // }
+        field(30; Type; Option)
+        {
+            Description = 'Type';
+            OptionCaption = ' , G/L Account, Item, Resource, Fixed Asset, Charge (Item)';
+            OptionMembers = ,"G/L Account",Item,Resource,"Fixed Asset","Charge (Item)";
+        }
         field(31; Filter; Code[15])
         {
             Description = 'Filter';

@@ -3,7 +3,7 @@ page 50023 "Staged Payment Lines"
     AutoSplitKey = true;
     DelayedInsert = true;
     PageType = List;
-    SourceTable = 56021;
+    SourceTable = "Staged Payment Line";
 
     layout
     {
@@ -42,9 +42,9 @@ page 50023 "Staged Payment Lines"
                     end;
                 }
             }
-            group()
+            group(Hex)
             {
-                fixed()
+                fixed(ok)
                 {
                     group("Document Total")
                     {
@@ -53,9 +53,9 @@ page 50023 "Staged Payment Lines"
                         {
                         }
                     }
-                    group(Allocated)
+                    group(Allocated2)
                     {
-                        Caption = 'Allocated';
+                        Caption = 'Allocated2';
                         field(Allocated; "Total Value (Inc. VAT)")
                         {
                             DrillDown = false;
@@ -75,22 +75,23 @@ page 50023 "Staged Payment Lines"
 
     local procedure GetTotalIncVATAmt() Result: Decimal
     var
-        PurchHeader: Record 38;
-        SalesHeader: Record 36;
+        PurchHeader: Record "Purchase Header";
+        SalesHeader: Record "Sales Header";
+        SMAXext: Codeunit "Hex Smax Stage Ext";
     begin
         CASE "Document Type" OF
             "Document Type"::"Purch. Order":
                 IF PurchHeader.GET(PurchHeader."Document Type"::Order, "Document No.") THEN
-                    Result := GetQtyToInvoiceAmountPurch(PurchHeader);
+                    Result := SMAXext.GetQtyToInvoiceAmountPurch(PurchHeader);
             "Document Type"::"Purch. Invoice":
                 IF PurchHeader.GET(PurchHeader."Document Type"::Invoice, "Document No.") THEN
-                    Result := GetQtyToInvoiceAmountPurch(PurchHeader);
+                    Result := SMAXext.GetQtyToInvoiceAmountPurch(PurchHeader);
             "Document Type"::"Sales Order":
                 IF SalesHeader.GET(SalesHeader."Document Type"::Order, "Document No.") THEN
-                    Result := GetQtyToInvoiceAmountSales(SalesHeader);
+                    Result := SMAXext.GetQtyToInvoiceAmountSales(SalesHeader);
             "Document Type"::"Sales Invoice":
                 IF SalesHeader.GET(SalesHeader."Document Type"::Invoice, "Document No.") THEN
-                    Result := GetQtyToInvoiceAmountSales(SalesHeader);
+                    Result := SMAXext.GetQtyToInvoiceAmountSales(SalesHeader);
         END;
     end;
 }

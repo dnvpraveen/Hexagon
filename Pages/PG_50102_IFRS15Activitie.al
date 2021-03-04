@@ -17,8 +17,8 @@ page 50102 "IFRS15 Activities"
 
                     trigger OnDrillDown()
                     var
-                        JobTaskLinesPage: Page 1002;
-                        JobTask: Record 1001;
+                        JobTaskLinesPage: Page "Job Task Lines";
+                        JobTask: Record "Job Task";
                     begin
                         JobTask.RESET;
                         JobTask.FILTERGROUP(2);
@@ -36,8 +36,8 @@ page 50102 "IFRS15 Activities"
 
                     trigger OnDrillDown()
                     var
-                        JobTaskLinesPage: Page 1002;
-                        JobTask: Record 1001;
+                        JobTaskLinesPage: Page "Job Task Lines";
+                        JobTask: Record "Job Task";
                     begin
                         JobTask.RESET;
                         JobTask.FILTERGROUP(2);
@@ -55,8 +55,8 @@ page 50102 "IFRS15 Activities"
 
                     trigger OnDrillDown()
                     var
-                        JobTaskLinesPage: Page "1002";
-                        JobTask: Record "1001";
+                        JobTaskLinesPage: Page "Job Task Lines";
+                        JobTask: Record "Job Task";
                     begin
                         JobTask.RESET;
                         JobTask.FILTERGROUP(2);
@@ -74,8 +74,8 @@ page 50102 "IFRS15 Activities"
 
                     trigger OnDrillDown()
                     var
-                        JobTaskLinesPage: Page 1002;
-                        JobTask: Record 1001;
+                        JobTaskLinesPage: Page "Job Task Lines";
+                        JobTask: Record "Job Task";
                     begin
                         JobTask.RESET;
                         JobTask.FILTERGROUP(2);
@@ -93,15 +93,20 @@ page 50102 "IFRS15 Activities"
                     action("Job Revenue Recognition")
                     {
                         Caption = 'Job Revenue Recognition';
-                        RunObject = Report 50100;
+
+                        //RunObject = Report 50100;
+                        trigger OnAction()
+                        begin
+                            Message('check the RunObject = Report 50100 report removed in AL');
+                        end;
                     }
                 }
             }
         }
-    }
 
-    actions
-    {
+
+
+
     }
 
     trigger OnOpenPage()

@@ -2,7 +2,7 @@ page 50022 "Sales Register Details"
 {
     Editable = false;
     PageType = List;
-    SourceTable = 56006;
+    SourceTable = "Sales Register";
     SourceTableView = WHERE(Filter = FILTER(1 | 2 | 3 | 4 | 5 | 6));
 
     layout
@@ -63,7 +63,7 @@ page 50022 "Sales Register Details"
                 field("Job No."; "Job No.")
                 {
                 }
-                field(Type; Type)
+                field(Type; type)
                 {
                 }
                 field("Item No."; "Item No.")
@@ -143,9 +143,14 @@ page 50022 "Sales Register Details"
             }
             action("Update Filter For BI")
             {
-                RunObject = Report 50003;
+                //RunObject = Report 50003;
+                trigger OnAction()
+                begin
+                    message('RunObject = Report 50003 need to be added in AL');
+                end;
             }
         }
+
     }
 
     trigger OnAfterGetRecord()
@@ -172,8 +177,8 @@ page 50022 "Sales Register Details"
         GLSetup: Record 98;
         DimensionEntry: Record 480;
         LCnt: Integer;
-        JapanSalesLog: Record 50019;
-        JapanSalesLog2: Record 50019;
+        JapanSalesLog: Record "Sales Register";
+        JapanSalesLog2: Record "Sales Register";
         SalesInvoiceHeader: Record 112;
         SalesInvoiceLine: Record 113;
         SalesCrMemoHeader: Record 114;

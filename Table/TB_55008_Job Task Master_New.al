@@ -17,6 +17,14 @@ table 55008 "Job Task Master_New"
         {
             Description = 'Order Type';
         }
+
+        field(4; "Activity Type"; Option)
+        {
+            Description = 'Activity Type';
+            OptionCaption = ' ,Purchase,Installation,Training,Programming,Warranty';
+            OptionMembers = ,Purchase,Installation,Training,Programming,Warranty;
+        }
+
     }
 
 

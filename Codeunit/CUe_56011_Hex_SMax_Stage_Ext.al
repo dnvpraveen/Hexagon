@@ -551,10 +551,8 @@ codeunit 56011 "Hex Smax Stage Ext"
     END;
 
 
+    // Stage Payment line Table 56021 code 
     //JOB table 167 Functions
-
-
-
 
     var
         ArchiveMgt: Codeunit ArchiveManagement;

@@ -11,7 +11,7 @@ table 56021 "Staged Payment Line"
         }
         field(2; "Document Type"; Option)
         {
-            OptionCaption = ', Purch. Order, Purch. Invoice, Sales Order, Sales Invoice';
+            OptionCaption = ' ,Purch. Order,Purch. Invoice,Sales Order,Sales Invoice';
             OptionMembers = ,"Purch. Order","Purch. Invoice","Sales Order","Sales Invoice";
         }
         field(5; "Staged Payment Line No."; Integer)

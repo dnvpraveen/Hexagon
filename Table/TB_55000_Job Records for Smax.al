@@ -249,6 +249,42 @@ table 55000 "Job Records for Smax"
             Description = 'Invoice Total';
         }
 
+        Field(59; "Insert BOM"; Boolean)
+        {
+            Description = 'Insert BOM';
+        }
+        Field(60; Installation; Boolean)
+        {
+            Description = 'Installation';
+        }
+        Field(61; Training; Boolean)
+        {
+            Description = 'Training';
+        }
+        Field(62; Program; Boolean)
+        {
+            Description = 'Program';
+        }
+        Field(63; Picked; Boolean)
+        {
+            Description = 'Picked';
+        }
+        Field(64; Warranty; Boolean)
+        {
+            Description = 'Warranty';
+        }
+        Field(65; "Next Record"; Boolean)
+        {
+            Description = 'Next Record';
+        }
+        Field(107; "Qty to Invoice"; Decimal)
+        {
+            Description = 'Qty to Invoice';
+        }
+        Field(250; "Completed %"; Decimal)
+        {
+            Description = 'Completed %';
+        }
     }
 
     keys
