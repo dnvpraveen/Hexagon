@@ -75,8 +75,8 @@ page 50023 "Staged Payment Lines"
 
     local procedure GetTotalIncVATAmt() Result: Decimal
     var
-        PurchHeader: Record "38";
-        SalesHeader: Record "36";
+        PurchHeader: Record 38;
+        SalesHeader: Record 36;
     begin
         CASE "Document Type" OF
             "Document Type"::"Purch. Order":

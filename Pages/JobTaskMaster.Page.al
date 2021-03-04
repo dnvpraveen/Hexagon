@@ -1,7 +1,7 @@
 page 50037 "Job Task Master"
 {
     PageType = List;
-    SourceTable = Table55008;
+    SourceTable = 55008;
 
     layout
     {

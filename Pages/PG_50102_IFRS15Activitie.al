@@ -17,8 +17,8 @@ page 50102 "IFRS15 Activities"
 
                     trigger OnDrillDown()
                     var
-                        JobTaskLinesPage: Page "1002";
-                        JobTask: Record "1001";
+                        JobTaskLinesPage: Page 1002;
+                        JobTask: Record 1001;
                     begin
                         JobTask.RESET;
                         JobTask.FILTERGROUP(2);
@@ -36,8 +36,8 @@ page 50102 "IFRS15 Activities"
 
                     trigger OnDrillDown()
                     var
-                        JobTaskLinesPage: Page "1002";
-                        JobTask: Record "1001";
+                        JobTaskLinesPage: Page 1002;
+                        JobTask: Record 1001;
                     begin
                         JobTask.RESET;
                         JobTask.FILTERGROUP(2);
@@ -74,8 +74,8 @@ page 50102 "IFRS15 Activities"
 
                     trigger OnDrillDown()
                     var
-                        JobTaskLinesPage: Page "1002";
-                        JobTask: Record "1001";
+                        JobTaskLinesPage: Page 1002;
+                        JobTask: Record 1001;
                     begin
                         JobTask.RESET;
                         JobTask.FILTERGROUP(2);

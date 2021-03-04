@@ -133,9 +133,9 @@ page 50022 "Sales Register Details"
 
                 trigger OnAction()
                 var
-                    GLEntry: Record "17";
-                    DimensionEntry: Record "480";
-                    GLSetup: Record "98";
+                    GLEntry: Record 17;
+                    DimensionEntry: Record 480;
+                    GLSetup: Record 98;
                     LCnt: Integer;
                 begin
                     UpdateSalesLog;
@@ -169,20 +169,20 @@ page 50022 "Sales Register Details"
     end;
 
     var
-        GLSetup: Record "98";
-        DimensionEntry: Record "480";
+        GLSetup: Record 98;
+        DimensionEntry: Record 480;
         LCnt: Integer;
-        JapanSalesLog: Record "50019";
-        JapanSalesLog2: Record "50019";
-        SalesInvoiceHeader: Record "112";
-        SalesInvoiceLine: Record "113";
-        SalesCrMemoHeader: Record "114";
-        SalesCrMemoLine: Record "115";
-        SalesHeader: Record "36";
-        SalesHeaderArchive: Record "5107";
-        Saleslog: Record "50001";
-        SalesLine: Record "37";
-        SalesLineArchive: Record "5108";
+        JapanSalesLog: Record 50019;
+        JapanSalesLog2: Record 50019;
+        SalesInvoiceHeader: Record 112;
+        SalesInvoiceLine: Record 113;
+        SalesCrMemoHeader: Record 114;
+        SalesCrMemoLine: Record 115;
+        SalesHeader: Record 36;
+        SalesHeaderArchive: Record 5107;
+        Saleslog: Record 50001;
+        SalesLine: Record 37;
+        SalesLineArchive: Record 5108;
         LText001: Label 'Updating Records - ';
         Window: Dialog;
         LineNo: Integer;

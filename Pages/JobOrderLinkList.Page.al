@@ -2,7 +2,7 @@ page 50000 "Job Order Link List"
 {
     Editable = false;
     PageType = List;
-    SourceTable = Table50000;
+    SourceTable = 50000;
 
     layout
     {
