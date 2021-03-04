@@ -3,6 +3,8 @@ page 50023 "Staged Payment Lines"
     AutoSplitKey = true;
     DelayedInsert = true;
     PageType = List;
+    ApplicationArea = All;
+    UsageCategory = Lists;
     SourceTable = "Staged Payment Line";
 
     layout

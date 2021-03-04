@@ -1,6 +1,8 @@
 page 55032 HexPriceBook
 {
     PageType = List;
+    ApplicationArea = All;
+    UsageCategory = Lists;
     SourceTable = HexPriceBook;
 
     layout

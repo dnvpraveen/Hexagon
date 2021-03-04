@@ -1,7 +1,9 @@
 page 50037 "Job Task Master"
 {
     PageType = List;
-    SourceTable = 55008;
+    ApplicationArea = All;
+    UsageCategory = Lists;
+    SourceTable = "Job Task Master_New";
 
     layout
     {

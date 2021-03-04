@@ -1,6 +1,8 @@
 page 54001 HexHMIresource
 {
     PageType = List;
+    ApplicationArea = All;
+    UsageCategory = Lists;
     SourceTable = HexHMIresource;
 
     layout

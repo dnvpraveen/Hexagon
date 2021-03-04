@@ -3,7 +3,9 @@ page 50001 "Purch. Line Inspection List"
     DeleteAllowed = false;
     InsertAllowed = false;
     PageType = List;
-    SourceTable = 39;
+    ApplicationArea = All;
+    UsageCategory = Lists;
+    SourceTable = "Purchase Line";
 
     layout
     {

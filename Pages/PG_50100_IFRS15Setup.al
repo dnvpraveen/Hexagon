@@ -4,6 +4,8 @@ page 50100 "IFRS15 Setup"
     //   Object created
 
     PageType = Card;
+    ApplicationArea = All;
+    UsageCategory = Lists;
     SourceTable = "IFRS15 Setup";
 
     layout

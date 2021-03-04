@@ -3,6 +3,8 @@ page 50002 "Hyperion Account List"
     CardPageID = "Hyperion Account";
     Editable = false;
     PageType = List;
+    ApplicationArea = All;
+    UsageCategory = Lists;
     SourceTable = "Hyperion Account";
 
     layout

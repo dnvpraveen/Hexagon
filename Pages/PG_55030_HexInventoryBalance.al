@@ -2,6 +2,8 @@ page 55030 HexInventoryBalance
 {
     Caption = 'HexInventoryBalance';
     PageType = List;
+    ApplicationArea = All;
+    UsageCategory = Lists;
     SourceTable = HexInventoryBalance;
 
     layout

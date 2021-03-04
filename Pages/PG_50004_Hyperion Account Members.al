@@ -2,6 +2,8 @@ page 50004 "Hyperion Account Details"
 {
     PageType = List;
     SourceTable = "Hyperion Account Members";
+    ApplicationArea = All;
+    UsageCategory = Lists;
 
     layout
     {

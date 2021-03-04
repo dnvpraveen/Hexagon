@@ -1,6 +1,8 @@
 page 55000 "Job Lines for Smax"
 {
     PageType = List;
+    ApplicationArea = All;
+    UsageCategory = Lists;
     SourceTable = "Job Records for Smax";
 
     layout

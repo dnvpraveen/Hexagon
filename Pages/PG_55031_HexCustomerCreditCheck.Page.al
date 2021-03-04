@@ -1,6 +1,8 @@
 page 55031 HexCustomerCreditCheck
 {
     PageType = List;
+    ApplicationArea = All;
+    UsageCategory = Lists;
     SourceTable = HexCustomerCreditCheck;
 
     layout

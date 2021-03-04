@@ -2,6 +2,8 @@ page 55017 "ITD Proforma lines"
 {
     Editable = false;
     PageType = List;
+    ApplicationArea = All;
+    UsageCategory = Lists;
     SourceTable = "ITD Proforma Records";
 
     layout

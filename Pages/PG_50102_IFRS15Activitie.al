@@ -2,6 +2,8 @@ page 50102 "IFRS15 Activities"
 {
     Caption = 'IFRS15 Activities';
     PageType = CardPart;
+    ApplicationArea = All;
+    UsageCategory = Lists;
     SourceTable = "IFRS15 Cue";
 
     layout

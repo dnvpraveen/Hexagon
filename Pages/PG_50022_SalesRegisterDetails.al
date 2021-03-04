@@ -3,6 +3,8 @@ page 50022 "Sales Register Details"
     Editable = false;
     PageType = List;
     SourceTable = "Sales Register";
+    ApplicationArea = All;
+    UsageCategory = Lists;
     //SourceTableView = WHERE(Filter = FILTER(1 | 2 | 3 | 4 | 5 | 6));
 
     layout

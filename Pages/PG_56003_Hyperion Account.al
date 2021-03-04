@@ -1,6 +1,8 @@
 page 50003 "Hyperion Account"
 {
     PageType = Card;
+    ApplicationArea = All;
+    UsageCategory = Lists;
     SourceTable = "Hyperion Account";
 
     layout
