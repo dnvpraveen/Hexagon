@@ -1,11 +1,10 @@
 page 50005 "Sales Log"
 {
-    // 
-    // 
     // HEXG1016 -GMP 04112014- ICR 1016 sales log Bill to customer - GMP-  Bill to customer No field added to sales log table.
-
     Editable = false;
     PageType = List;
+    ApplicationArea = All;
+    UsageCategory = Lists;
     SourceTable = "Sales Log";
 
     layout

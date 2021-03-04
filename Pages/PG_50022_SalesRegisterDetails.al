@@ -3,7 +3,7 @@ page 50022 "Sales Register Details"
     Editable = false;
     PageType = List;
     SourceTable = "Sales Register";
-    SourceTableView = WHERE(Filter = FILTER(1 | 2 | 3 | 4 | 5 | 6));
+    //SourceTableView = WHERE(Filter = FILTER(1 | 2 | 3 | 4 | 5 | 6));
 
     layout
     {
