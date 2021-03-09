@@ -6,7 +6,7 @@
             "request": "launch",
             "type": "al",
             "environmentType": "OnPrem",
-            "server": "https://localhost",
+            "server": "http://localhost",
             "port": 20029,
             "serverInstance": "BC_NA_UAT",
             "authentication": "UserPassword",
