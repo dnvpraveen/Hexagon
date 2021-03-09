@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="en-GB" original="Please update this value">
+    <body>
+      <group id="body">
+        <trans-unit id="Report 3017655518 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Job Revenue Recognition</source>
+          <target>Job Revenue Recognition</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Job Revenue Recognition - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 3017655518 - ReportLabel 253704284" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Job Revenue Recognition</source>
+          <target>Job Revenue Recognition</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Job Revenue Recognition - ReportLabel ReportCaption</note>
+        </trans-unit>
+        <trans-unit id="Report 3017655518 - ReportLabel 3184947576" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Job No.</source>
+          <target>Job No.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Job Revenue Recognition - ReportLabel JobNoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 3017655518 - ReportLabel 3014261722" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Task No.</source>
+          <target>Task No.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Job Revenue Recognition - ReportLabel TaskNoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 3017655518 - ReportLabel 4172508015" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line No.</source>
+          <target>Line No.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Job Revenue Recognition - ReportLabel LineNoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 3017655518 - ReportLabel 4291518952" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posting Document No.</source>
+          <target>Posting Document No.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Job Revenue Recognition - ReportLabel PostingDocumentNoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 3017655518 - ReportLabel 1027969698" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posting Date</source>
+          <target>Posting Date</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Job Revenue Recognition - ReportLabel PostingDateLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 3017655518 - ReportLabel 961827798" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target>Type</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Job Revenue Recognition - ReportLabel TypeLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 3017655518 - ReportLabel 1314000525" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <target>No</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Job Revenue Recognition - ReportLabel NoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 3017655518 - ReportLabel 1245862610" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Amount</source>
+          <target>Amount</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Job Revenue Recognition - ReportLabel AmountLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 3017655518 - ReportLabel 2410138484" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total</source>
+          <target>Total</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Job Revenue Recognition - ReportLabel TotalLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 3017655518 - NamedType 563373164" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Revenue Recognition Entries have been posted</source>
+          <target>Revenue Recognition Entries have been posted</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Job Revenue Recognition - NamedType PostedMsg</note>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
