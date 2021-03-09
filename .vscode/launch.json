@@ -18,7 +18,7 @@
             "enableSqlInformationDebugger": true,
             "schemaUpdateMode":"ForceSync", 
             //"schemaUpdateMode": "Recreate",
-            "tenant": ""
+            
         }
     ]
 }
