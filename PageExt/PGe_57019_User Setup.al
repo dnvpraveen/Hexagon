@@ -3,16 +3,19 @@ pageextension 57019 "Hex User Setup" extends "User Setup"
     layout
     {
         // Add changes to page layout here
-        addlast(Content)
+        addafter("EMail")
         {
-            field("E-Mail"; "E-Mail")
-            {
-                Caption = 'E-Mail';
-            }
+
             field("Allowed to Recognise Revenue"; "Allowed to Recognise Revenue")
             {
                 Caption = 'Allowed to Recognise Revenue';
             }
+            field("PO Posting Rights"; "PO Posting Rights")
+            { }
+            field("SO Posting Rights"; "SO Posting Rights")
+            { }
+            field("Change Job Status"; "Change Job Status")
+            { }
         }
 
     }
@@ -22,6 +25,5 @@ pageextension 57019 "Hex User Setup" extends "User Setup"
         // Add changes to page actions here
     }
 
-    var
-        myInt: Integer;
+
 }
