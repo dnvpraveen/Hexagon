@@ -1,6 +1,5 @@
 pageextension 57003 "hex Chart of Accounts" extends "Chart of Accounts"
 {
-
     layout
     {
         // Adding a new control field 'ShoeSize' in the group 'General'
@@ -45,6 +44,12 @@ pageextension 57003 "hex Chart of Accounts" extends "Chart of Accounts"
 
 
     }
+    trigger OnOpenPage()
+    begin
+        rec.SetCurrentKey(HexSeqID);
+        rec.SetAscending(HexSeqID, false);
+        //rec.SetFilter("Balance (LCY)", '> 50000');
+    end;
 
 
 }

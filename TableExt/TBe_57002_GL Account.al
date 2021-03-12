@@ -15,6 +15,11 @@ tableextension 57002 "Hex GL GMDD" extends "G/L Account"
 
         }
     }
-
+    keys
+    {
+        key(Key1; HexSeqID)
+        {
+        }
+    }
 
 }
