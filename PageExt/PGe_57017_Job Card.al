@@ -54,7 +54,7 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
     actions
     {
         // Add changes to page actions here
-        addafter("Plan&ning")
+        addbefore("W&IP")
         {
 
             action(OrderPlanning)

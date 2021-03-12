@@ -5,6 +5,54 @@ pageextension 57030 "Hex Job Planning Lines" extends "Job Planning Lines"
         // Add changes to page layout here
         addafter(Quantity)
         {
+            field("Original Quantity"; "Original Quantity")
+            {
+                Caption = 'Original Quantity';
+            }
+            field("Original Unit Cost (LCY)"; "Original Unit Cost (LCY)")
+            {
+
+            }
+            field("Original Total Cost (LCY)"; "Original Total Cost (LCY)")
+            {
+
+            }
+            field("Original Unit Cost"; "Original Unit Cost") { }
+            field("Original Total Cost"; "Original Total Cost") { }
+            field("Original Purchase Unit Cost"; "Original Purchase Unit Cost") { }
+            field("IFRS15 Line Amount"; "IFRS15 Line Amount") { }
+            field("IFRS15 Perf. Obligation Status"; "IFRS15 Perf. Obligation Status") { }
+            field("IFRS15 Line Amount (LCY)"; "IFRS15 Line Amount (LCY)") { }
+            field("Original IFRS15 Line Amount"; "Original IFRS15 Line Amount") { }
+            field("Original IFRS15 Line Amt (LCY)"; "Original IFRS15 Line Amt (LCY)") { }
+            field("Purchase Inv No."; "Purchase Inv No.") { }
+            field("Purchase Value"; "Purchase Value") { }
+            field("Purch Posting Date"; "Purch Posting Date") { }
+            field("Sale Inv No."; "Sale Inv No.") { }
+            field("Sale Amount"; "Sale Amount") { }
+            field("Sale Posting Date"; "Sale Posting Date") { }
+            field("IP Serial No."; "IP Serial No.") { }
+            field("Target System"; "Target System") { }
+            field("Smax Order No."; "Smax Order No.") { }
+
+
+            field("Smax Order for IP"; "Smax Order for IP") { }
+
+
+
+            field("Smax Line No"; "Smax Line No") { }
+
+
+            field("IP Code"; "IP Code") { }
+
+
+
+            field("Completed %"; "Completed %") { }
+            field(Modified; Modified) { }
+            field(Created; Created) { }
+
+
+
             field(IP; IP)
             {
                 Caption = 'IP';

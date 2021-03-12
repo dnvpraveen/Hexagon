@@ -5,7 +5,7 @@ page 50100 "IFRS15 Setup"
 
     PageType = Card;
     ApplicationArea = All;
-    UsageCategory = Lists;
+    UsageCategory = Administration;
     SourceTable = "IFRS15 Setup";
 
     layout

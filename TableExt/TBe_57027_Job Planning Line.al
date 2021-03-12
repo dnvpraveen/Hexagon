@@ -176,6 +176,14 @@ tableextension 57027 "Job Planning Line" extends "Job Planning Line"
         {
             Description = 'Completed %';
         }
+        field(55051; Modified; Boolean)
+        {
+            Description = 'Modified';
+        }
+        field(55052; Created; Boolean)
+        {
+            Description = 'Created';
+        }
     }
 
 
