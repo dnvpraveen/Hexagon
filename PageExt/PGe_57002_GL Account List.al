@@ -11,6 +11,10 @@ pageextension 57002 "Hex G/L Account List" extends "G/L Account List"
                 Caption = 'GMDD Name';
 
             }
+            field(HexSeqID; HexSeqID)
+            {
+                Caption = 'HexSeqID';
+            }
         }
     }
 

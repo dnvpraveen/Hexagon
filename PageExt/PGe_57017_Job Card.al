@@ -69,7 +69,7 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
             {
                 ApplicationArea = Suite;
                 Caption = 'Revenue Recognistion';
-                //Runobject = Report 50099;
+                Runobject = Report 50099;
                 Image = "Order";
 
 

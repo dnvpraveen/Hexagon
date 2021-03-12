@@ -11,6 +11,10 @@ pageextension 57003 "hex Chart of Accounts" extends "Chart of Accounts"
                 Caption = 'GMDD Name';
 
             }
+            field(HexSeqID; HexSeqID)
+            {
+                Caption = 'HexSeqID';
+            }
         }
     }
     actions

@@ -78,7 +78,7 @@ pageextension 57030 "Hex Job Planning Lines" extends "Job Planning Lines"
     //         CurrPage.EDITABLE(NOT (JobTask."IFRS15 Perf. Obligation Status" = JobTask."IFRS15 Perf. Obligation Status"::Posted));
     //     // TM TF IFRS15 06/07/18 End
     // end;
-    // //trigger 
+
 
     Local Procedure SetJobTaskNo(No: Code[20])
     begin

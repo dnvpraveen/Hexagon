@@ -8,6 +8,12 @@ tableextension 57002 "Hex GL GMDD" extends "G/L Account"
             Description = 'GMDD Name';
 
         }
+        field(50002; "HexSeqID"; Integer)
+        {
+            //DataClassification = ToBeClassified;
+            Description = 'HexSeqID';
+
+        }
     }
 
 
