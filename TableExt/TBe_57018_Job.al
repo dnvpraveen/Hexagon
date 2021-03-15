@@ -107,11 +107,41 @@ tableextension 57018 "Hex Job" extends Job
         {
             Description = 'Order Date';
         }
+        modify(Description)
+        {
+            trigger OnAfterValidate()
+            var
+                DimValue: Record "Dimension Value";
+                JobsSetup: Record "Jobs Setup";
+            begin
+                //<<HEXGBJOB.01
+                //ADD Dimension Discription
+                JobsSetup.GET;
+                DimValue.INIT;
+                IF DimValue.GET(JobsSetup."Dimension for Sales Link", "No.") THEN BEGIN
+                    DimValue.VALIDATE(Name, Description);
+                    DimValue.MODIFY;
+                END
+                //HEXGBJOB.01 >>
+            end;
+        }
+        modify("Bill-to Customer No.")
+        {
+            trigger OnAfterValidate()
+            var
 
-
-
+                lrecJobSetup: Record "Jobs Setup";
+                gmdlDimMgt: Codeunit "Hex Smax Stage Ext";
+            begin
+                //HEXGBJOB.01
+                lrecJobSetup.GET;
+                lrecJobSetup.TESTFIELD("Dimension for Sales Link");
+                ValidateShortcutDimCode(gmdlDimMgt.gfcnGetShortcutDimNo(lrecJobSetup."Dimension for Sales Link"), "No.");
+                //HEXGBJOB.01>>
+            end;
+        }
     }
-    trigger OnInsert()
+    trigger OnAfterInsert()
     var
         CompanyInformation: Record "Company Information";
         DimValue: Record "Dimension Value";
@@ -119,6 +149,7 @@ tableextension 57018 "Hex Job" extends Job
     begin
         //gk
         CompanyInformation.GET;
+        JobsSetup.Get;
         "ERP Company No." := CompanyInformation."ERP Company No.";
         //gk
         //<<HEXGBJOB.01
@@ -129,6 +160,20 @@ tableextension 57018 "Hex Job" extends Job
         DimValue.VALIDATE(Name, "No.");
         DimValue.INSERT(TRUE);
         //HEXGBJOB.01 >>
+    end;
+
+    trigger OnDelete()
+    var
+        DimValue: Record "Dimension Value";
+        JobsSetup: Record "Jobs Setup";
+    begin
+        //HEXGBJOB.01 >>
+        JobsSetup.GET;
+        DimValue.SETRANGE("Dimension Code", JobsSetup."Dimension for Sales Link");
+        DimValue.SETRANGE(Code, "No.");
+        IF DimValue.FINDFIRST THEN
+            DimValue.DELETE(TRUE);
+        //HEXGBJOB.01 <<
     end;
 
     PROCEDURE CurrencyCheck();

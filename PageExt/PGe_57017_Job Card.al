@@ -2,6 +2,8 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
 {
     layout
     {
+
+
         // Add changes to page layout here
         addafter("No.")
         {
@@ -37,8 +39,13 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
                 Caption = 'Product Serial No.';
                 Editable = fill;
             }
+
         }
 
+        modify("No.")
+        {
+            Visible = true;
+        }
         addafter("% Invoiced")
         {
             field("Total Revenue to Recognize"; "Total Revenue to Recognize")

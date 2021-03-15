@@ -554,7 +554,42 @@ codeunit 56011 "Hex Smax Stage Ext"
     // Stage Payment line Table 56021 code 
     //JOB table 167 Functions
 
+    PROCEDURE gfcnGetShortcutDimNo(pcodDimCode: Code[20]) rintDimNo: Integer
+    // SC 01-10-13
+    var
+        lintI: Integer;
+    begin
+
+        GetGLSetup;
+        REPEAT
+            lintI += 1;
+            IF pcodDimCode = GLSetupShortcutDimCode[lintI] THEN
+                rintDimNo := lintI;
+        UNTIL (rintDimNo <> 0) OR (lintI = 8);
+
+    end;
+
+    procedure GetGLSetup()
+    var
+        GLSetup: Record "General Ledger Setup";
+    begin
+        IF NOT HasGotGLSetup THEN BEGIN
+            GLSetup.GET;
+            GLSetupShortcutDimCode[1] := GLSetup."Shortcut Dimension 1 Code";
+            GLSetupShortcutDimCode[2] := GLSetup."Shortcut Dimension 2 Code";
+            GLSetupShortcutDimCode[3] := GLSetup."Shortcut Dimension 3 Code";
+            GLSetupShortcutDimCode[4] := GLSetup."Shortcut Dimension 4 Code";
+            GLSetupShortcutDimCode[5] := GLSetup."Shortcut Dimension 5 Code";
+            GLSetupShortcutDimCode[6] := GLSetup."Shortcut Dimension 6 Code";
+            GLSetupShortcutDimCode[7] := GLSetup."Shortcut Dimension 7 Code";
+            GLSetupShortcutDimCode[8] := GLSetup."Shortcut Dimension 8 Code";
+            HasGotGLSetup := TRUE;
+        END;
+    end;
+
     var
         ArchiveMgt: Codeunit ArchiveManagement;
+        HasGotGLSetup: Boolean;
+        GLSetupShortcutDimCode: ARRAY[8] OF Code[20];
 
 }
