@@ -140,6 +140,130 @@ tableextension 57018 "Hex Job" extends Job
                 //HEXGBJOB.01>>
             end;
         }
+        modify(Status)
+        {
+            trigger OnBeforeValidate()
+            var
+                JobPlanningLine: Record "Job Planning Line";
+                lrecUserSetup: Record "User Setup";
+                JItem: Record Item;
+                // JitemEntry	Record	Item Ledger Entry	
+                UpdateJobRecords: Codeunit "Update Job Records";
+
+                JobTask: Record "Job Task";
+                TotalIFRSLineAmount: Decimal;
+                TotalIFRSLineAmountLCY: Decimal;
+                //CompanyInformation  Record Company Information
+                //GJobPlanningLine    Record  Job Planning Line
+                StatusChangeQst: label 'This will delete any unposted WIP entries for this job and allow you to reverse the completion postings for this job.\\Do you wish to continue?';
+                Text50000: label 'Status has to be Order before Completed';
+                Text50001: label 'You are not allowed to change the status.  Please check %1 on %2 to allow this status change';
+                AmountMismatchErr: label 'Total Revenue to Recognise %1 must be equal to IFRS Line Amount Total %2.';
+                AmountLCYMismatchErr: Label 'Total Revenue to Recognise(LCY) %1 must be equal to IFRS Line Amount (LCY) Total %2.';
+            begin
+                //GK
+                IF xRec.Status <> Status THEN
+                    IF Status = Status::Open THEN BEGIN
+                        TESTFIELD("Global Dimension 2 Code");
+                        TotalIFRSLineAmount := 0;
+                        TotalIFRSLineAmountLCY := 0;
+                        JobTask.RESET;
+                        JobTask.SETRANGE("Job No.", "No.");
+                        IF JobTask.FINDSET THEN BEGIN
+                            REPEAT
+                                JobTask.CALCFIELDS("IFRS15 Line Amount", "IFRS15 Line Amount (LCY)");
+                                TotalIFRSLineAmount += JobTask."IFRS15 Line Amount";
+                                TotalIFRSLineAmountLCY += JobTask."IFRS15 Line Amount (LCY)";
+                            UNTIL JobTask.NEXT = 0;
+                        END;
+                        CALCFIELDS("Total Rev to Recognize (LCY)");
+                        IF TotalIFRSLineAmount <> "Total Revenue to Recognize" THEN
+                            ERROR(AmountMismatchErr, "Total Revenue to Recognize", TotalIFRSLineAmount);
+                        IF TotalIFRSLineAmountLCY <> "Total Rev to Recognize (LCY)" THEN
+                            ERROR(AmountLCYMismatchErr, "Total Rev to Recognize (LCY)", TotalIFRSLineAmountLCY);
+                    END;
+                //GK
+                IF xRec.Status <> Status THEN BEGIN
+
+                    //HEXGBJOB.01->
+                    //changing status from Order back to Planning or Quote
+                    //IF (xRec.Status <> xRec.Status::Order) AND (Status <> Status::Completed) THEN BEGIN //MAN
+                    IF (xRec.Status = xRec.Status::Open) OR (xRec.Status = Status::Completed) THEN BEGIN //MAN
+                        IF (Status = Status::Planning) OR (Status = Status::Quote) THEN BEGIN //MAN
+                            IF NOT lrecUserSetup.GET(USERID) THEN
+                                lrecUserSetup.INIT;
+                            IF NOT lrecUserSetup."Change Job Status" THEN
+                                ERROR(Text50001, lrecUserSetup.FIELDCAPTION("Change Job Status"), lrecUserSetup.TABLENAME);
+                        END; //MAN
+                    END;
+
+                    IF Status = Status::Completed THEN
+                        IF xRec.Status <> xRec.Status::Open THEN
+                            ERROR(Text50000)
+                        ELSE BEGIN
+                            //VALIDATE(Complete,TRUE);
+                            GET("No.");
+                            Status := Status::Completed;
+                            Complete := TRUE;
+                            MODIFY;
+                        END;
+                    //<-HEXGBJOB.01
+
+                    IF xRec.Status = xRec.Status::Completed THEN BEGIN
+                        IF DIALOG.CONFIRM(StatusChangeQst) THEN
+                            VALIDATE(Complete, FALSE)
+                        ELSE
+                            Status := xRec.Status;
+                    END;
+
+                    //gk
+                    IF (xRec.Status <> xRec.Status::Open) AND (Status = Status::Open) THEN
+                        UpdateJobRecords.UpdateRecords(Rec);
+                    //gk
+
+
+                    //<<MAN HEXGBJOB.01 - Set Original Value to preserve the budget (Moved from Status on Validate on table 1003
+                    JobPlanningLine.SETCURRENTKEY("Job No.");
+                    JobPlanningLine.SETRANGE("Job No.", "No.");
+                    //IF (xRec.Status <> xRec.Status::Order) AND (Status = Status::Order) THEN BEGIN
+                    IF (xRec.Status <> xRec.Status::Open) AND (Status = Status::Open) THEN BEGIN//HEXb2b
+                        IF JobPlanningLine.FINDFIRST THEN
+                            REPEAT
+                                JobPlanningLine."Original Quantity" := JobPlanningLine.Quantity;
+                                JobPlanningLine."Original Unit Cost (LCY)" := JobPlanningLine."Unit Cost (LCY)";
+                                JobPlanningLine."Original Total Cost (LCY)" := JobPlanningLine."Total Cost (LCY)";
+                                // HEXGBJOB.01 >>
+                                JobPlanningLine."Original Unit Cost" := JobPlanningLine."Original Unit Cost";
+                                JobPlanningLine."Original Total Cost" := JobPlanningLine."Original Total Cost";
+                                // HEXGBJOB.013 <<
+                                //gk
+                                JobPlanningLine."Original IFRS15 Line Amount" := JobPlanningLine."IFRS15 Line Amount";
+                                JobPlanningLine."Original IFRS15 Line Amt (LCY)" := JobPlanningLine."IFRS15 Line Amount (LCY)";
+                                //gk
+                                //gk
+
+                                //HEXGB1022 Start and HEXGBJOB.01
+                                IF (JobPlanningLine.Type = JobPlanningLine.Type::Item) AND JItem.GET(JobPlanningLine."No.") THEN
+                                    JobPlanningLine."Original Purchase Unit Cost" := JItem."Last Direct Cost"
+                                ELSE
+                                    JobPlanningLine."Original Purchase Unit Cost" := JobPlanningLine."Unit Cost (LCY)";
+                                //HEXGB1022 END and HEXGBJOB.01
+                                JobPlanningLine.MODIFY;
+                            UNTIL JobPlanningLine.NEXT = 0
+                    END;
+                    //MAN HEXGBJOB.01>>
+
+                    //KB HEXGBJOB.01->
+                    JobPlanningLine.RESET; //MAN
+                    JobPlanningLine.SETCURRENTKEY("Job No.");
+                    JobPlanningLine.SETRANGE("Job No.", "No.");
+                    JobPlanningLine.MODIFYALL(Status, Status);  //MAN - Put back in original code
+                                                                //JobPlanningLine.MODIFYALL(Status,Status,TRUE); //MAN - remove modification
+                                                                //<-KB HEXGBJOB.01
+                    MODIFY;
+                end;
+            end;
+        }
     }
     trigger OnAfterInsert()
     var
