@@ -88,6 +88,23 @@ tableextension 57030 "Job Task" extends "Job Task"
             Description = 'Order Type';
             Editable = false;
         }
+        modify("Job Task No.")
+        {
+            trigger OnAfterValidate()
+            var
+                job: Record job;
+            begin
+                Job.GET("Job No.");
+                //gk Smax1.0
+                IF Job."Order Type" <> Job."Order Type"::System THEN
+                    Job.TESTFIELD("Product Serial No.");
+                "ERP Company No." := Job."ERP Company No.";
+                "Opportunity No." := Job."Opportunity No.";
+                //gk Smax1.0
+            end;
+
+
+        }
     }
 
 

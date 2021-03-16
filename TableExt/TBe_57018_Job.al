@@ -1,5 +1,6 @@
 tableextension 57018 "Hex Job" extends Job
 {
+
     fields
     {
         // Add changes to table fields here
@@ -276,6 +277,7 @@ tableextension 57018 "Hex Job" extends Job
         JobsSetup.Get;
         "ERP Company No." := CompanyInformation."ERP Company No.";
         //gk
+        Status := Status::Planning;
         //<<HEXGBJOB.01
         //Create Dimension Value for the Job
         DimValue.INIT;

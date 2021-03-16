@@ -37,6 +37,7 @@ pageextension 57029 "Hex Job Task Lines" extends "Job Task Lines"
                 Caption = 'Deferral Template';
             }
         }
+
     }
 
     actions

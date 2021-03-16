@@ -26,6 +26,20 @@ pageextension 57037 "Hex Job Task Lines Subform" extends "Job Task Lines Subform
                 Editable = IFRS15Editable;
             }
         }
+        modify("Job Task No.")
+        {
+            trigger OnLookup(var Text: Text): Boolean
+            var
+                JobTaskMaster: Record "Job Task Master_New";
+            begin
+                IF PAGE.RUNMODAL(50037, JobTaskMaster) = ACTION::LookupOK THEN BEGIN
+                    VALIDATE("Job Task No.", JobTaskMaster."Job Task Code");
+                    VALIDATE("Performance Obligation", JobTaskMaster."Performance Obligation");
+                    VALIDATE("Order Type", JobTaskMaster."Order Type");
+                    VALIDATE("Activity Type", JobTaskMaster."Activity Type");
+                END;
+            end;
+        }
     }
 
     actions
@@ -59,7 +73,6 @@ pageextension 57037 "Hex Job Task Lines Subform" extends "Job Task Lines Subform
             }
 
         }
-
 
     }
     VAR

@@ -2,8 +2,6 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
 {
     layout
     {
-
-
         // Add changes to page layout here
         addafter("No.")
         {
@@ -42,9 +40,37 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
 
         }
 
+        addafter("Person Responsible")
+        {
+            field("External Doc No."; "External Doc No.")
+            {
+                Caption = 'Customer PO';
+            }
+            field("Is IFRS15 Job"; "Is IFRS15 Job")
+            {
+                Caption = 'Is IFRS15 Job';
+            }
+            field("Order Date"; "Order Date")
+            {
+                Caption = 'Customer PO Date';
+            }
+            field("Salesperson Code"; "Salesperson Code")
+            {
+                Caption = 'Salesperson Code';
+            }
+        }
+
         modify("No.")
         {
             Visible = true;
+        }
+        modify("Bill-to Customer No.")
+        {
+            Caption = 'Sell-to Customer No.';
+        }
+        modify("Bill-to Contact No.")
+        {
+            Caption = 'Sell-to Contact No.';
         }
         addafter("% Invoiced")
         {
@@ -70,7 +96,6 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
                 Caption = 'Order Planning';
                 RunObject = Page 5522;
                 Image = "Order";
-
             }
             action(RevenueRecognistion)
             {
@@ -78,14 +103,32 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
                 Caption = 'Revenue Recognistion';
                 Runobject = Report 50099;
                 Image = "Order";
+            }
+            action("Create Sales Order")
+            {
+                trigger OnAction()
+                var
+                    Hexext: Codeunit "Hex Smax Stage Ext";
+                begin
+                    Hexext.gfncCreateSalesDoc(rec, 1);     //sales order
+                end;
 
+            }
+            action("Create Sales Credit")
+            {
+                trigger OnAction()
+                var
+                    Hexext: Codeunit "Hex Smax Stage Ext";
+                begin
+                    Hexext.gfncCreateSalesDoc(rec, 3);     //sales order
+                end;
 
             }
         }
     }
-
     var
         fill: Boolean;
+    // Hexext: Codeunit "Hex Smax Stage Ext";
 
 
 }
