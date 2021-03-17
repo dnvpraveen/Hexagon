@@ -594,7 +594,7 @@ codeunit 56011 "Hex Smax Stage Ext"
         lrecGlSetup: Record 98;
         lrecJobSetup: Record 315;
         lrecSalesHeader: Record 36;
-        Text50000: Label 'ENU=%1 No. %2 created';
+        Text50000: Label '%1 No. %2 created';
         lrecJobOrderLink: Record 50000;
         lrecDimValue: Record 349;
         lrecDimSetEntry: Record 480;
@@ -606,10 +606,10 @@ codeunit 56011 "Hex Smax Stage Ext"
         LrecJobPlanningLine: Record 1003;
         JobTaskDimension: Record 1002;
         RecordLinkManagement: Codeunit 447;
-        HexText: label 'ENU=Hexagon System Defined Option. Please contact NAV Admin';
-        GText001: label 'ENU=Sales Order already exists.   Do you want to create new Sales Order?';
-        GText010: label 'ENU=Do you Want to create Sales Lines With Text?';
-        Text001: label 'ENU=JOB Status should be Order';
+        HexText: label 'Hexagon System Defined Option. Please contact NAV Admin';
+        GText001: label 'Sales Order already exists.   Do you want to create new Sales Order?';
+        GText010: label 'Do you Want to create Sales Lines With Text?';
+        Text001: label 'JOB Status should be Order';
     BEGIN
         //HEXGBJOB.01 <<
         //KB 17.09.13 - new function
@@ -732,6 +732,60 @@ codeunit 56011 "Hex Smax Stage Ext"
         // SC 17-12-13 <<
         //HEXGBJOB.01 >>
     END;
+
+    //Codeunit 333 Req. Wksh.-Make Order
+    [EventSubscriber(ObjectType::Codeunit, 333, 'OnAfterInitPurchOrderLine', '', false, false)]
+    procedure "Hex InitPurchOrderLine Ext"(VAR PurchaseLine: Record "Purchase Line"; RequisitionLine: Record "Requisition Line")
+    var
+        PurchOrderHeader: Record "Purchase Header";
+    begin
+        //gk
+        IF RequisitionLine."Demand Type" = 1003 THEN BEGIN
+            PurchaseLine."Job No." := RequisitionLine."Demand Order No.";
+            PurchaseLine."Job Task No." := RequisitionLine."Job Task No.";
+            PurchaseLine."Job Planning Line No." := RequisitionLine."Job Planning Line No.";
+            IF PurchOrderHeader.Get(PurchaseLine."Document Type", PurchaseLine."Document No.") THEN BEGIN
+                PurchaseLine."Job Currency Factor" := PurchOrderHeader."Currency Factor";
+                PurchaseLine."Job Currency Code" := PurchOrderHeader."Currency Code";
+            end;
+        end;
+        //gk
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 333, 'OnAfterInsertPurchOrderHeader', '', false, false)]
+    procedure "Hex OnAfterInsertPurchOrderHeader Ext"(VAR RequisitionLine: Record "Requisition Line"; VAR PurchaseOrderHeader: Record "Purchase Header"; CommitIsSuppressed: Boolean)
+    var
+        lrecJobOrderLink: Record "Job Order Link";
+        lintLineNo: Integer;
+        lrecJobSetup: Record "Jobs Setup";
+        DimensionManagement: Codeunit DimensionManagement;
+    //PurchOrderHeader: Record "Purchase Header";
+    begin
+        //gk
+        lrecJobSetup.GET;
+        lrecJobSetup.TESTFIELD("Dimension for Sales Link");
+        PurchaseOrderHeader.ValidateShortcutDimCode(gfcnGetShortcutDimNo(lrecJobSetup."Dimension for Sales Link"), RequisitionLine."Demand Order No.");
+        PurchaseOrderHeader."Job No." := RequisitionLine."Demand Order No.";
+        //gk
+        //create Job Order Link
+        lrecJobOrderLink.RESET;
+        lrecJobOrderLink.SETRANGE("Job No.", PurchaseOrderHeader."Job No.");     //from Job rec
+        IF lrecJobOrderLink.FINDLAST THEN
+            lintLineNo := lrecJobOrderLink."Line No." + 10000
+        ELSE
+            lintLineNo := 10000;
+        lrecJobOrderLink.INIT;
+        lrecJobOrderLink."Job No." := PurchaseOrderHeader."Job No.";
+        lrecJobOrderLink."Line No." := lintLineNo;
+        lrecJobOrderLink."Purch Doc. Type" := PurchaseOrderHeader."Document Type"::Order;
+        lrecJobOrderLink."Purch Order No." := PurchaseOrderHeader."No.";
+        lrecJobOrderLink.INSERT;
+
+        IF lrecJobOrderLink."Purch Doc. Type" = PurchaseOrderHeader."Document Type"::Order THEN
+            PAGE.RUN(50, PurchaseOrderHeader);
+        //gk
+    end;
+
 
     var
         ArchiveMgt: Codeunit ArchiveManagement;

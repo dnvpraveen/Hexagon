@@ -124,6 +124,14 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
                 end;
 
             }
+            action("Orders / Invoices")
+            {
+
+                RunObject = Page "Job Order Link List";
+                RunPageLink = "Job No." = FIELD("No.");
+                Image = Documents;
+
+            }
         }
     }
     var

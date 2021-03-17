@@ -34,25 +34,14 @@ pageextension 57030 "Hex Job Planning Lines" extends "Job Planning Lines"
             field("IP Serial No."; "IP Serial No.") { }
             field("Target System"; "Target System") { }
             field("Smax Order No."; "Smax Order No.") { }
-
-
             field("Smax Order for IP"; "Smax Order for IP") { }
-
-
-
             field("Smax Line No"; "Smax Line No") { }
-
-
             field("IP Code"; "IP Code") { }
-
-
-
             field("Completed %"; "Completed %") { }
             field(Modified; Modified) { }
             field(Created; Created) { }
-
-
-
+            field("Bin Code"; "Bin Code") { }
+            field("Promised Delivery Date"; "Promised Delivery Date") { }
             field(IP; IP)
             {
                 Caption = 'IP';
@@ -75,7 +64,7 @@ pageextension 57030 "Hex Job Planning Lines" extends "Job Planning Lines"
             }
             field("BOM Component"; "BOM Component")
             {
-                Caption = 'OM Component';
+                Caption = 'BOM Component';
             }
             field("ERP Company No."; "ERP Company No.")
             {
