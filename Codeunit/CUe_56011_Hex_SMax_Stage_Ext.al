@@ -785,7 +785,16 @@ codeunit 56011 "Hex Smax Stage Ext"
             PAGE.RUN(50, PurchaseOrderHeader);
         //gk
     end;
-
+    //hex Requisition Line code
+    [EventSubscriber(ObjectType::Table, 246, 'OnAfterTransferFromUnplannedDemand', '', false, false)]
+    procedure "Hex OnAfterTransferFromUnplannedDemand Ext"(VAR RequisitionLine: Record "Requisition Line"; UnplannedDemand: Record "Unplanned Demand")
+    var
+    begin
+        //gk
+        RequisitionLine."Job Task No." := UnplannedDemand."Job Task No.";
+        RequisitionLine."Job Planning Line No." := UnplannedDemand."Job Planning Line No.";
+        //gk
+    end;
 
     var
         ArchiveMgt: Codeunit ArchiveManagement;
