@@ -17,5 +17,5 @@ tableextension 57042 "hex Sales Line Archive" extends "Sales Line Archive"
         }
     }
 
-    var
+
 }
