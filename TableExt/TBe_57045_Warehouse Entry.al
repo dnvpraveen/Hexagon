@@ -1,4 +1,4 @@
-tableextension 57044 "Hex Warehouse Journal Line" extends "Warehouse Journal Line"
+tableextension 57045 "Hex Warehouse Entry" extends "Warehouse Entry"
 {
     fields
     {
@@ -24,4 +24,5 @@ tableextension 57044 "Hex Warehouse Journal Line" extends "Warehouse Journal Lin
             Description = 'Parts Order No.';
         }
     }
+
 }

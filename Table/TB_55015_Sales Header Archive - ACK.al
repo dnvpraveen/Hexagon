@@ -827,7 +827,8 @@ table 55015 "Sales Header Archive - ACK"
     end;
 
     trigger OnDelete()
-
+    var
+        SalesLineArchive: Record "Sales Line Archive";
 
     BEGIN
         SalesLineArchive.SETRANGE("Document Type", "Document Type");

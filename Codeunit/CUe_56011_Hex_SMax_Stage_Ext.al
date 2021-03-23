@@ -795,7 +795,16 @@ codeunit 56011 "Hex Smax Stage Ext"
         RequisitionLine."Job Planning Line No." := UnplannedDemand."Job Planning Line No.";
         //gk
     end;
-
+    // Codeunit 12 Gen. Jnl.-Post Line
+    // [EventSubscriber(ObjectType::Table, 246, 'OnAfterTransferFromUnplannedDemand', '', false, false)]
+    // procedure "Hex OnAfterTransferFromUnplannedDemand Ext"(VAR RequisitionLine: Record "Requisition Line"; UnplannedDemand: Record "Unplanned Demand")
+    // var
+    // begin
+    //     //gk
+    //     RequisitionLine."Job Task No." := UnplannedDemand."Job Task No.";
+    //     RequisitionLine."Job Planning Line No." := UnplannedDemand."Job Planning Line No.";
+    //     //gk
+    // end;
     var
         ArchiveMgt: Codeunit ArchiveManagement;
         HasGotGLSetup: Boolean;
