@@ -796,15 +796,18 @@ codeunit 56011 "Hex Smax Stage Ext"
         //gk
     end;
     // Codeunit 12 Gen. Jnl.-Post Line
-    // [EventSubscriber(ObjectType::Table, 246, 'OnAfterTransferFromUnplannedDemand', '', false, false)]
-    // procedure "Hex OnAfterTransferFromUnplannedDemand Ext"(VAR RequisitionLine: Record "Requisition Line"; UnplannedDemand: Record "Unplanned Demand")
+    // [EventSubscriber(ObjectType::Codeunit, 12, 'OnBeforeInitGLEntry', '', false, false)]
+    // procedure "Hex OnBeforeInitGLEntry Ext"(VAR GenJournalLine : Record "Gen. Journal Line")
     // var
     // begin
     //     //gk
-    //     RequisitionLine."Job Task No." := UnplannedDemand."Job Task No.";
-    //     RequisitionLine."Job Planning Line No." := UnplannedDemand."Job Planning Line No.";
+
     //     //gk
     // end;
+
+    //Codeunit 80 Sales-Post
+
+
     var
         ArchiveMgt: Codeunit ArchiveManagement;
         HasGotGLSetup: Boolean;

@@ -209,6 +209,13 @@ tableextension 57027 "Job Planning Line" extends "Job Planning Line"
                 //gk Smax1.0
             end;
         }
+        modify(Quantity)
+        {
+            trigger OnAfterValidate()
+            begin
+                VALIDATE("Qty. to Transfer to Journal", 0); //gk
+            end;
+        }
     }
 
 
