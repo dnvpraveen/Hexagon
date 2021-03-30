@@ -796,10 +796,19 @@ codeunit 56011 "Hex Smax Stage Ext"
         //gk
     end;
 
-    // Codeunit 90
+    // Codeunit 90 Purch.-Post
+    //OnPostItemJnlLineJobConsumption
+    [EventSubscriber(ObjectType::Codeunit, 90, 'OnPostItemJnlLineJobConsumption', '', false, false)]
+    procedure "Hex OnPostItemJnlLineJobConsumption Ext"(VAR IsHandled: Boolean)
+    var
+        JobsSetup: Record "Jobs Setup";
+    begin
+        //gk
+        JobsSetup.GET;
+        IF JobsSetup."Auto Consume" THEN  //gk code modified
+            IsHandled := TRUE;                                     //gk
 
-
-
+    end;
     //Codeunit 5520 Get Unplanned Demand
 
 
