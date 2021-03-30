@@ -9,6 +9,14 @@ pageextension 57011 "Hex Sales Order" extends "Sales Order"
             {
                 Caption = 'Assigned Job No.';
             }
+            field("Order Created"; "Order Created")
+            {
+                Caption = 'Order Created';
+            }
+            field("Order Inserted"; "Order Inserted")
+            {
+                Caption = 'Order Inserted';
+            }
         }
     }
 
