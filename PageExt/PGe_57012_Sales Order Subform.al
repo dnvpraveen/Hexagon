@@ -9,6 +9,14 @@ pageextension 57012 "Hex Sales Order Subform" extends "Sales Order Subform"
             {
                 Editable = false;
             }
+            field("Order Created"; "Order Created")
+            {
+                Editable = false;
+            }
+            field("Order Inserted"; "Order Inserted")
+            {
+                Editable = false;
+            }
         }
     }
 
