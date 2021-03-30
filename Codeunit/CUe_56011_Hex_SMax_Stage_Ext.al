@@ -805,10 +805,23 @@ codeunit 56011 "Hex Smax Stage Ext"
     begin
         //gk
         JobsSetup.GET;
-        IF JobsSetup."Auto Consume" THEN  //gk code modified
+        IF NOT JobsSetup."Auto Consume" THEN  //gk code modified
             IsHandled := TRUE;                                     //gk
 
     end;
+
+    [EventSubscriber(ObjectType::Codeunit, 90, 'OnBeforeRevertWarehouseEntry', '', false, false)]
+    procedure "Hex OnBeforeRevertWarehouseEntry Ext"(VAR IsHandled: Boolean)
+    var
+        JobsSetup: Record "Jobs Setup";
+    begin
+        //gk
+        JobsSetup.GET;
+        IF NOT JobsSetup."Auto Consume" THEN  //gk code modified
+            IsHandled := TRUE;                                     //gk
+
+    end;
+
     //Codeunit 5520 Get Unplanned Demand
 
 
