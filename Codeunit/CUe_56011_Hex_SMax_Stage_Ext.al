@@ -798,29 +798,29 @@ codeunit 56011 "Hex Smax Stage Ext"
 
     // Codeunit 90 Purch.-Post
     //OnPostItemJnlLineJobConsumption
-    [EventSubscriber(ObjectType::Codeunit, 90, 'OnPostItemJnlLineJobConsumption', '', false, false)]
-    procedure "Hex OnPostItemJnlLineJobConsumption Ext"(VAR IsHandled: Boolean)
-    var
-        JobsSetup: Record "Jobs Setup";
-    begin
-        //gk
-        JobsSetup.GET;
-        IF NOT JobsSetup."Auto Consume" THEN  //gk code modified
-            IsHandled := TRUE;                                     //gk
+    // [EventSubscriber(ObjectType::Codeunit, 90, 'OnPostItemJnlLineJobConsumption', '', false, false)]
+    // procedure "Hex OnPostItemJnlLineJobConsumption Ext"(VAR IsHandled: Boolean)
+    // var
+    //     JobsSetup: Record "Jobs Setup";
+    // begin
+    //     //gk
+    //     JobsSetup.GET;
+    //     IF NOT JobsSetup."Auto Consume" THEN  //gk code modified
+    //         IsHandled := TRUE;                                     //gk
 
-    end;
+    // end;
 
-    [EventSubscriber(ObjectType::Codeunit, 90, 'OnBeforeRevertWarehouseEntry', '', false, false)]
-    procedure "Hex OnBeforeRevertWarehouseEntry Ext"(VAR IsHandled: Boolean)
-    var
-        JobsSetup: Record "Jobs Setup";
-    begin
-        //gk
-        JobsSetup.GET;
-        IF NOT JobsSetup."Auto Consume" THEN  //gk code modified
-            IsHandled := TRUE;                                     //gk
+    // [EventSubscriber(ObjectType::Codeunit, 90, 'OnBeforeRevertWarehouseEntry', '', false, false)]
+    // procedure "Hex OnBeforeRevertWarehouseEntry Ext"(VAR IsHandled: Boolean)
+    // var
+    //     JobsSetup: Record "Jobs Setup";
+    // begin
+    //     //gk
+    //     JobsSetup.GET;
+    //     IF NOT JobsSetup."Auto Consume" THEN  //gk code modified
+    //         IsHandled := TRUE;                                     //gk
 
-    end;
+    // end;
 
     //Codeunit 5520 Get Unplanned Demand
 
