@@ -1,0 +1,408 @@
+LogIfEmpty(RecRelatedVariant : Variant;FieldNumber : Integer;MessageType : Integer) : Integer
+  IF NOT DataTypeManagement.GetRecordRefAndFieldRef(RecRelatedVariant,FieldNumber,RecordRef,FieldRef) THEN
+    EXIT(0);
+  
+  TempRecordRef.OPEN(RecordRef.NUMBER,TRUE);
+  EmptyFieldRef := TempRecordRef.FIELD(FieldNumber);
+  
+  IF FieldRef.VALUE <> EmptyFieldRef.VALUE THEN
+    EXIT(0);
+  
+  NewDescription := STRSUBSTNO(IfEmptyErr,FieldRef.CAPTION,FORMAT(RecordRef.RECORDID));
+  
+  EXIT(LogMessage(RecRelatedVariant,FieldNumber,MessageType,NewDescription));
+ 
+LogIfLengthExceeded(RecRelatedVariant : Variant;FieldNumber : Integer;MessageType : Integer;MaxLength : Integer) : Integer
+  IF NOT DataTypeManagement.GetRecordRefAndFieldRef(RecRelatedVariant,FieldNumber,RecordRef,FieldRef) THEN
+    EXIT(0);
+  
+  StringLength := STRLEN(FORMAT(FieldRef.VALUE));
+  IF StringLength <= MaxLength THEN
+    EXIT(0);
+  
+  NewDescription := STRSUBSTNO(IfLengthExceededErr,FieldRef.CAPTION,FORMAT(RecordRef.RECORDID),MaxLength,StringLength);
+  
+  EXIT(LogMessage(RecRelatedVariant,FieldNumber,MessageType,NewDescription));
+ 
+LogIfInvalidCharacters(RecRelatedVariant : Variant;FieldNumber : Integer;MessageType : Integer;ValidCharacters : Text) : Integer
+  IF NOT DataTypeManagement.GetRecordRefAndFieldRef(RecRelatedVariant,FieldNumber,RecordRef,FieldRef) THEN
+    EXIT(0);
+  
+  IF DELCHR(FORMAT(FieldRef.VALUE),'=',ValidCharacters) = '' THEN
+    EXIT(0);
+  
+  NewDescription := STRSUBSTNO(IfInvalidCharactersErr,FieldRef.CAPTION,FORMAT(RecordRef.RECORDID));
+  
+  EXIT(LogMessage(RecRelatedVariant,FieldNumber,MessageType,NewDescription));
+ 
+LogIfOutsideRange(RecRelatedVariant : Variant;FieldNumber : Integer;MessageType : Integer;LowerBound : Variant;UpperBound : Variant) : Integer
+  IF FieldValueIsWithinFilter(RecRelatedVariant,FieldNumber,RecordRef,FieldRef,'%1..%2',LowerBound,UpperBound) THEN
+    EXIT(0);
+  
+  NewDescription := STRSUBSTNO(IfOutsideRangeErr,FieldRef.CAPTION,FORMAT(RecordRef.RECORDID),LowerBound,UpperBound);
+  
+  EXIT(LogMessage(RecRelatedVariant,FieldNumber,MessageType,NewDescription));
+ 
+LogIfGreaterThan(RecRelatedVariant : Variant;FieldNumber : Integer;MessageType : Integer;LowerBound : Variant) : Integer
+  IF FieldValueIsWithinFilter(RecRelatedVariant,FieldNumber,RecordRef,FieldRef,'<=%1',LowerBound,'') THEN
+    EXIT(0);
+  
+  NewDescription := STRSUBSTNO(IfGreaterThanErr,FieldRef.CAPTION,FORMAT(RecordRef.RECORDID),LowerBound);
+  
+  EXIT(LogMessage(RecRelatedVariant,FieldNumber,MessageType,NewDescription));
+ 
+LogIfLessThan(RecRelatedVariant : Variant;FieldNumber : Integer;MessageType : Integer;UpperBound : Variant) : Integer
+  IF FieldValueIsWithinFilter(RecRelatedVariant,FieldNumber,RecordRef,FieldRef,'>=%1',UpperBound,'') THEN
+    EXIT(0);
+  
+  NewDescription := STRSUBSTNO(IfLessThanErr,FieldRef.CAPTION,FORMAT(RecordRef.RECORDID),UpperBound);
+  
+  EXIT(LogMessage(RecRelatedVariant,FieldNumber,MessageType,NewDescription));
+ 
+LogIfEqualTo(RecRelatedVariant : Variant;FieldNumber : Integer;MessageType : Integer;ValueVariant : Variant) : Integer
+  IF FieldValueIsWithinFilter(RecRelatedVariant,FieldNumber,RecordRef,FieldRef,'<>%1',ValueVariant,'') THEN
+    EXIT(0);
+  
+  NewDescription := STRSUBSTNO(IfEqualToErr,FieldRef.CAPTION,FORMAT(RecordRef.RECORDID),ValueVariant);
+  
+  EXIT(LogMessage(RecRelatedVariant,FieldNumber,MessageType,NewDescription));
+ 
+LogIfNotEqualTo(RecRelatedVariant : Variant;FieldNumber : Integer;MessageType : Integer;ValueVariant : Variant) : Integer
+  IF FieldValueIsWithinFilter(RecRelatedVariant,FieldNumber,RecordRef,FieldRef,'=%1',ValueVariant,'') THEN
+    EXIT(0);
+  
+  NewDescription := STRSUBSTNO(IfNotEqualToErr,FieldRef.CAPTION,FORMAT(RecordRef.RECORDID),ValueVariant);
+  
+  EXIT(LogMessage(RecRelatedVariant,FieldNumber,MessageType,NewDescription));
+ 
+LogContextFieldError(ContextFieldNumber : Integer;NewDescription : Text;RecRelatedVariant : Variant;SourceFieldNumber : Integer;SupportURL : Text) : Integer
+  LogSimpleMessage("Message Type"::Error,NewDescription);
+  VALIDATE("Support Url",SupportURL);
+  VALIDATE("Context Field Number",ContextFieldNumber);
+  CASE TRUE OF
+    RecRelatedVariant.ISINTEGER:
+      VALIDATE("Table Number",RecRelatedVariant);
+    DataTypeManagement.GetRecordRef(RecRelatedVariant,RecordRef):
+      VALIDATE("Record ID",RecordRef.RECORDID);
+  END;
+  VALIDATE("Field Number",SourceFieldNumber);
+  MODIFY(TRUE);
+  
+  EXIT(ID);
+ 
+LogSimpleMessage(MessageType : Integer;NewDescription : Text) : Integer
+  AssertRecordTemporaryOrInContext;
+  
+  ID := GetLastID + 1;
+  
+  INIT;
+  VALIDATE("Message Type",MessageType);
+  VALIDATE(Description,COPYSTR(NewDescription,1,MAXSTRLEN(Description)));
+  VALIDATE("Context Record ID",ContextErrorMessage."Context Record ID");
+  VALIDATE("Context Field Number",ContextErrorMessage."Context Field Number");
+  VALIDATE("Additional Information",ContextErrorMessage."Additional Information");
+  INSERT(TRUE);
+  
+  EXIT(ID);
+ 
+LogMessage(RecRelatedVariant : Variant;FieldNumber : Integer;MessageType : Integer;NewDescription : Text) : Integer
+  IsHandled := FALSE;
+  OnBeforeLogMessage(RecRelatedVariant,FieldNumber,MessageType,NewDescription,IsHandled);
+  IF IsHandled THEN
+    EXIT;
+  
+  IF RecRelatedVariant.ISINTEGER THEN
+    TableNumber := RecRelatedVariant
+  ELSE BEGIN
+    IF NOT DataTypeManagement.GetRecordRef(RecRelatedVariant,RecordRef) THEN
+      EXIT(0);
+  
+    ErrorMessageID := FindRecord(RecordRef.RECORDID,FieldNumber,MessageType,NewDescription);
+    IF ErrorMessageID <> 0 THEN
+      EXIT(ErrorMessageID);
+  END;
+  
+  LogSimpleMessage(MessageType,NewDescription);
+  IF TableNumber = 0 THEN
+    VALIDATE("Record ID",RecordRef.RECORDID)
+  ELSE
+    VALIDATE("Table Number",TableNumber);
+  VALIDATE("Field Number",FieldNumber);
+  MODIFY(TRUE);
+  
+  EXIT(ID);
+ 
+LogDetailedMessage(RecRelatedVariant : Variant;FieldNumber : Integer;MessageType : Integer;NewDescription : Text;AdditionalInformation : Text;SupportUrl : Text) : Integer
+  LogMessage(RecRelatedVariant,FieldNumber,MessageType,NewDescription);
+  VALIDATE("Additional Information",AdditionalInformation);
+  VALIDATE("Support Url",SupportUrl);
+  MODIFY(TRUE);
+  
+  EXIT(ID);
+ 
+LogLastError()
+  IF (GETLASTERRORCODE <> '') AND (GETLASTERRORTEXT <> '') THEN BEGIN
+    LogSimpleMessage("Message Type"::Error,GETLASTERRORTEXT);
+    CLEARLASTERROR;
+  END;
+ 
+AddMessageDetails(MessageID : Integer;AdditionalInformation : Text;SupportUrl : Text)
+  IF MessageID = 0 THEN
+    EXIT;
+  
+  GET(MessageID);
+  VALIDATE("Additional Information",AdditionalInformation);
+  VALIDATE("Support Url",SupportUrl);
+  MODIFY(TRUE);
+ 
+GetLastID() : Integer
+  ClearFilters;
+  IF FINDLAST THEN
+    EXIT(ID);
+ 
+GetTableNo(RecordID : RecordID) : Integer
+  EXIT(RecordID.TABLENO);
+ 
+SetContext(ContextRecordVariant : Variant)
+  CLEAR(ContextErrorMessage);
+  CASE TRUE OF
+    ContextRecordVariant.ISRECORDID:
+      ContextErrorMessage.VALIDATE("Context Record ID",ContextRecordVariant);
+    ContextRecordVariant.ISINTEGER:
+      ContextErrorMessage."Context Table Number" := ContextRecordVariant;
+    DataTypeManagement.GetRecordRef(ContextRecordVariant,RecordRef):
+      ContextErrorMessage.VALIDATE("Context Record ID",RecordRef.RECORDID)
+  END;
+ 
+PushContext(ContextRecordVariant : Variant;ContextFieldNo : Integer;AdditionalInfo : Text) : Integer
+  SetContext(ContextRecordVariant);
+  ContextErrorMessage."Context Field Number" := ContextFieldNo;
+  ContextErrorMessage."Additional Information" := AdditionalInfo;
+  
+  IF TempContextErrorMessage.FINDLAST THEN;
+  TempContextErrorMessage.ID += 1;
+  TempContextErrorMessage.TRANSFERFIELDS(ContextErrorMessage,FALSE);
+  TempContextErrorMessage.INSERT;
+  EXIT(TempContextErrorMessage.ID);
+ 
+PopContext() : Integer
+  IF TempContextErrorMessage.FINDLAST THEN
+    TempContextErrorMessage.DELETE;
+  IF TempContextErrorMessage.FINDLAST THEN
+    ContextErrorMessage := TempContextErrorMessage
+  ELSE
+    ClearContext;
+  EXIT(ContextErrorMessage.ID);
+ 
+ClearContext()
+  CLEAR(ContextErrorMessage);
+  TempContextErrorMessage.DELETEALL;
+  CLEAR(TempContextErrorMessage);
+ 
+ClearLog()
+  AssertRecordTemporaryOrInContext;
+  
+  ClearFilters;
+  SetContextFilter;
+  DELETEALL(TRUE);
+ 
+ClearLogRec(RecordVariant : Variant)
+  AssertRecordTemporaryOrInContext;
+  
+  ClearFilters;
+  SetContextFilter;
+  SetRecordFilter(RecordVariant);
+  DELETEALL(TRUE);
+ 
+HasErrorMessagesRelatedTo(RecRelatedVariant : Variant) : Boolean
+  AssertRecordTemporaryOrInContext;
+  
+  IF NOT DataTypeManagement.GetRecordRef(RecRelatedVariant,RecordRef) THEN
+    EXIT(FALSE);
+  
+  ClearFilters;
+  SetContextFilter;
+  SETRANGE("Record ID",RecordRef.RECORDID);
+  EXIT(NOT ISEMPTY);
+ 
+ErrorMessageCount(LowestSeverityMessageType : Integer) : Integer
+  AssertRecordTemporaryOrInContext;
+  
+  ClearFilters;
+  SetContextFilter;
+  SETRANGE("Message Type","Message Type"::Error,LowestSeverityMessageType);
+  EXIT(COUNT);
+ 
+HasErrors(ShowMessage : Boolean) : Boolean
+  IF ErrorMessageCount("Message Type"::Error) = 0 THEN
+    EXIT(FALSE);
+  
+  IF ShowMessage AND GUIALLOWED THEN
+    MESSAGE(HasErrorsMsg);
+  
+  EXIT(TRUE);
+ 
+ShowErrors() IsPageOpen : Boolean
+  AssertRecordTemporaryOrInContext;
+  
+  ClearFilters;
+  IF ISEMPTY THEN
+    ERROR(GETLASTERRORTEXT);
+  
+  LogLastError;
+  
+  IF GUIALLOWED THEN BEGIN
+    ErrorMessages.SetRecords(Rec);
+    ErrorMessages.RUN;
+    IsPageOpen := TRUE;
+  END ELSE BEGIN
+    SETRANGE("Message Type","Message Type"::Error);
+    IF FINDFIRST THEN
+      ERROR(Description);
+    IsPageOpen := FALSE;
+  END;
+ 
+ShowErrorMessages(RollBackOnError : Boolean) ErrorString : Text
+  AssertRecordTemporaryOrInContext;
+  
+  ClearFilters;
+  SetContextFilter;
+  IF ISEMPTY THEN
+    EXIT;
+  
+  IF GUIALLOWED THEN BEGIN
+    ErrorMessages.SetRecords(Rec);
+    ErrorMessages.RUN;
+  END;
+  
+  ErrorString := ToString;
+  
+  IF RollBackOnError THEN
+    IF HasErrors(FALSE) THEN
+      ERROR('');
+  
+  EXIT;
+ 
+ToString() : Text
+  AssertRecordTemporaryOrInContext;
+  
+  ClearFilters;
+  SetContextFilter;
+  SETCURRENTKEY("Message Type",ID);
+  IF FINDSET THEN
+    REPEAT
+      IF ErrorString <> '' THEN
+        ErrorString += '\';
+      ErrorString += FORMAT("Message Type") + ': ' + Description;
+    UNTIL NEXT = 0;
+  ClearFilters;
+  EXIT(ErrorString);
+ 
+ThrowError()
+  AssertRecordTemporaryOrInContext;
+  
+  IF HasErrors(FALSE) THEN
+    ERROR(ToString);
+ 
+FieldValueIsWithinFilter(RecRelatedVariant : Variant;FieldNumber : Integer;VAR RecordRef : RecordRef;VAR FieldRef : FieldRef;FilterString : Text;FilterValue1 : Variant;FilterValue2 : Variant) : Boolean
+  IF NOT DataTypeManagement.GetRecordRefAndFieldRef(RecRelatedVariant,FieldNumber,RecordRef,FieldRef) THEN
+    EXIT(FALSE);
+  
+  TempRecordRef.OPEN(RecordRef.NUMBER,TRUE);
+  TempRecordRef.INIT;
+  TempFieldRef := TempRecordRef.FIELD(FieldNumber);
+  TempFieldRef.VALUE(FieldRef.VALUE);
+  TempRecordRef.INSERT;
+  
+  TempFieldRef.SETFILTER(FilterString,FilterValue1,FilterValue2);
+  
+  EXIT(NOT TempRecordRef.ISEMPTY);
+ 
+FindRecord(RecordID : RecordID;FieldNumber : Integer;MessageType : Integer;NewDescription : Text) : Integer
+  ClearFilters;
+  SetContextFilter;
+  SETRANGE("Record ID",RecordID);
+  SETRANGE("Field Number",FieldNumber);
+  SETRANGE("Message Type",MessageType);
+  SETRANGE(Description,COPYSTR(NewDescription,1,MAXSTRLEN(Description)));
+  IF FINDFIRST THEN
+    EXIT(ID);
+  EXIT(0);
+ 
+AssertRecordTemporary()
+  IF NOT ISTEMPORARY THEN
+    ERROR(DevMsgNotTemporaryErr);
+ 
+AssertRecordTemporaryOrInContext()
+  IF ContextErrorMessage."Context Table Number" = 0 THEN
+    AssertRecordTemporary;
+ 
+CopyToTemp(VAR TempErrorMessage : Record "Error Message")
+  IF NOT FINDSET THEN
+    EXIT;
+  
+  TempErrorMessage.RESET;
+  IF TempErrorMessage.FINDLAST THEN ;
+  TempID := TempErrorMessage.ID;
+  
+  REPEAT
+    IF TempErrorMessage.FindRecord("Record ID","Field Number","Message Type",Description) = 0 THEN BEGIN
+      TempID += 1;
+      TempErrorMessage := Rec;
+      TempErrorMessage.ID := TempID;
+      TempErrorMessage.INSERT;
+    END;
+  UNTIL NEXT = 0;
+  TempErrorMessage.RESET;
+ 
+CopyFromTemp(VAR TempErrorMessage : Record "Error Message")
+  IF NOT TempErrorMessage.FINDSET THEN
+    EXIT;
+  
+  REPEAT
+    ErrorMessage := TempErrorMessage;
+    ErrorMessage.ID := 0;
+    ErrorMessage.INSERT(TRUE);
+  UNTIL TempErrorMessage.NEXT = 0;
+ 
+CopyFromContext(ContextRecordVariant : Variant)
+  AssertRecordTemporary;
+  
+  IF NOT DataTypeManagement.GetRecordRef(ContextRecordVariant,RecordRef) THEN
+    EXIT;
+  
+  ErrorMessage.SETRANGE("Context Record ID",RecordRef.RECORDID);
+  ErrorMessage.CopyToTemp(Rec);
+ 
+ClearFilters()
+  LocalContextErrorMessage := ContextErrorMessage;
+  RESET;
+  ContextErrorMessage := LocalContextErrorMessage;
+ 
+SetContextFilter()
+  IF ContextErrorMessage."Context Table Number" = 0 THEN
+    SETRANGE("Context Record ID")
+  ELSE
+    SETRANGE("Context Record ID",ContextErrorMessage."Context Record ID");
+ 
+SetRecordFilter(RecordVariant : Variant)
+  DataTypeManagement.GetRecordRef(RecordVariant,RecordRef);
+  SETRANGE("Record ID",RecordRef.RECORDID);
+ 
+OnBeforeLogMessage(RecRelatedVariant : Variant;FieldNumber : Integer;MessageType : Integer;NewDescription : Text;VAR IsHandled : Boolean)
+
+ 
+Record ID - OnValidate()
+  "Table Number" := GetTableNo("Record ID");
+ 
+Field Number - OnValidate()
+  IF "Table Number" = 0 THEN
+    "Field Number" := 0;
+ 
+Context Record ID - OnValidate()
+  "Context Table Number" := GetTableNo("Context Record ID");
+ 
+Context Field Number - OnValidate()
+  IF "Context Table Number" = 0 THEN
+    "Context Field Number" := 0;
+ 

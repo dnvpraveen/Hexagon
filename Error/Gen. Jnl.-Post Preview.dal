@@ -1,0 +1,82 @@
+Preview(Subscriber : Variant;RecVar : Variant)
+  IF NOT Subscriber.ISCODEUNIT THEN
+    ERROR(SubscriberTypeErr);
+  IF NOT RecVar.ISRECORD THEN
+    ERROR(RecVarTypeErr);
+  
+  BINDSUBSCRIPTION(PostingPreviewEventHandler);
+  ErrorMessageMgt.Activate(ErrorMessageHandler);
+  ErrorMessageMgt.PushContext(RecVar,0,PreviewModeErr);
+  OnAfterBindSubscription;
+  
+  RunResult := RunPreview(Subscriber,RecVar);
+  
+  UNBINDSUBSCRIPTION(PostingPreviewEventHandler);
+  OnAfterUnbindSubscription;
+  
+  // The OnRunPreview event expects subscriber following template: Result := <Codeunit>.RUN
+  // So we assume RunPreview returns FALSE with the error.
+  // To prevent return FALSE without thrown error we check error call stack.
+  IF RunResult OR (GETLASTERRORCALLSTACK = '') THEN
+    ERROR(PreviewExitStateErr);
+  
+  IF GETLASTERRORTEXT <> PreviewModeErr THEN
+    IF ErrorMessageHandler.ShowErrors THEN
+      ERROR('');
+  ShowAllEntries;
+  ERROR('');
+ 
+IsActive() : Boolean
+  // The lookup to event subscription system virtual table is the performance killer.
+  // We call subscriber CU 20 to get active state of posting preview context.
+  OnSystemSetPostingPreviewActive(Result);
+  
+  OnAfterIsActive(Result);
+  EXIT(Result);
+ 
+RunPreview(Subscriber : Variant;RecVar : Variant) : Boolean
+  OnRunPreview(Result,Subscriber,RecVar);
+  EXIT(Result);
+ 
+ShowAllEntries()
+  IsHandled := FALSE;
+  OnBeforeShowAllEntries(TempDocumentEntry,IsHandled);
+  IF IsHandled THEN
+    EXIT;
+  
+  PostingPreviewEventHandler.FillDocumentEntry(TempDocumentEntry);
+  IF NOT TempDocumentEntry.ISEMPTY THEN BEGIN
+    GLPostingPreview.Set(TempDocumentEntry,PostingPreviewEventHandler);
+    GLPostingPreview.RUN
+  END ELSE
+    MESSAGE(NothingToPostMsg);
+ 
+ShowDimensions(TableID : Integer;EntryNo : Integer;DimensionSetID : Integer)
+  RecRef.OPEN(TableID);
+  DimMgt.ShowDimensionSet(DimensionSetID,STRSUBSTNO('%1 %2',RecRef.CAPTION,EntryNo));
+ 
+ThrowError()
+  OnBeforeThrowError;
+  ERROR(PreviewModeErr);
+ 
+OnRunPreview(VAR Result : Boolean;Subscriber : Variant;RecVar : Variant)
+
+ 
+OnAfterBindSubscription()
+
+ 
+OnAfterUnbindSubscription()
+
+ 
+OnSystemSetPostingPreviewActive(VAR Result : Boolean)
+
+ 
+OnAfterIsActive(VAR Result : Boolean)
+
+ 
+OnBeforeShowAllEntries(VAR TempDocumentEntry : Record "Document Entry";VAR IsHandled : Boolean)
+
+ 
+OnBeforeThrowError()
+
+ 
