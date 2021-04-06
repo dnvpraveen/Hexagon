@@ -42,7 +42,7 @@ tableextension 57017 "Hex Resource" extends Resource
         field(50106; HexCPQ; Option)
         {
             OptionCaption = ' ,L1,S1';
-            OptionMembers = ,L1,S1;
+            OptionMembers = " ",L1,S1;
             Description = 'HexCPQ';
         }
         field(50107; ERPCompanyNumber; Code[10])
@@ -58,7 +58,8 @@ tableextension 57017 "Hex Resource" extends Resource
     begin
         //Resource Master Integration
         CompanyInformation.GET;
-        ERPCompanyNumber := CompanyInformation."ERP Company No.";
+        //ERPCompanyNumber := CompanyInformation."ERP Company No.";
+        Validate(ERPCompanyNumber, CompanyInformation."ERP Company No.");
     end;
 
     trigger OnModify()
@@ -68,7 +69,8 @@ tableextension 57017 "Hex Resource" extends Resource
         //Resource Master Integration
         CompanyInformation.GET;
         IF ERPCompanyNumber = '' THEN
-            ERPCompanyNumber := CompanyInformation."ERP Company No.";
+            Validate(ERPCompanyNumber, CompanyInformation."ERP Company No.");
+        // ERPCompanyNumber := CompanyInformation."ERP Company No.";
     end;
 
 

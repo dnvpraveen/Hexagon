@@ -13,13 +13,13 @@ tableextension 57006 "Hex User Setup" extends "User Setup"
         field(50001; "PO Posting Rights"; Option)
         {
             OptionCaption = ' ,Receive,Invoice,Both';
-            OptionMembers = ,Receive,Invoice,Both;
+            OptionMembers = " ",Receive,Invoice,Both;
             Description = 'PO Posting Rights';
         }
         field(50002; "SO Posting Rights"; Option)
         {
             OptionCaption = '  ,Ship,Invoice,Both';
-            OptionMembers = ,Ship,Invoice,Both;
+            OptionMembers = " ",Ship,Invoice,Both;
             Description = 'SO Posting Rights';
         }
         //Description=IFRS15
