@@ -51,6 +51,24 @@ tableextension 57017 "Hex Resource" extends Resource
 
 
     }
+    trigger OnInsert()
+    var
+        CompanyInformation: Record "Company Information";
+    begin
+        //Resource Master Integration
+        CompanyInformation.GET;
+        ERPCompanyNumber := CompanyInformation."ERP Company No.";
+    end;
+
+    trigger OnModify()
+    var
+        CompanyInformation: Record "Company Information";
+    begin
+        //Resource Master Integration
+        CompanyInformation.GET;
+        IF ERPCompanyNumber = '' THEN
+            ERPCompanyNumber := CompanyInformation."ERP Company No.";
+    end;
 
 
 }
