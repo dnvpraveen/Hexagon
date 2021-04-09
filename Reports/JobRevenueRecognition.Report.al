@@ -3,8 +3,11 @@ report 50099 "Job Revenue Recognition"
     // TM TF IFRS15 03/07/18 'IFRS15 Services'
     //   Object created
     DefaultLayout = RDLC;
-    RDLCLayout = './JobRevenueRecognition.rdlc';
+    // RDLCLayout = 'C:\Users\praveen\Documents\AL\Hex Global\Reports\Layout\JobRevenueRecognition.rdl';
+    RDLCLayout = 'JobRevenueRecognition.rdl';
     Caption = 'Job Revenue Recognition';
+    ApplicationArea = All;
+    UsageCategory = ReportsAndAnalysis;
 
     dataset
     {
