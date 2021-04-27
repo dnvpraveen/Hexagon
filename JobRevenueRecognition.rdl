@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="ReportCaption">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>ReportCaption</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>ReportCaption</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="JobNoLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>JobNoLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>JobNoLbl</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TaskNoLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>TaskNoLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>TaskNoLbl</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="LineNoLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>LineNoLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>LineNoLbl</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PostingDocumentNoLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>PostingDocumentNoLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>PostingDocumentNoLbl</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PostingDateLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>PostingDateLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>PostingDateLbl</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TypeLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>TypeLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>TypeLbl</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="NoLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>NoLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>NoLbl</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="AmountLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>AmountLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>AmountLbl</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TotalLbl">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>TotalLbl</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>TotalLbl</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+        </Field>
+        <Field Name="Post">
+          <DataField>Post</DataField>
+        </Field>
+        <Field Name="PageNoCaption">
+          <DataField>PageNoCaption</DataField>
+        </Field>
+        <Field Name="TestReportnotpostedCaption">
+          <DataField>TestReportnotpostedCaption</DataField>
+        </Field>
+        <Field Name="JobTaskNo_JobPlanningLine">
+          <DataField>JobTaskNo_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="JobNo_JobPlanningLine">
+          <DataField>JobNo_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="IFRS15LineAmount_JobPlanningLine">
+          <DataField>IFRS15LineAmount_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="IFRS15LineAmount_JobPlanningLineFormat">
+          <DataField>IFRS15LineAmount_JobPlanningLineFormat</DataField>
+        </Field>
+        <Field Name="Type_JobPlanningLine">
+          <DataField>Type_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="No_JobPlanningLine">
+          <DataField>No_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="DocumentNo_JobPlanningLine">
+          <DataField>DocumentNo_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="DocumentDate">
+          <DataField>DocumentDate</DataField>
+        </Field>
+        <Field Name="LineNo_JobPlanningLine">
+          <DataField>LineNo_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="LocalCurrency">
+          <DataField>LocalCurrency</DataField>
+        </Field>
+        <Field Name="Job_Currencycode">
+          <DataField>Job_Currencycode</DataField>
+        </Field>
+        <Field Name="IFRS15LineAmountLCY_JobPlanningLine">
+          <DataField>IFRS15LineAmountLCY_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="IFRS15LineAmountLCY_JobPlanningLineFormat">
+          <DataField>IFRS15LineAmountLCY_JobPlanningLineFormat</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

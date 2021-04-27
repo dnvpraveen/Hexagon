@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -11,72 +11,6 @@
       <rd:DataSourceID>b9062933-0c15-43e0-bd9c-60b643994dd8</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="CompanyName">
-          <DataField>CompanyName</DataField>
-        </Field>
-        <Field Name="Post">
-          <DataField>Post</DataField>
-        </Field>
-        <Field Name="PageNoCaption">
-          <DataField>PageNoCaption</DataField>
-        </Field>
-        <Field Name="TestReportnotpostedCaption">
-          <DataField>TestReportnotpostedCaption</DataField>
-        </Field>
-        <Field Name="JobTaskNo_JobPlanningLine">
-          <DataField>JobTaskNo_JobPlanningLine</DataField>
-        </Field>
-        <Field Name="JobNo_JobPlanningLine">
-          <DataField>JobNo_JobPlanningLine</DataField>
-        </Field>
-        <Field Name="IFRS15LineAmount_JobPlanningLine">
-          <DataField>IFRS15LineAmount_JobPlanningLine</DataField>
-        </Field>
-        <Field Name="IFRS15LineAmount_JobPlanningLineFormat">
-          <DataField>IFRS15LineAmount_JobPlanningLineFormat</DataField>
-        </Field>
-        <Field Name="Type_JobPlanningLine">
-          <DataField>Type_JobPlanningLine</DataField>
-        </Field>
-        <Field Name="No_JobPlanningLine">
-          <DataField>No_JobPlanningLine</DataField>
-        </Field>
-        <Field Name="DocumentNo_JobPlanningLine">
-          <DataField>DocumentNo_JobPlanningLine</DataField>
-        </Field>
-        <Field Name="DocumentDate">
-          <DataField>DocumentDate</DataField>
-        </Field>
-        <Field Name="LineNo_JobPlanningLine">
-          <DataField>LineNo_JobPlanningLine</DataField>
-        </Field>
-        <Field Name="LocalCurrency">
-          <DataField>LocalCurrency</DataField>
-        </Field>
-        <Field Name="Job_Currencycode">
-          <DataField>Job_Currencycode</DataField>
-        </Field>
-        <Field Name="IFRS15LineAmountLCY_JobPlanningLine">
-          <DataField>IFRS15LineAmountLCY_JobPlanningLine</DataField>
-        </Field>
-        <Field Name="IFRS15LineAmountLCY_JobPlanningLineFormat">
-          <DataField>IFRS15LineAmountLCY_JobPlanningLineFormat</DataField>
-        </Field>
-      </Fields>
-      <rd:DataSetInfo>
-        <rd:DataSetName>DataSet</rd:DataSetName>
-        <rd:SchemaPath>Report.xsd</rd:SchemaPath>
-        <rd:TableName>Result</rd:TableName>
-      </rd:DataSetInfo>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -1643,4 +1577,65 @@ End Function
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+        </Field>
+        <Field Name="Post">
+          <DataField>Post</DataField>
+        </Field>
+        <Field Name="PageNoCaption">
+          <DataField>PageNoCaption</DataField>
+        </Field>
+        <Field Name="TestReportnotpostedCaption">
+          <DataField>TestReportnotpostedCaption</DataField>
+        </Field>
+        <Field Name="JobTaskNo_JobPlanningLine">
+          <DataField>JobTaskNo_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="JobNo_JobPlanningLine">
+          <DataField>JobNo_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="IFRS15LineAmount_JobPlanningLine">
+          <DataField>IFRS15LineAmount_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="IFRS15LineAmount_JobPlanningLineFormat">
+          <DataField>IFRS15LineAmount_JobPlanningLineFormat</DataField>
+        </Field>
+        <Field Name="Type_JobPlanningLine">
+          <DataField>Type_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="No_JobPlanningLine">
+          <DataField>No_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="DocumentNo_JobPlanningLine">
+          <DataField>DocumentNo_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="DocumentDate">
+          <DataField>DocumentDate</DataField>
+        </Field>
+        <Field Name="LineNo_JobPlanningLine">
+          <DataField>LineNo_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="LocalCurrency">
+          <DataField>LocalCurrency</DataField>
+        </Field>
+        <Field Name="Job_Currencycode">
+          <DataField>Job_Currencycode</DataField>
+        </Field>
+        <Field Name="IFRS15LineAmountLCY_JobPlanningLine">
+          <DataField>IFRS15LineAmountLCY_JobPlanningLine</DataField>
+        </Field>
+        <Field Name="IFRS15LineAmountLCY_JobPlanningLineFormat">
+          <DataField>IFRS15LineAmountLCY_JobPlanningLineFormat</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>

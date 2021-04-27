@@ -3,8 +3,8 @@ report 50099 "Job Revenue Recognition"
     // TM TF IFRS15 03/07/18 'IFRS15 Services'
     //   Object created
     DefaultLayout = RDLC;
-    // RDLCLayout = 'C:\Users\praveen\Documents\AL\Hex Global\Reports\Layout\JobRevenueRecognition.rdl';
-    RDLCLayout = 'JobRevenueRecognition.rdl';
+    RDLCLayout = 'Reports\Layout\JobRevenueRecognition.rdl';
+    //RDLCLayout = 'JobRevenueRecognition.rdl';
     Caption = 'Job Revenue Recognition';
     ApplicationArea = All;
     UsageCategory = ReportsAndAnalysis;
@@ -111,7 +111,7 @@ report 50099 "Job Revenue Recognition"
             var
                 LJobTask: Record 1001;
             begin
-                Customer.GET("Bill-to Customer No.");
+                If Customer.GET("Bill-to Customer No.") then;
                 //GK
                 IF Post THEN BEGIN
                     TotalIFRSLineAmount := 0;
