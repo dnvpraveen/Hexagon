@@ -51,11 +51,14 @@ codeunit 55003 HexInventorySmax
         HexCustomerCreditCheck.INIT;
         CompanyInformation.GET;
         IF HexCustomerCreditCheck.FINDLAST THEN BEGIN
+            HexCustomerCreditCheck.CustomerAvailableCredit := 0;
+            HexCustomerCreditCheck."Credit Limit (LCY)" := 0;
             HexCustomerCreditCheck."Entry No." := HexCustomerCreditCheck."Entry No." + 1;
             HexCustomerCreditCheck.ERPCompanyNo := CompanyInformation."ERP Company No.";
             HexCustomerCreditCheck."No." := Customer."No.";
             HexCustomerCreditCheck."Our Account No." := Customer."Our Account No.";
             HexCustomerCreditCheck.Blocked := Customer.Blocked;
+            HexCustomerCreditCheck."SFDC Active" := Customer."SFDC Active";
             HexCustomerCreditCheck.Name := Customer.Name;
             HexCustomerCreditCheck."Name 2" := Customer."Name 2";
             HexCustomerCreditCheck."Currency Code" := Customer."Currency Code";
@@ -70,7 +73,11 @@ codeunit 55003 HexInventorySmax
             END;
             HexCustomerCreditCheck.TargetSystem := 'SMAX';
             HexCustomerCreditCheck.INSERT;
-        END
+        END ELSE begin
+            HexCustomerCreditCheck."Entry No." := HexCustomerCreditCheck."Entry No." + 1;
+            HexCustomerCreditCheck.ERPCompanyNo := CompanyInformation."ERP Company No.";
+            HexCustomerCreditCheck.INSERT;
+        end;
     END;
 
     PROCEDURE HexPriceBook(VAR SalesPrice: Record 7002);
@@ -96,7 +103,11 @@ codeunit 55003 HexInventorySmax
             HexPriceBook."Ending Date" := SalesPrice."Ending Date";
             HexPriceBook.TargetSystem := 'SMAX';
             HexPriceBook.INSERT;
-        END
+        END else begin
+            HexPriceBook."Entry No." := HexPriceBook."Entry No." + 1;
+            HexPriceBook.ERPCompanyNo := CompanyInformation."ERP Company No.";
+            HexPriceBook.INSERT;
+        end;
     END;
 
     PROCEDURE HexRsPriceBook(VAR ResourcePrice: Record 201);
@@ -122,7 +133,11 @@ codeunit 55003 HexInventorySmax
             //HexPriceBook."Ending Date" := SalesPrice."Ending Date";
             HexPriceBook.TargetSystem := 'SMAX';
             HexPriceBook.INSERT;
-        END
+        END else begin
+            HexPriceBook."Entry No." := HexPriceBook."Entry No." + 1;
+            HexPriceBook.ERPCompanyNo := CompanyInformation."ERP Company No.";
+            HexPriceBook.INSERT;
+        end;
     END;
 
     PROCEDURE HexInventoryBalanceUpdate();

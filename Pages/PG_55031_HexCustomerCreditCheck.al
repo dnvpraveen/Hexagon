@@ -29,6 +29,7 @@ page 55031 HexCustomerCreditCheck
                 field(Blocked; Blocked)
                 {
                 }
+                field("SFDC Active"; "SFDC Active") { }
                 field(Name; Name)
                 {
                 }

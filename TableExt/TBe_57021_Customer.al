@@ -8,11 +8,18 @@ tableextension 57021 "Hex Customer" extends Customer
             // Add changes to table fields here
             Description = 'PO Box';
         }
+        field(52001; "SFDC Active"; Option)
+        {
+            OptionCaption = 'In Draft,InActive,Active';
+            OptionMembers = "In Draft",InActive,Active;
+            Description = 'SFDC Active';
+        }
+
     }
     var
         myInt: Integer;
 
-    trigger OnInsert()
+    trigger OnModify()
     var
         HexInventorySmax: Codeunit HexInventorySmax;
     begin

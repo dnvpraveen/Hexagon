@@ -83,6 +83,12 @@ table 55010 HexCustomerCreditCheck
         {
             Description = 'CustomerAvailableCredit';
         }
+        field(50026; "SFDC Active"; Option)
+        {
+            OptionCaption = 'In Draft,InActive,Active';
+            OptionMembers = "In Draft",InActive,Active;
+            Description = 'SFDC Active';
+        }
     }
 
     keys
