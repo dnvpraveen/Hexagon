@@ -14,6 +14,19 @@ tableextension 57021 "Hex Customer" extends Customer
             OptionMembers = "In Draft",InActive,Active;
             Description = 'SFDC Active';
         }
+        field(52002; HEXCountry; Code[10])
+        {
+            trigger OnValidate()
+            var
+                Findcode: record Currency;
+            begin
+                Findcode.INIT;
+                Findcode.SetRange("ISO Code", HEXCountry);
+                IF Findcode.findfirst then
+                    //Error('check the ch');
+                "Country/Region Code" := Findcode.Code;
+            end;
+        }
         modify(Blocked)
         {
             trigger OnAfterValidate()

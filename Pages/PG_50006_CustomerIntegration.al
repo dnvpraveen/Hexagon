@@ -19,7 +19,8 @@ page 50006 CustomerIntegration
                 field("Address 2"; "Address 2") { }
                 field(City; City) { }
                 field(County; County) { }
-                field("Country/Region Code"; "Country/Region Code") { }
+                //field("Country/Region Code"; "Country/Region Code") { }
+                field(HEXCountry; HEXCountry) { }
                 field("Post Code"; "Post Code") { }
                 field("Currency Code"; "Currency Code") { }
                 field("Phone No."; "Phone No.") { }
@@ -51,6 +52,4 @@ page 50006 CustomerIntegration
         }
     }
 
-    var
-        myInt: Integer;
 }
