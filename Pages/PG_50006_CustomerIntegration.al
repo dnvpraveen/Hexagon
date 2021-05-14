@@ -52,4 +52,7 @@ page 50006 CustomerIntegration
         }
     }
 
+    var
+        myInt: Integer;
+        MXCountry: code[10];
 }

@@ -18,13 +18,12 @@ tableextension 57021 "Hex Customer" extends Customer
         {
             trigger OnValidate()
             var
-                Findcode: record Currency;
+                HEXFindcode: record "Country/Region";
             begin
-                Findcode.INIT;
-                Findcode.SetRange("ISO Code", HEXCountry);
-                IF Findcode.findfirst then
-                    //Error('check the ch');
-                "Country/Region Code" := Findcode.Code;
+                HEXFindcode.INIT;
+                HEXFindcode.SetRange("ISO Code", HEXCountry);
+                IF HEXFindcode.FindFirst() then
+                    "Country/Region Code" := HEXFindcode.Code;
             end;
         }
         modify(Blocked)
