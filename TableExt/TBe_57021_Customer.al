@@ -14,10 +14,28 @@ tableextension 57021 "Hex Customer" extends Customer
             OptionMembers = "In Draft",InActive,Active;
             Description = 'SFDC Active';
         }
+        modify(Blocked)
+        {
+            trigger OnAfterValidate()
+            begin
+                IF NOT SFDCflag THEN
+                    IF Blocked = Blocked::" " THEN
+                        "SFDC Active" := "SFDC Active"::Active
+                    ELSE
+                        "SFDC Active" := "SFDC Active"::Inactive;
+                SFDCflag := FALSE;
+            end;
+
+        }
 
     }
     var
-        myInt: Integer;
+        SFDCflag: Boolean;
+
+    trigger OnInsert()
+    begin
+        SFDCflag := TRUE;
+    end;
 
     trigger OnModify()
     var

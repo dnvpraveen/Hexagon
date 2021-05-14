@@ -12,7 +12,8 @@ pageextension 57008 "Hex Customer Card" extends "Customer Card"
             }
             field("SFDC Active"; "SFDC Active")
             {
-
+                Caption = 'SFDC Active';
+                Editable = false;
             }
         }
     }

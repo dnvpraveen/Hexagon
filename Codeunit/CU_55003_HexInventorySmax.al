@@ -43,42 +43,53 @@ codeunit 55003 HexInventorySmax
         END
     end;
 
-    PROCEDURE HexCustomerCreditCheck(VAR Customer: Record 18);
+    PROCEDURE HexCustomerCreditCheck(Customer: Record 18);
     VAR
         HexCustomerCreditCheck: Record 55010;
         CompanyInformation: Record 79;
-    BEGIN
+        CustLedgerEntry: Record 21;
+    begin
         HexCustomerCreditCheck.INIT;
+        CustLedgerEntry.INIT;
         CompanyInformation.GET;
-        IF HexCustomerCreditCheck.FINDLAST THEN BEGIN
+        IF HexCustomerCreditCheck.FINDLAST THEN begin
             HexCustomerCreditCheck.CustomerAvailableCredit := 0;
             HexCustomerCreditCheck."Credit Limit (LCY)" := 0;
+            HexCustomerCreditCheck.CustomerOverDue := FALSE;
             HexCustomerCreditCheck."Entry No." := HexCustomerCreditCheck."Entry No." + 1;
             HexCustomerCreditCheck.ERPCompanyNo := CompanyInformation."ERP Company No.";
             HexCustomerCreditCheck."No." := Customer."No.";
             HexCustomerCreditCheck."Our Account No." := Customer."Our Account No.";
             HexCustomerCreditCheck.Blocked := Customer.Blocked;
-            HexCustomerCreditCheck."SFDC Active" := Customer."SFDC Active";
+            HexCustomerCreditCheck."SFDC Active" := FORMAT(Customer."SFDC Active");
             HexCustomerCreditCheck.Name := Customer.Name;
             HexCustomerCreditCheck."Name 2" := Customer."Name 2";
             HexCustomerCreditCheck."Currency Code" := Customer."Currency Code";
-            IF Customer."Balance Due (LCY)" > 0 THEN
-                HexCustomerCreditCheck.CustomerOverDue := TRUE
-            ELSE
-                HexCustomerCreditCheck.CustomerOverDue := FALSE;
-            HexCustomerCreditCheck.BypassCreditCheck := TRUE;
+            HexCustomerCreditCheck.BypassCreditCheck := FALSE;
+            Customer.CALCFIELDS("Balance (LCY)");
+            Customer.CALCFIELDS("Outstanding Orders (LCY)");
+            Customer.CALCFIELDS("Shipped Not Invoiced (LCY)");
+            Customer.CALCFIELDS("Outstanding Invoices (LCY)");
             IF Customer."Credit Limit (LCY)" <> 0 THEN BEGIN
-                HexCustomerCreditCheck.CustomerAvailableCredit := Customer."Credit Limit (LCY)" - Customer."Balance (LCY)";
+                HexCustomerCreditCheck.CustomerAvailableCredit := Customer."Credit Limit (LCY)" - (Customer."Balance (LCY)" + Customer."Outstanding Orders (LCY)" + Customer."Shipped Not Invoiced (LCY)" + Customer."Outstanding Invoices (LCY)");
                 HexCustomerCreditCheck."Credit Limit (LCY)" := Customer."Credit Limit (LCY)";
             END;
+            //----------------
+            CustLedgerEntry.SETRANGE("Customer No.", Customer."No.");
+            CustLedgerEntry.SETFILTER("Due Date", '<%1', TODAY);
+            IF CustLedgerEntry.FIND('+') THEN BEGIN
+                CustLedgerEntry.CALCFIELDS("Remaining Amount");
+                // MESSAGE(FORMAT(CustLedgerEntry."Remaining Amount"));
+                IF CustLedgerEntry."Remaining Amount" <> 0 THEN
+                    HexCustomerCreditCheck.CustomerOverDue := TRUE
+                //ELSE
+                //HexCustomerCreditCheck.CustomerOverDue := FALSE;
+            END;
+
             HexCustomerCreditCheck.TargetSystem := 'SMAX';
             HexCustomerCreditCheck.INSERT;
-        END ELSE begin
-            HexCustomerCreditCheck."Entry No." := HexCustomerCreditCheck."Entry No." + 1;
-            HexCustomerCreditCheck.ERPCompanyNo := CompanyInformation."ERP Company No.";
-            HexCustomerCreditCheck.INSERT;
-        end;
-    END;
+        END;
+    end;
 
     PROCEDURE HexPriceBook(VAR SalesPrice: Record 7002);
     VAR

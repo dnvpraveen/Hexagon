@@ -65,4 +65,13 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
 
     var
         myInt: Integer;
+
+    trigger OnModify()
+    var
+        HexInventorySmax: Codeunit HexInventorySmax;
+        HexCustomer: Record Customer;
+    begin
+        IF HexCustomer.GET(Rec."Sell-to Customer No.") THEN
+            HexInventorySmax.HexCustomerCreditCheck(HexCustomer);//HEXSmax1
+    end;
 }
