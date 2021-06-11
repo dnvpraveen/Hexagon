@@ -8,7 +8,7 @@ tableextension 57026 "Hex Purchase Header" extends "Purchase Header"
             Description = 'Job No.';
 
         }
-        field(60001; "Cancel Short Close"; Option)
+        field(55001; "Cancel Short Close"; Option)
         {
             OptionCaption = ' ,Cancelled,Short Closed';
             OptionMembers = " ",Cancelled,"Short Closed";
