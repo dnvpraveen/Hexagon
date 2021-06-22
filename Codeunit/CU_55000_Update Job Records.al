@@ -46,7 +46,8 @@ codeunit 55000 "Update Job Records"
                                 JobRecordsforSmax."Address 2" := Customer."Address 2";
                                 JobRecordsforSmax."Post Code" := Customer."Post Code";
                                 JobRecordsforSmax."BOM Component" := JobPlanningLine."BOM Component";
-                                JobRecordsforSmax."Country /Region Code" := Customer."Country/Region Code";
+                                //JobRecordsforSmax."Country /Region Code" := Customer."Country/Region Code";//Mexico Country convertion
+                                JobRecordsforSmax."Country /Region Code" := Customer.HEXCountry;//Mexico Country convertion
                                 IF Customer."Customer Posting Group" = 'DOMESTIC' THEN
                                     JobRecordsforSmax."Customer Type" := 'DO';
                                 IF (Customer."Customer Posting Group" = 'FOREIGN') OR (Customer."Customer Posting Group" = 'INTERCOMP') THEN
@@ -92,7 +93,8 @@ codeunit 55000 "Update Job Records"
                                 JobRecordsforSmax.Address := Customer.Address;
                                 JobRecordsforSmax."Address 2" := Customer."Address 2";
                                 JobRecordsforSmax."Post Code" := Customer."Post Code";
-                                JobRecordsforSmax."Country /Region Code" := Customer."Country/Region Code";
+                                //JobRecordsforSmax."Country /Region Code" := Customer."Country/Region Code";//Mexico Country convertion
+                                JobRecordsforSmax."Country /Region Code" := Customer.HEXCountry;//Mexico Country convertion
                                 IF Customer."Customer Posting Group" = 'DOMESTIC' THEN
                                     JobRecordsforSmax."Customer Type" := 'DO';
                                 IF (Customer."Customer Posting Group" = 'FOREIGN') OR (Customer."Customer Posting Group" = 'INTERCOMP') THEN

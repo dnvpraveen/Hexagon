@@ -185,7 +185,7 @@ table 55015 "Sales Header Archive - ACK"
             ; TableRelation = Language;
             Description = 'Language Code';
         }
-        field(43; "Salesperson Code"; Code[10])
+        field(43; "Salesperson Code"; Code[20])
         {
             TableRelation = "Salesperson/Purchaser";
             Description = 'Salesperson Code';
