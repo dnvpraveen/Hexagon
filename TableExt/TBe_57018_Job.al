@@ -270,6 +270,12 @@ tableextension 57018 "Hex Job" extends Job
             TableRelation = "Salesperson/Purchaser" WHERE("Project Manager" = CONST(false));
         }
     }
+    trigger OnBeforeInsert()
+    begin
+        //gk
+        Status := Status::Planning;
+    end;
+
     trigger OnAfterInsert()
     var
         CompanyInformation: Record "Company Information";
@@ -281,7 +287,7 @@ tableextension 57018 "Hex Job" extends Job
         JobsSetup.Get;
         "ERP Company No." := CompanyInformation."ERP Company No.";
         //gk
-        Status := Status::Planning;
+        // Status := Status::Planning;
         //<<HEXGBJOB.01
         //Create Dimension Value for the Job
         DimValue.INIT;

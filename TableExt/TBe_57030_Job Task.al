@@ -93,8 +93,18 @@ tableextension 57030 "Job Task" extends "Job Task"
             trigger OnAfterValidate()
             var
                 job: Record job;
+                JobTaskMaster: Record "Job Task Master_New";
             begin
                 Job.GET("Job No.");
+
+                JobTaskMaster.RESET;
+                JobTaskMaster.SETRANGE("Job Task Code", "Job Task No.");
+                IF JobTaskMaster.FINDFIRST THEN BEGIN
+                    VALIDATE("Performance Obligation", JobTaskMaster."Performance Obligation");
+                    VALIDATE("Order Type", JobTaskMaster."Order Type");
+                    VALIDATE("Activity Type", JobTaskMaster."Activity Type");
+                END ELSE
+                    ERROR('Job Task No not exists in Job Task Master');
                 //gk Smax1.0
                 IF Job."Order Type" <> Job."Order Type"::System THEN
                     Job.TESTFIELD("Product Serial No.");

@@ -197,15 +197,13 @@ tableextension 57027 "Job Planning Line" extends "Job Planning Line"
                 //gk Smax1.0
                 "ERP Company No." := Job."ERP Company No.";
                 "Opportunity No." := Job."Opportunity No.";
-                IF JobTask.GET("Job No.", "Job Task No.") then begin
-                    "Activity Type" := JobTask."Activity Type";
-                    "Order Type" := JobTask."Order Type";
-                end;
+                JobTask.GET("Job No.", "Job Task No.");
+                "Activity Type" := JobTask."Activity Type";
+                "Order Type" := JobTask."Order Type";
                 IF ((Type <> Type::Item) AND (JobTask."Activity Type" = JobTask."Activity Type"::Purchase)) THEN
                     ERROR('Type should be Item for Activity Type Purchase');
                 IF ((Type = Type::Item) AND (JobTask."Activity Type" <> JobTask."Activity Type"::Purchase)) THEN
                     ERROR('Type should be Resource for Activity Type NOT Purchase');
-                //gk Smax1.0
                 //gk Smax1.0
             end;
         }
