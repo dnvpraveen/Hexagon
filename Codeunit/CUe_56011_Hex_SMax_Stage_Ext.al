@@ -823,22 +823,79 @@ codeunit 56011 "Hex Smax Stage Ext"
     end;
 
     //Codeunit 5520 Get Unplanned Demand
-
-
-
-
     // Codeunit 12 Gen. Jnl.-Post Line
     // [EventSubscriber(ObjectType::Codeunit, 12, 'OnBeforeInitGLEntry', '', false, false)]
     // procedure "Hex OnBeforeInitGLEntry Ext"(VAR GenJournalLine : Record "Gen. Journal Line")
     // var
     // begin
     //     //gk
-
     //     //gk
     // end;
-
     //Codeunit 80 Sales-Post
 
+    [EventSubscriber(ObjectType::Table, 5744, 'OnAfterCopyFromTransferHeader', '', false, false)]
+    procedure "Hex CopyFromTransferHeader"(VAR TransferShipmentHeader: Record "Transfer Shipment Header"; TransferHeader: Record "Transfer Header")
+    var
+        JobsSetup: Record "Jobs Setup";
+    begin
+        //gk
+        //HEX  SMAX Code
+        TransferShipmentHeader."Sell-to Customer No." := TransferHeader."Sell-to Customer No.";
+        TransferShipmentHeader."Sell-to Customer Name" := TransferHeader."Sell-to Customer Name";
+        TransferShipmentHeader."Order Created" := TransferHeader."Order Created";
+        TransferShipmentHeader."Order Inserted" := TransferHeader."Order Inserted";
+        TransferShipmentHeader."Order Type" := TransferHeader."Order Type";
+        TransferShipmentHeader."Smax Order No." := TransferHeader."Smax Order No.";
+        TransferShipmentHeader."Parts Order No." := TransferHeader."Parts Order No.";
+        TransferShipmentHeader."Target System" := TransferHeader."Target System";
+        TransferShipmentHeader."Header Status" := TransferHeader."Header Status"::Shipped;
+        // HEX END
+        //gk
+
+    end;
+
+    [EventSubscriber(ObjectType::Table, 5745, 'OnAfterCopyFromTransferLine', '', false, false)]
+    procedure "Hex COnAfterCopyFromTransferLine"(VAR TransferShipmentLine: Record "Transfer Shipment Line"; TransferLine: Record "Transfer Line")
+    var
+        JobsSetup: Record "Jobs Setup";
+    begin
+        //gk
+        // HEX SMAX Code
+        TransferShipmentLine."Smax Line No." := TransferLine."Smax Line No.";
+        TransferShipmentLine."Action Code" := TransferLine."Action Code";
+        IF TransferLine."Qty. to Ship" <> TransferLine."Qty. to Ship (Base)" THEN
+            TransferShipmentLine."Line Status" := TransferLine."Line Status"::"Partially shipped"
+        ELSE
+            TransferShipmentLine."Line Status" := TransferLine."Line Status"::Shipped;
+        TransferShipmentLine."Order Created" := TRUE;
+        TransferShipmentLine."Order Dispatched" := TRUE;
+        // HEX END;
+        //gk
+
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 5704, 'OnRunOnBeforeCommit', '', false, false)]
+    procedure "Hex OnRunOnBeforeCommit"(VAR TransferHeader: Record "Transfer Header"; TransferShipmentHeader: Record "Transfer Shipment Header")
+    var
+        LTransferShipmentHeader: Record "Transfer Shipment Header";
+        LTransferShipmentLine: Record "Transfer Shipment Line";
+    begin
+        //gk
+        IF LTransferShipmentHeader.GET(TransferShipmentHeader."No.") THEN BEGIN
+            LTransferShipmentLine.RESET;
+            LTransferShipmentLine.SETRANGE("Document No.", LTransferShipmentHeader."No.");
+            LTransferShipmentLine.SETFILTER("Line Status", '<>%1', LTransferShipmentLine."Line Status"::Shipped);
+            IF LTransferShipmentLine.FINDFIRST THEN BEGIN
+                LTransferShipmentHeader."Header Status" := LTransferShipmentHeader."Header Status"::"Partially shipped";
+                LTransferShipmentHeader.MODIFY;
+            END ELSE BEGIN
+                LTransferShipmentHeader."Header Status" := LTransferShipmentHeader."Header Status"::Shipped;
+                LTransferShipmentHeader.MODIFY
+            END;
+        END;
+        //gk
+
+    end;
 
     var
         ArchiveMgt: Codeunit ArchiveManagement;

@@ -29,17 +29,18 @@ tableextension 57033 "Hex Transfer Line" extends "Transfer Line"
     }
 
 
-    // trigger OnInsert()
-    // var
+    trigger OnInsert()
+    var
 
-    //     TransLine2: Record "Transfer Line";
-    // begin
-    //     OnAfterTestStatusOpen
-    //     TransLine2.RESET;
-    //     TransLine2.SETFILTER("Document No.", "No.");
-    //     IF TransLine2.FINDLAST THEN
-    //         "Line No." := TransLine2."Line No." + 1;
-    // end;
+        TransLine2: Record "Transfer Line";
+        TransHeader: Record "transfer header";
+    begin
+        //gk
+        TransLine2.RESET;
+        TransLine2.SETFILTER("Document No.", TransHeader."No.");
+        IF TransLine2.FINDLAST THEN
+            "Line No." := TransLine2."Line No." + 1;
+    end;
 
     var
         myInt: Integer;
