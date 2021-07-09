@@ -14,6 +14,10 @@ pageextension 57016 "Hex Resource Card" extends "Resource Card"
                 Editable = false;
             }
         }
+        addafter(Type)
+        {
+            field("SVMX Work Type"; "SVMX Work Type") { }
+        }
     }
 
     actions
