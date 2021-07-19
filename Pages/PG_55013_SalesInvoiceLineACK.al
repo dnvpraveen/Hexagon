@@ -2,7 +2,10 @@ page 55013 "Sales Invoice Line ACK"
 {
     PageType = ListPart;
     SourceTable = "Sales Invoice Line_Ack";
-
+    ApplicationArea = All;
+    UsageCategory = Lists;
+    Editable = true;
+    InsertAllowed = true;
     layout
     {
         area(content)
