@@ -8,6 +8,8 @@ page 55029 "SMAX Sales Invoice Lines"
     LinksAllowed = false;
     MultipleNewLines = true;
     PageType = List;
+    ApplicationArea = All;
+    UsageCategory = Lists;
     SourceTable = "Sales Line";
     SourceTableView = SORTING("Document Type", "Document No.", "Line No.")
                       ORDER(Ascending)
