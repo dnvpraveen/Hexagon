@@ -18,6 +18,10 @@ pageextension 57012 "Hex Sales Order Subform" extends "Sales Order Subform"
             {
                 Editable = false;
             }
+            field("Ready to Invoice"; "Ready to Invoice")
+            {
+                Editable = true;
+            }
         }
     }
 

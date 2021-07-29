@@ -916,5 +916,6 @@ codeunit 56011 "Hex Smax Stage Ext"
         ArchiveMgt: Codeunit ArchiveManagement;
         HasGotGLSetup: Boolean;
         GLSetupShortcutDimCode: ARRAY[8] OF Code[20];
+        CUdebug: codeunit "Sales-Post";
 
 }

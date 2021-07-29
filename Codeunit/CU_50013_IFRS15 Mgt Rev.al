@@ -93,7 +93,7 @@ codeunit 50013 "IFRS15 Mgt Rev"
         CLEAR(GenJournalLine."Bal. VAT Prod. Posting Group");
         GenJournalLine.INSERT;
         //END;
-        COMMIT;
+        //COMMIT; DNVP 
         //GenJnlPostBatch.Preview(GenJournalLine);
         GenJnlPost.Preview(GenJournalLine);
         //      GLPreview(GenJournalLine);
@@ -229,7 +229,7 @@ codeunit 50013 "IFRS15 Mgt Rev"
                 GenJournalLine.INSERT;
             //END;
             UNTIL JobPlanningLine.NEXT = 0;
-        COMMIT;
+        // COMMIT; DNVP 
         //    GenJnlPostBatch.Preview(GenJournalLine);
         GenJnlPost.Preview(GenJournalLine);
         //      GLPreview(GenJournalLine);
