@@ -897,16 +897,28 @@ codeunit 56011 "Hex Smax Stage Ext"
 
     end;
 
+    [EventSubscriber(ObjectType::Codeunit, 80, 'OnBeforePostLines', '', false, false)]
+    procedure "Hex OnBeforePostLines"(VAR SalesLine: Record "Sales Line"; SalesHeader: Record "Sales Header"; CommitIsSuppressed: Boolean; PreviewMode: Boolean)
+    begin
+        //gk
+        // HEX SMAX
+        NewPreviewMode := PreviewMode;
+        // HEX SMAX
+    end;
+
     [EventSubscriber(ObjectType::Codeunit, 80, 'OnAfterSalesInvLineInsert', '', false, false)]
     procedure "Hex OnAfterSalesInvLineInsert"(VAR SalesInvLine: Record "Sales Invoice Line"; SalesInvHeader: Record "Sales Invoice Header"; SalesLine: Record "Sales Line"; ItemLedgShptEntryNo: Integer; WhseShip: Boolean; WhseReceive: Boolean; CommitIsSuppressed: Boolean; VAR SalesHeader: Record "Sales Header"; VAR TempItemChargeAssgntSales: Record "Item Charge Assignment (Sales)")
     var
         UpdateJobRecords: Codeunit "Update Job Records";
+        Test80: Codeunit "sales-post";
     begin
         //gk
         // HEX SMAX
-        //IF NOT PreviewMode THEN
-        UpdateJobRecords.UpdateBillingInvoiceDetails(SalesInvHeader, SalesInvLine);
-        // HEX SMAX
+        IF NOT NewPreviewMode THEN begin
+            Message('Mode %1 looks', format(NewPreviewMode));
+            UpdateJobRecords.UpdateBillingInvoiceDetails(SalesInvHeader, SalesInvLine);
+            // HEX SMAX
+        end;
     END;
     //gk
 
@@ -917,5 +929,6 @@ codeunit 56011 "Hex Smax Stage Ext"
         HasGotGLSetup: Boolean;
         GLSetupShortcutDimCode: ARRAY[8] OF Code[20];
         CUdebug: codeunit "Sales-Post";
+        NewPreviewMode: Boolean;
 
 }
