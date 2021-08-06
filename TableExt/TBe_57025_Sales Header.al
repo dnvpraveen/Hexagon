@@ -61,6 +61,10 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
         {
             Description = 'User Created';
         }
+        field(70000; Preview; Boolean)
+        {
+            Description = 'Preview';
+        }
     }
 
     var

@@ -897,12 +897,15 @@ codeunit 56011 "Hex Smax Stage Ext"
 
     end;
 
-    [EventSubscriber(ObjectType::Codeunit, 80, 'OnBeforePostLines', '', false, false)]
-    procedure "Hex OnBeforePostLines"(VAR SalesLine: Record "Sales Line"; SalesHeader: Record "Sales Header"; CommitIsSuppressed: Boolean; PreviewMode: Boolean)
+    [EventSubscriber(ObjectType::Codeunit, 80, 'OnBeforePostSalesDoc', '', false, false)]
+    procedure "Hex OnBeforePostSalesDoc"(VAR SalesHeader: Record "Sales Header"; CommitIsSuppressed: Boolean; PreviewMode: Boolean; VAR HideProgressWindow: Boolean)
     begin
         //gk
         // HEX SMAX
-        NewPreviewMode := PreviewMode;
+        // NewPreviewMode := PreviewMode;
+        // Message('Mode1 %1 looks', format(NewPreviewMode));
+        SalesHeader.Preview := PreviewMode;
+        SalesHeader.Modify();
         // HEX SMAX
     end;
 
@@ -914,8 +917,8 @@ codeunit 56011 "Hex Smax Stage Ext"
     begin
         //gk
         // HEX SMAX
-        IF NOT NewPreviewMode THEN begin
-            Message('Mode %1 looks', format(NewPreviewMode));
+        //Error('finding');
+        IF NOT SalesHeader.Preview THEN begin
             UpdateJobRecords.UpdateBillingInvoiceDetails(SalesInvHeader, SalesInvLine);
             // HEX SMAX
         end;
