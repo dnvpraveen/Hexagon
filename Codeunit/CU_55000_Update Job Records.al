@@ -209,24 +209,26 @@ codeunit 55000 "Update Job Records"
         SalesInvoiceHeader_ACk: Record 55012;
         SalesInvoiceLine_Ack: Record 55013;
     BEGIN
-        SalesInvoiceHeader_ACk.RESET;
-        SalesInvoiceHeader_ACk.SETRANGE("No.", LSalesInvoiceHeader."No.");
-        IF NOT SalesInvoiceHeader_ACk.FINDFIRST THEN BEGIN
-            SalesInvoiceHeader_ACk.INIT;
-            SalesInvoiceHeader_ACk.TRANSFERFIELDS(LSalesInvoiceHeader);
-            SalesInvoiceHeader_ACk.INSERT;
-        END;
+        If LSalesInvoiceHeader."Order Created" then begin
+            SalesInvoiceHeader_ACk.RESET;
+            SalesInvoiceHeader_ACk.SETRANGE("No.", LSalesInvoiceHeader."No.");
+            IF NOT SalesInvoiceHeader_ACk.FINDFIRST THEN BEGIN
+                SalesInvoiceHeader_ACk.INIT;
+                SalesInvoiceHeader_ACk.TRANSFERFIELDS(LSalesInvoiceHeader);
+                SalesInvoiceHeader_ACk.INSERT;
+            END;
 
-        SalesInvoiceLine_Ack.RESET;
-        SalesInvoiceLine_Ack.SETRANGE("Document No.", LSalesInvoiceLine."Document No.");
-        SalesInvoiceLine_Ack.SETRANGE("Line No.", LSalesInvoiceLine."Line No.");
-        IF NOT SalesInvoiceLine_Ack.FINDFIRST THEN BEGIN
-            SalesInvoiceLine_Ack.INIT;
-            SalesInvoiceLine_Ack.TRANSFERFIELDS(LSalesInvoiceLine);
-            SalesInvoiceLine_Ack."Smax Line No." := LSalesInvoiceLine."Smax Line No.";
-            SalesInvoiceLine_Ack."Order Created" := TRUE;
-            SalesInvoiceLine_Ack.INSERT;
-        END;
+            SalesInvoiceLine_Ack.RESET;
+            SalesInvoiceLine_Ack.SETRANGE("Document No.", LSalesInvoiceLine."Document No.");
+            SalesInvoiceLine_Ack.SETRANGE("Line No.", LSalesInvoiceLine."Line No.");
+            IF NOT SalesInvoiceLine_Ack.FINDFIRST THEN BEGIN
+                SalesInvoiceLine_Ack.INIT;
+                SalesInvoiceLine_Ack.TRANSFERFIELDS(LSalesInvoiceLine);
+                SalesInvoiceLine_Ack."Smax Line No." := LSalesInvoiceLine."Smax Line No.";
+                SalesInvoiceLine_Ack."Order Created" := TRUE;
+                SalesInvoiceLine_Ack.INSERT;
+            END;
+        end;
     END;
 
 
