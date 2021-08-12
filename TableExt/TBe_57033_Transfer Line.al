@@ -26,6 +26,7 @@ tableextension 57033 "Hex Transfer Line" extends "Transfer Line"
         {
             Description = 'Order Created';
         }
+
     }
 
 
@@ -40,6 +41,7 @@ tableextension 57033 "Hex Transfer Line" extends "Transfer Line"
         TransLine2.SETFILTER("Document No.", TransHeader."No.");
         IF TransLine2.FINDLAST THEN
             "Line No." := TransLine2."Line No." + 1;
+        Error('We are checking this issue');
     end;
 
     var
