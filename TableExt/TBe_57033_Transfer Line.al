@@ -39,9 +39,10 @@ tableextension 57033 "Hex Transfer Line" extends "Transfer Line"
         //gk
         TransLine2.RESET;
         TransLine2.SETFILTER("Document No.", TransHeader."No.");
-        IF TransLine2.FINDLAST THEN
+        IF TransLine2.FINDLAST THEN begin
             "Line No." := TransLine2."Line No." + 1;
-        Error('We are checking this issue');
+            //Error('We are checking this issue');
+        end;
     end;
 
     var
