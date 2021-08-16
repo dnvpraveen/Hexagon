@@ -39,32 +39,9 @@ tableextension 57033 "Hex Transfer Line" extends "Transfer Line"
 
         TransLine2.RESET;
         TransLine2.SETFILTER("Document No.", "Document No.");
-        IF TransLine2.FINDLAST THEN begin
-            Message('Trans 1 %1 and %1', TransLine2."Document No.", TransLine2."Line No.");
-            if "Line No." = 10000 then
-                "Line No." := 1
-            else
-                "Line No." := TransLine2."Line No." + 1;
-        end; //else
-             //"Line No." := 1;
-             //Error('We are checking this issue');
-        Message('Trans 2 %1 and %1', TransLine2."Document No.", TransLine2."Line No.");
+        IF TransLine2.FINDLAST THEN
+            "Line No." := TransLine2."Line No." + 1
+        else
+            "Line No." := 1;
     end;
-
-    //trigger OnAfterInsert()
-    //var
-    //  TransLine2: Record "Transfer Line";
-    //TransHeader: Record "transfer header";
-    //begin
-    //gk
-    //  TransLine2.RESET;
-    //TransLine2.SETFILTER("Document No.", TransHeader."No.");
-    //IF TransLine2.FINDLAST THEN begin
-    //  "Line No." := TransLine2."Line No." + 1;
-    //Error('We are checking this issue');
-    //end;
-    //end;
-
-    //var
-
 }
