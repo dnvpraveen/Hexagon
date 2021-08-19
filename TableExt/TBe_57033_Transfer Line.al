@@ -35,8 +35,6 @@ tableextension 57033 "Hex Transfer Line" extends "Transfer Line"
         TransLine2: Record "Transfer Line";
         TransHeader: Record "transfer header";
     begin
-
-
         TransLine2.RESET;
         TransLine2.SETFILTER("Document No.", "Document No.");
         IF TransLine2.FINDLAST THEN
