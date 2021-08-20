@@ -20,6 +20,8 @@ pageextension 57033 "Hex Posted Transfer Shipments" extends "Posted Transfer Shi
             field("Sell-to Customer Name"; "Sell-to Customer Name")
             {
             }
+            field("Header Status"; "Header Status")
+            { }
         }
 
     }
