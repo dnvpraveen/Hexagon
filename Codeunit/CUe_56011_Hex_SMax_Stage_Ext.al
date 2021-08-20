@@ -863,7 +863,8 @@ codeunit 56011 "Hex Smax Stage Ext"
         // HEX SMAX Code
         TransferShipmentLine."Smax Line No." := TransferLine."Smax Line No.";
         TransferShipmentLine."Action Code" := TransferLine."Action Code";
-        IF TransferLine."Qty. to Ship" <> TransferLine."Qty. to Ship (Base)" THEN
+        //IF TransferLine."Qty. to Ship" <> TransferLine."Qty. to Ship (Base)" THEN
+        if TransferLine.Quantity <> TransferLine."Qty. to Ship" then
             TransferShipmentLine."Line Status" := TransferLine."Line Status"::"Partially shipped"
         ELSE
             TransferShipmentLine."Line Status" := TransferLine."Line Status"::Shipped;
