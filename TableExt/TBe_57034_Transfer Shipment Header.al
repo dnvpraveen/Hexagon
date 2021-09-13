@@ -61,8 +61,8 @@ tableextension 57034 "Hex Transfer Shipment Header" extends "Transfer Shipment H
         field(55022; "Header Status"; Option)
         {
             Description = 'Header Status';
-            OptionMembers = " ",Closed,Shipped,"Partially shipped",Completed;
-            OptionCaption = '" ",Closed,Shipped,Partially shipped,Completed';
+            OptionMembers = ,Closed,Shipped,"Partially shipped",Completed;
+            OptionCaption = ' ,Closed,Shipped,Partially shipped,Completed';
         }
         field(55025; "Sales Order No."; Code[20])
         {
