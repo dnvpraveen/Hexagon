@@ -14,7 +14,7 @@ tableextension 57033 "Hex Transfer Line" extends "Transfer Line"
         field(55002; "Line Status"; Option)
         {
             Description = 'Line Status';
-            OptionMembers = " ",Closed,Shipped,"Partially shipped",Completed;
+            OptionMembers = ,Closed,Shipped,"Partially shipped",Completed;
             OptionCaption = ' ,Closed,Shipped,Partially shipped,Completed';
         }
         field(55004; "Order Inserted"; Boolean)
