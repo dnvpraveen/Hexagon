@@ -15,8 +15,8 @@ tableextension 57037 "Hex Transfer Receipt Line" extends "Transfer Receipt Line"
         field(55002; "Line Status"; Option)
         {
             Description = 'Line Status';
-            OptionMembers = " ",Closed,Shipped,"Partially shipped",Completed;
-            OptionCaption = '  ,Closed,Shipped,Partially shipped,Completed';
+            OptionMembers = " ",Closed,Shipped,"Partially Shipped",Completed;
+            OptionCaption = '  ,Closed,Shipped,Partially Shipped,Completed';
         }
         field(55005; "Order Created"; Boolean)
         {
