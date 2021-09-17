@@ -61,8 +61,8 @@ tableextension 57036 "Hex Transfer Receipt Header" extends "Transfer Receipt Hea
         field(55022; "Header Status"; Option)
         {
             Description = 'Header Status';
-            OptionMembers = ,Closed,Shipped,"Partially Shipped",Completed;
-            OptionCaption = ' ,Closed,Shipped,Partially Shipped,Completed';
+            OptionMembers = " ",Closed,Shipped,"Partially shipped",Completed;
+            OptionCaption = '  ,Closed,Shipped,Partially shipped,Completed';
         }
         field(55025; "Sales Order No."; Code[20])
         {
