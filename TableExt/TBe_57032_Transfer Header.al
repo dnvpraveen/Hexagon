@@ -98,7 +98,7 @@ tableextension 57032 "Hex Transfer Header" extends "Transfer Header"
         field(55022; "Header Status"; Option)
         {
             Description = 'Header Status';
-            OptionMembers = ,Closed,Shipped,"Partially shipped",Completed;
+            OptionMembers = " ",Closed,Shipped,"Partially shipped",Completed;
             OptionCaption = '  ,Closed,Shipped,Partially shipped,Completed';
         }
     }
