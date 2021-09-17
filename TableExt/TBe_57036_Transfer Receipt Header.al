@@ -64,11 +64,34 @@ tableextension 57036 "Hex Transfer Receipt Header" extends "Transfer Receipt Hea
             OptionMembers = " ",Closed,Shipped,"Partially Shipped",Completed;
             OptionCaption = '  ,Closed,Shipped,Partially Shipped,Completed';
         }
-        field(55025; "Sales Order No."; Code[20])
+        //  field(55025; "Sales Order No."; Code[20])
+        //  {
+        //     Description = 'Sales Order No.';
+        // }
+        field(55023; "Ship-to Address"; Text[50])
         {
-            Description = 'Sales Order No.';
+            Description = '"Ship-to Address"';
         }
-
+        field(55024; "Ship-to Address2"; Text[50])
+        {
+            Description = 'Ship-to Address2';
+        }
+        field(55025; "Ship-to City"; Code[30])
+        {
+            Description = 'Ship-to City';
+        }
+        field(55026; "Ship-to Country"; Code[10])
+        {
+            Description = 'Ship-to Country';
+        }
+        field(55027; "Ship-to State"; Code[10])
+        {
+            Description = 'Ship-to State';
+        }
+        field(55028; "Zip Code"; Code[10])
+        {
+            Description = 'Zip Code';
+        }
     }
 
     var

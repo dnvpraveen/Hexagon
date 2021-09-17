@@ -101,6 +101,30 @@ tableextension 57032 "Hex Transfer Header" extends "Transfer Header"
             OptionMembers = " ",Closed,Shipped,"Partially Shipped",Completed;
             OptionCaption = '  ,Closed,Shipped,Partially Shipped,Completed';
         }
+        field(55023; "Ship-to Address"; Text[50])
+        {
+            Description = '"Ship-to Address"';
+        }
+        field(55024; "Ship-to Address2"; Text[50])
+        {
+            Description = 'Ship-to Address2';
+        }
+        field(55025; "Ship-to City"; Code[30])
+        {
+            Description = 'Ship-to City';
+        }
+        field(55026; "Ship-to Country"; Code[10])
+        {
+            Description = 'Ship-to Country';
+        }
+        field(55027; "Ship-to State"; Code[10])
+        {
+            Description = 'Ship-to State';
+        }
+        field(55028; "Zip Code"; Code[10])
+        {
+            Description = 'Zip Code';
+        }
     }
 
 
