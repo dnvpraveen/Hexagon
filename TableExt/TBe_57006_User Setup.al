@@ -6,7 +6,7 @@ tableextension 57006 "Hex User Setup" extends "User Setup"
 
         field(50000; "Change Job Status"; Boolean)
         {
-            Description = '=Change Job Status';
+            Description = 'Change Job Status';
 
         }
 
