@@ -31,8 +31,9 @@ tableextension 57023 "Hex Sales Line" extends "Sales Line"
         {
             Description = 'Ready to Invoice';
         }
+        field(57000; "Job Planning Line No."; Integer)
+        {
+            Description = 'Job Planning Line No.';
+        }
     }
-
-    var
-        myInt: Integer;
 }

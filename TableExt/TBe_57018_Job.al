@@ -133,12 +133,29 @@ tableextension 57018 "Hex Job" extends Job
 
                 lrecJobSetup: Record "Jobs Setup";
                 gmdlDimMgt: Codeunit "Hex Smax Stage Ext";
+                GetGLsetup: Record "General Ledger Setup";
+                CountryRegion: Record "Country/Region";
+                DimensionValue: Record "Dimension Value";
             begin
                 //HEXGBJOB.01
                 lrecJobSetup.GET;
                 lrecJobSetup.TESTFIELD("Dimension for Sales Link");
                 ValidateShortcutDimCode(gmdlDimMgt.gfcnGetShortcutDimNo(lrecJobSetup."Dimension for Sales Link"), "No.");
                 //HEXGBJOB.01>>
+
+                //gk
+                GetGLsetup.GET;
+                IF CountryRegion.GET("Bill-to Country/Region Code") THEN BEGIN
+                    DimensionValue.INIT;
+                    DimensionValue.SETRANGE("Dimension Code", GetGLsetup."Shortcut Dimension 10 Code");
+                    DimensionValue.SETRANGE(Code, CountryRegion."HEX Country Code");
+                    IF DimensionValue.FINDFIRST THEN
+                        ValidateShortcutDimCode(gmdlDimMgt.gfcnGetShortcutDimNo(GetGLsetup."Shortcut Dimension 10 Code"), CountryRegion."HEX Country Code")
+                    ELSE
+                        ERROR('The Country Code Dimension %1 need to be added manually', "Bill-to Country/Region Code");
+                END ELSE
+                    ERROR('The Country Code Dimension %1 need to be added manually', "Bill-to Country/Region Code");
+                //gk
             end;
         }
         modify(Status)

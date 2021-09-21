@@ -102,7 +102,7 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                 GetGLsetup: Record "General Ledger Setup";
                 CountryRegion: Record "Country/Region";
                 DimensionValue: Record "Dimension Value";
-                gmdlDimMgt: Codeunit DimensionManagement;
+                gmdlDimMgt: Codeunit "Hex Smax Stage Ext";
             begin
                 GetGLsetup.GET;
                 IF CountryRegion.GET("Ship-to Country/Region Code") THEN BEGIN
@@ -110,11 +110,29 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                     DimensionValue.SETRANGE("Dimension Code", GetGLsetup."Shortcut Dimension 10 Code");
                     DimensionValue.SETRANGE(Code, CountryRegion."HEX Country Code");
                     IF DimensionValue.FINDFIRST THEN
-                        //  CreateCustom2Dim(gmdlDimMgt.gfcnGetShortcutDimNo(GetGLsetup."Shortcut Dimension 10 Code"), CountryRegion."HEX Country Code")
-                        //ELSE
+                        CreateCustom2Dim(gmdlDimMgt.gfcnGetShortcutDimNo(GetGLsetup."Shortcut Dimension 10 Code"), CountryRegion."HEX Country Code")
+                    ELSE
                         MESSAGE('The Country Code Dimenstion %1 need to be added manually', "Ship-to Country/Region Code");
                 END ELSE
                     MESSAGE('The Country Code Dimenstion %1 need to be added manually', "Ship-to Country/Region Code");
+            end;
+        }
+        modify("Campaign No.")
+        {
+            trigger OnAfterValidate()
+            begin
+                //gk
+                //{
+                //CreateDim(
+                //DATABASE::Campaign, "Campaign No.",
+                //DATABASE::Customer, "Bill-to Customer No.",
+                //DATABASE::"Salesperson/Purchaser", "Salesperson Code",
+                //DATABASE::"Responsibility Center", "Responsibility Center",
+                //DATABASE::"Customer Template", "Bill-to Customer Template Code");
+                //}
+
+                VALIDATE("Ship-to Country/Region Code");
+                //gk
             end;
         }
     }
