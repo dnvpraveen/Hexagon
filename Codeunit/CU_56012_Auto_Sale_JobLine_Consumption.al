@@ -8,25 +8,25 @@ codeunit 56012 "Auto Sale JobLine Consumption"
     PROCEDURE PostItemJnlLineJobConsumption(SalesHeader: Record "Sales Header"; VAR SalesLine: Record "Sales Line"; QtyToBeInvoiced: Decimal; ItemShptEntryNo: Integer)
     var
     begin
-        WITH SalesLine DO
-            IF "Job No." <> '' THEN BEGIN
-                IF SalesHeader.Invoice THEN BEGIN
-                    IF QtyToBeInvoiced <> 0 THEN BEGIN
-                        "Qty. to Invoice" := QtyToBeInvoiced;
-                        PostPositiveItemJournalLine(SalesHeader, SalesLine, ItemShptEntryNo);
-                        GJobPlanningLine.RESET;
-                        GJobPlanningLine.SETRANGE("Job No.", "Job No.");
-                        GJobPlanningLine.SETRANGE("Job Task No.", "Job Task No.");
-                        GJobPlanningLine.SETRANGE("Line No.", "Job Planning Line No.");
-                        IF GJobPlanningLine.FINDFIRST THEN BEGIN
-                            GJobPlanningLine."Qty. to Transfer to Journal" := -QtyToBeInvoiced;
-                            GJobPlanningLine."Bin Code" := SalesLine."Bin Code";
-                            GJobPlanningLine.MODIFY;
-                            FromPlanningLineToJnlLine(GJobPlanningLine, SalesLine);
-                        END;
+        //WITH SalesLine DO
+        IF SalesLine."Job No." <> '' THEN BEGIN
+            IF SalesHeader.Invoice THEN BEGIN
+                IF QtyToBeInvoiced <> 0 THEN BEGIN
+                    SalesLine."Qty. to Invoice" := QtyToBeInvoiced;
+                    PostPositiveItemJournalLine(SalesHeader, SalesLine, ItemShptEntryNo);
+                    GJobPlanningLine.RESET;
+                    GJobPlanningLine.SETRANGE("Job No.", SalesLine."Job No.");
+                    GJobPlanningLine.SETRANGE("Job Task No.", SalesLine."Job Task No.");
+                    GJobPlanningLine.SETRANGE("Line No.", SalesLine."Job Planning Line No.");
+                    IF GJobPlanningLine.FINDFIRST THEN BEGIN
+                        GJobPlanningLine."Qty. to Transfer to Journal" := -QtyToBeInvoiced;
+                        GJobPlanningLine."Bin Code" := SalesLine."Bin Code";
+                        GJobPlanningLine.MODIFY;
+                        FromPlanningLineToJnlLine(GJobPlanningLine, SalesLine);
                     END;
                 END;
             END;
+        END;
     end;
 
     PROCEDURE PostPositiveItemJournalLine(LSalesHeader: Record "Sales Header"; LSalesLine: Record "Sales Line"; ItemShipmentEntryNo: Integer)
@@ -123,29 +123,29 @@ codeunit 56012 "Auto Sale JobLine Consumption"
 
         TrackingSpecification.INIT;
         TrackingSpecification."Source Type" := DATABASE::"Item Journal Line";
-        WITH ItemJnlLine DO BEGIN
-            TrackingSpecification."Item No." := "Item No.";
-            TrackingSpecification."Location Code" := "Location Code";
-            TrackingSpecification.Description := Description;
-            TrackingSpecification."Variant Code" := "Variant Code";
-            TrackingSpecification.VALIDATE("Source Type", DATABASE::"Item Journal Line");
-            TrackingSpecification."Source Subtype" := "Entry Type";
-            TrackingSpecification."Source ID" := "Journal Template Name";
-            TrackingSpecification."Source Batch Name" := "Journal Batch Name";
-            TrackingSpecification."Source Prod. Order Line" := 0;
-            TrackingSpecification."Source Ref. No." := "Line No.";
-            TrackingSpecification."Quantity (Base)" := "Quantity (Base)";
-            TrackingSpecification."Qty. to Handle" := Quantity;
-            TrackingSpecification."Qty. to Handle (Base)" := "Quantity (Base)";
-            TrackingSpecification."Qty. to Invoice" := Quantity;
-            TrackingSpecification."Qty. to Invoice (Base)" := "Quantity (Base)";
-            TrackingSpecification."Quantity Handled (Base)" := 0;
-            TrackingSpecification."Quantity Invoiced (Base)" := 0;
-            TrackingSpecification."Qty. per Unit of Measure" := "Qty. per Unit of Measure";
-            TrackingSpecification."Serial No." := LItemLedgerEntry."Serial No.";
-            TrackingSpecification."Lot No." := LItemLedgerEntry."Lot No.";
-            TrackingSpecification."Bin Code" := "Bin Code";
-        END;
+        //WITH ItemJnlLine DO BEGIN
+        TrackingSpecification."Item No." := ItemJnlLine."Item No.";
+        TrackingSpecification."Location Code" := ItemJnlLine."Location Code";
+        TrackingSpecification.Description := ItemJnlLine.Description;
+        TrackingSpecification."Variant Code" := ItemJnlLine."Variant Code";
+        TrackingSpecification.VALIDATE("Source Type", DATABASE::"Item Journal Line");
+        TrackingSpecification."Source Subtype" := ItemJnlLine."Entry Type";
+        TrackingSpecification."Source ID" := ItemJnlLine."Journal Template Name";
+        TrackingSpecification."Source Batch Name" := ItemJnlLine."Journal Batch Name";
+        TrackingSpecification."Source Prod. Order Line" := 0;
+        TrackingSpecification."Source Ref. No." := ItemJnlLine."Line No.";
+        TrackingSpecification."Quantity (Base)" := ItemJnlLine."Quantity (Base)";
+        TrackingSpecification."Qty. to Handle" := ItemJnlLine.Quantity;
+        TrackingSpecification."Qty. to Handle (Base)" := ItemJnlLine."Quantity (Base)";
+        TrackingSpecification."Qty. to Invoice" := ItemJnlLine.Quantity;
+        TrackingSpecification."Qty. to Invoice (Base)" := ItemJnlLine."Quantity (Base)";
+        TrackingSpecification."Quantity Handled (Base)" := 0;
+        TrackingSpecification."Quantity Invoiced (Base)" := 0;
+        TrackingSpecification."Qty. per Unit of Measure" := ItemJnlLine."Qty. per Unit of Measure";
+        TrackingSpecification."Serial No." := LItemLedgerEntry."Serial No.";
+        TrackingSpecification."Lot No." := LItemLedgerEntry."Lot No.";
+        TrackingSpecification."Bin Code" := ItemJnlLine."Bin Code";
+        //END;
         CreateReservEntry.SetDates(0D, 0D);
         CreateReservEntry.SetApplyFromEntryNo(0);
         CreateReservEntry.SetApplyToEntryNo(0);
@@ -310,29 +310,29 @@ codeunit 56012 "Auto Sale JobLine Consumption"
 
         TrackingSpecification.INIT;
         TrackingSpecification."Source Type" := DATABASE::"Job Journal Line";
-        WITH JobJournalLine DO BEGIN
-            TrackingSpecification."Item No." := "No.";
-            TrackingSpecification."Location Code" := "Location Code";
-            TrackingSpecification.Description := Description;
-            TrackingSpecification."Variant Code" := "Variant Code";
-            TrackingSpecification.VALIDATE("Source Type", DATABASE::"Job Journal Line");
-            TrackingSpecification."Source Subtype" := "Entry Type";
-            TrackingSpecification."Source ID" := "Journal Template Name";
-            TrackingSpecification."Source Batch Name" := "Journal Batch Name";
-            TrackingSpecification."Source Prod. Order Line" := 0;
-            TrackingSpecification."Source Ref. No." := "Line No.";
-            TrackingSpecification."Quantity (Base)" := "Quantity (Base)";
-            TrackingSpecification."Qty. to Handle" := Quantity;
-            TrackingSpecification."Qty. to Handle (Base)" := "Quantity (Base)";
-            TrackingSpecification."Qty. to Invoice" := Quantity;
-            TrackingSpecification."Qty. to Invoice (Base)" := "Quantity (Base)";
-            TrackingSpecification."Quantity Handled (Base)" := 0;
-            TrackingSpecification."Quantity Invoiced (Base)" := 0;
-            TrackingSpecification."Qty. per Unit of Measure" := "Qty. per Unit of Measure";
-            TrackingSpecification."Serial No." := LItemLedgerEntry."Serial No.";
-            TrackingSpecification."Lot No." := LItemLedgerEntry."Lot No.";
-            TrackingSpecification."Bin Code" := "Bin Code";
-        END;
+        //WITH JobJournalLine DO BEGIN
+        TrackingSpecification."Item No." := JobJournalLine."No.";
+        TrackingSpecification."Location Code" := JobJournalLine."Location Code";
+        TrackingSpecification.Description := JobJournalLine.Description;
+        TrackingSpecification."Variant Code" := JobJournalLine."Variant Code";
+        TrackingSpecification.VALIDATE("Source Type", DATABASE::"Job Journal Line");
+        TrackingSpecification."Source Subtype" := JobJournalLine."Entry Type";
+        TrackingSpecification."Source ID" := JobJournalLine."Journal Template Name";
+        TrackingSpecification."Source Batch Name" := JobJournalLine."Journal Batch Name";
+        TrackingSpecification."Source Prod. Order Line" := 0;
+        TrackingSpecification."Source Ref. No." := JobJournalLine."Line No.";
+        TrackingSpecification."Quantity (Base)" := JobJournalLine."Quantity (Base)";
+        TrackingSpecification."Qty. to Handle" := JobJournalLine.Quantity;
+        TrackingSpecification."Qty. to Handle (Base)" := JobJournalLine."Quantity (Base)";
+        TrackingSpecification."Qty. to Invoice" := JobJournalLine.Quantity;
+        TrackingSpecification."Qty. to Invoice (Base)" := JobJournalLine."Quantity (Base)";
+        TrackingSpecification."Quantity Handled (Base)" := 0;
+        TrackingSpecification."Quantity Invoiced (Base)" := 0;
+        TrackingSpecification."Qty. per Unit of Measure" := JobJournalLine."Qty. per Unit of Measure";
+        TrackingSpecification."Serial No." := LItemLedgerEntry."Serial No.";
+        TrackingSpecification."Lot No." := LItemLedgerEntry."Lot No.";
+        TrackingSpecification."Bin Code" := JobJournalLine."Bin Code";
+        //END;
         CreateReservEntry.SetDates(0D, 0D);
         CreateReservEntry.SetApplyFromEntryNo(0);
         CreateReservEntry.SetApplyToEntryNo(0);
