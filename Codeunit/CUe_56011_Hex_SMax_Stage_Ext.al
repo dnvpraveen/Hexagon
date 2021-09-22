@@ -1069,9 +1069,9 @@ codeunit 56011 "Hex Smax Stage Ext"
         // IF NOT ("Document Type" IN ["Document Type"::Invoice,"Document Type"::"Credit Memo"]) THEN
         //TESTFIELD("Job No.",'');
         // new code end gk
-        IF HexSalesHeader.get(SalesLine."Document Type", SalesLine."Document No.") then
-            IF HexSalesHeader."Job No." = '' THEN
-                SkipTestJobNo := true;
+        //  IF HexSalesHeader.get(SalesLine."Document Type", SalesLine."Document No.") then
+        //    IF HexSalesHeader."Job No." = '' THEN
+        SkipTestJobNo := true;
     end;
 
     var
