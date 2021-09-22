@@ -1074,6 +1074,22 @@ codeunit 56011 "Hex Smax Stage Ext"
         SkipTestJobNo := true;
     end;
 
+    [EventSubscriber(ObjectType::Codeunit, 80, 'OnPostSalesLineOnBeforeTestJobNo', '', false, false)]
+    procedure "Hex OnPostSalesLineOnBeforeTestJobNo"(SalesLine: Record "Sales Line"; VAR IsHandled: Boolean)
+    var
+        HexSalesHeader: record "Sales Header";
+    begin
+        //gk
+        //gk
+        //IF SalesHeader."Job No." = '' THEN //gk
+        // IF NOT ("Document Type" IN ["Document Type"::Invoice,"Document Type"::"Credit Memo"]) THEN
+        //TESTFIELD("Job No.",'');
+        // new code end gk
+        //  IF HexSalesHeader.get(SalesLine."Document Type", SalesLine."Document No.") then
+        //    IF HexSalesHeader."Job No." = '' THEN
+        IsHandled := true;
+    end;
+
     var
         ArchiveMgt: Codeunit ArchiveManagement;
         HasGotGLSetup: Boolean;
