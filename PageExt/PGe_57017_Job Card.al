@@ -112,7 +112,15 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
                 begin
                     Hexext.gfncCreateSalesDoc(rec, 1);     //sales order
                 end;
-
+            }
+            action("Create IP Sales Order")
+            {
+                trigger OnAction()
+                var
+                    Hexext: Codeunit "Hex Smax Stage Ext";
+                begin
+                    Hexext.gfncCreateSalesDocGopal(rec, 1);     //sales order
+                end;
             }
             action("Create Sales Credit")
             {
@@ -122,15 +130,12 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
                 begin
                     Hexext.gfncCreateSalesDoc(rec, 3);     //sales order
                 end;
-
             }
             action("Orders / Invoices")
             {
-
                 RunObject = Page "Job Order Link List";
                 RunPageLink = "Job No." = FIELD("No.");
                 Image = Documents;
-
             }
         }
     }

@@ -733,6 +733,118 @@ codeunit 56011 "Hex Smax Stage Ext"
         //HEXGBJOB.01 >>
     END;
 
+    procedure gfncCreateSalesDocGopal(var HexJob: record job; poptDocType: Option Quote,Order,Invoice,"Credit Memo","Blanket Order","Return Order");
+    var
+        lrecGlSetup: Record 98;
+        lrecJobSetup: Record 315;
+        lrecSalesHeader: Record 36;
+        Text50000: Label '%1 No. %2 created';
+        lrecJobOrderLink: Record 50000;
+        lrecDimValue: Record 349;
+        lrecDimSetEntry: Record 480;
+        lintLineNo: Integer;
+        OldDimSetID: Integer;
+        i: Integer;
+        LrecSalesLine: Record 37;
+        LrecJobTaskLine: Record 1001;
+        LrecJobPlanningLine: Record 1003;
+        JobTaskDimension: Record 1002;
+        RecordLinkManagement: Codeunit 447;
+        HexText: label 'Hexagon System Defined Option. Please contact NAV Admin';
+        GText001: label 'Sales Order already exists.   Do you want to create new Sales Order?';
+        GText010: label 'Do you Want to create Sales Lines With Text?';
+        Text001: label 'JOB Status should be Order';
+    begin
+        IF HexJob.Status <> HexJob.Status::Open THEN//HEXB2B
+            ERROR(Text001);
+
+        lrecJobOrderLink.RESET;
+        lrecJobOrderLink.SETRANGE("Job No.", HexJob."No.");
+        lrecJobOrderLink.SETRANGE("Invoice No.", '');
+        IF lrecJobOrderLink.FIND('-') THEN BEGIN
+            IF NOT CONFIRM(GText001, FALSE) THEN
+                EXIT;
+        END;
+
+        lrecSalesHeader.INIT;
+        lrecSalesHeader."Document Type" := poptDocType;
+        lrecSalesHeader."Assigned Job No." := HexJob."No.";
+        lrecSalesHeader."No." := '';
+        lrecSalesHeader.INSERT(TRUE);
+        lrecSalesHeader.VALIDATE("Sell-to Customer No.", HexJob."Bill-to Customer No.");
+        lrecSalesHeader.VALIDATE("Currency Code", HexJob."Currency Code");
+        lrecSalesHeader."Job No." := HexJob."No.";
+        lrecSalesHeader.VALIDATE("Shortcut Dimension 1 Code", HexJob."Global Dimension 1 Code");
+        lrecSalesHeader.VALIDATE("Shortcut Dimension 2 Code", HexJob."Global Dimension 2 Code");
+
+        lrecGlSetup.GET;
+        GLSetupShortcutDimCode[1] := lrecGlSetup."Shortcut Dimension 1 Code";
+        GLSetupShortcutDimCode[2] := lrecGlSetup."Shortcut Dimension 2 Code";
+        GLSetupShortcutDimCode[3] := lrecGlSetup."Shortcut Dimension 3 Code";
+        GLSetupShortcutDimCode[4] := lrecGlSetup."Shortcut Dimension 4 Code";
+        GLSetupShortcutDimCode[5] := lrecGlSetup."Shortcut Dimension 5 Code";
+        GLSetupShortcutDimCode[6] := lrecGlSetup."Shortcut Dimension 6 Code";
+        GLSetupShortcutDimCode[7] := lrecGlSetup."Shortcut Dimension 7 Code";
+        GLSetupShortcutDimCode[8] := lrecGlSetup."Shortcut Dimension 8 Code";
+
+        FOR i := 1 TO 8 DO BEGIN
+            JobTaskDimension.RESET;
+            JobTaskDimension.SETRANGE("Job No.", HexJob."No.");
+            JobTaskDimension.SETRANGE("Dimension Code", GLSetupShortcutDimCode[i]);
+            IF JobTaskDimension.FINDFIRST THEN
+                lrecSalesHeader.ValidateShortcutDimCode(i, JobTaskDimension."Dimension Value Code");
+        END;
+        lrecSalesHeader.MODIFY;
+
+        lintLineNo := 0;
+        LrecJobPlanningLine.RESET;
+        LrecJobPlanningLine.SETCURRENTKEY("Job No.", "Job Task No.", "Line No.");
+        LrecJobPlanningLine.SETFILTER(LrecJobPlanningLine."Job No.", HexJob."No.");
+        LrecJobPlanningLine.SETFILTER(LrecJobPlanningLine."Job Task No.", LrecJobTaskLine."Job Task No.");
+        LrecJobPlanningLine.SETRANGE(IP, TRUE);
+        IF LrecJobPlanningLine.FIND('-') THEN BEGIN
+            REPEAT
+                lintLineNo := lintLineNo + 10000;
+                LrecSalesLine.INIT;
+                LrecSalesLine."Document Type" := poptDocType;
+                LrecSalesLine."Document No." := lrecSalesHeader."No.";
+                LrecSalesLine."Line No." := lintLineNo;
+                LrecSalesLine.VALIDATE(Type, LrecSalesLine.Type::Item);
+                LrecSalesLine.VALIDATE("No.", LrecJobPlanningLine."No.");
+                LrecSalesLine.VALIDATE(Quantity, LrecJobPlanningLine.Quantity);
+                LrecSalesLine.VALIDATE("Unit Cost", LrecJobPlanningLine."Unit Cost");
+                LrecSalesLine.Description := LrecJobPlanningLine.Description;
+                LrecSalesLine."Job No." := LrecJobPlanningLine."Job No.";
+                LrecSalesLine."Job Task No." := LrecJobPlanningLine."Job Task No.";
+                LrecSalesLine."Job Planning Line No." := LrecJobPlanningLine."Line No.";
+                LrecSalesLine.INSERT(TRUE);
+
+            UNTIL LrecJobPlanningLine.NEXT <= 0;
+        END;
+
+        MESSAGE(Text50000, FORMAT(lrecSalesHeader."Document Type"), lrecSalesHeader."No.");
+
+        //create Job Order Link
+        lrecJobOrderLink.RESET;
+        lrecJobOrderLink.SETRANGE("Job No.", HexJob."No.");     //from Job rec
+        IF lrecJobOrderLink.FINDLAST THEN
+            lintLineNo := lrecJobOrderLink."Line No." + 10000
+        ELSE
+            lintLineNo := 10000;
+        lrecJobOrderLink.INIT;
+        lrecJobOrderLink."Job No." := HexJob."No.";
+        lrecJobOrderLink."Line No." := lintLineNo;
+        lrecJobOrderLink."Sales Doc. Type" := poptDocType;
+        lrecJobOrderLink."Order No." := lrecSalesHeader."No.";
+        lrecJobOrderLink."Invoice Doc. Type" := poptDocType;
+        lrecJobOrderLink.INSERT;
+
+        IF poptDocType = poptDocType::Order THEN
+            PAGE.RUN(42, lrecSalesHeader);
+
+        IF poptDocType = poptDocType::"Credit Memo" THEN
+            PAGE.RUN(44, lrecSalesHeader);
+    end;
     //Codeunit 333 Req. Wksh.-Make Order
     [EventSubscriber(ObjectType::Codeunit, 333, 'OnAfterInitPurchOrderLine', '', false, false)]
     procedure "Hex InitPurchOrderLine Ext"(VAR PurchaseLine: Record "Purchase Line"; RequisitionLine: Record "Requisition Line")
@@ -926,7 +1038,25 @@ codeunit 56011 "Hex Smax Stage Ext"
     END;
     //gk
 
+    [EventSubscriber(ObjectType::Codeunit, 80, 'OnAfterPostItemJnlLine', '', false, false)]
+    procedure "Hex OnAfterPostItemJnlLine"(VAR ItemJournalLine: Record "Item Journal Line"; SalesLine: Record "Sales Line"; SalesHeader: Record "Sales Header"; VAR ItemJnlPostLine: Codeunit "Item Jnl.-Post Line")
+    var
+        AutoSaleJobLineConsumption: Codeunit "Auto Sale JobLine Consumption";
+    begin
+        //gk
+        // HEX SMAX
 
+        //IF (SalesLine.Type = SalesLine.Type::Item) AND SalesHeader.Invoice THEN
+        //  PostItemJnlLineItemCharges(SalesHeader,SalesLine,OriginalItemJnlLine,"Item Shpt. Entry No.");
+        // base code commented by gk
+        // new code added gk
+        //IF (SalesLine.Type = SalesLine.Type::Item) AND SalesHeader.Invoice THEN BEGIN
+        //PostItemJnlLineItemCharges(SalesHeader, SalesLine, OriginalItemJnlLine, "Item Shpt. Entry No.");
+        IF SalesLine."Job No." <> '' THEN
+            AutoSaleJobLineConsumption.PostItemJnlLineJobConsumption(SalesHeader, SalesLine, salesline."Qty. to Invoice (Base)", ItemJournalLine."Item Shpt. Entry No.");
+        //END;
+        // new code end gk
+    end;
 
     var
         ArchiveMgt: Codeunit ArchiveManagement;
