@@ -124,6 +124,20 @@ tableextension 57032 "Hex Transfer Header" extends "Transfer Header"
         field(55028; "Zip Code"; Code[10])
         {
             Description = 'Zip Code';
+            trigger OnValidate()
+            begin
+                IF "Sell-to Customer No." <> '' THEN BEGIN
+                    "Transfer-to Name" := "Sell-to Customer Name";
+                    "Transfer-to Name 2" := "Ship-to Contact";
+                    "Transfer-to Address" := "Ship-to Address";
+                    "Transfer-to Address 2" := "Ship-to Address2";
+                    "Transfer-to Post Code" := "Zip Code";
+                    "Transfer-to City" := "Ship-to City";
+                    "Transfer-to County" := "Ship-to State";
+                    "Trsf.-to Country/Region Code" := "Ship-to Country";
+                END;
+            end;
+
         }
     }
 
