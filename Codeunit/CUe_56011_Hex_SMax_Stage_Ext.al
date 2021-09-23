@@ -556,16 +556,20 @@ codeunit 56011 "Hex Smax Stage Ext"
 
     PROCEDURE gfcnGetShortcutDimNo(pcodDimCode: Code[20]) rintDimNo: Integer
     // SC 01-10-13
+
     var
         lintI: Integer;
+        GLSetup: record "General Ledger Setup";
     begin
 
         GetGLSetup;
+        GLSetup.Get();
+        GLSetupShortcutDimCode[10] := GLSetup."Shortcut Dimension 10 Code";//DNVP
         REPEAT
             lintI += 1;
             IF pcodDimCode = GLSetupShortcutDimCode[lintI] THEN
                 rintDimNo := lintI;
-        UNTIL (rintDimNo <> 0) OR (lintI = 8);
+        UNTIL (rintDimNo <> 0) OR (lintI = 20);
 
     end;
 
