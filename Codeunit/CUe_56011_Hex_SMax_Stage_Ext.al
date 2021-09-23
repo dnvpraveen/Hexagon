@@ -1040,7 +1040,46 @@ codeunit 56011 "Hex Smax Stage Ext"
             // HEX SMAX
         end;
     END;
-    //gk
+
+    [EventSubscriber(ObjectType::Codeunit, 80, 'OnAfterSalesShptHeaderInsert', '', false, false)]
+    procedure "Hex OnAfterSalesShptHeaderInsert"(VAR SalesShipmentHeader: Record "Sales Shipment Header"; SalesHeader: Record "Sales Header"; SuppressCommit: Boolean)
+    var
+        UpdateJobRecords: Codeunit "Update Job Records";
+    begin
+        //gk
+        // HEX SMAX
+        //Error('finding');
+        //gk
+        UpdateJobRecords.UpdateShipmentDetails(SalesShipmentHeader);
+        //gk
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 80, 'OnAfterSalesInvHeaderInsert', '', false, false)]
+    procedure "Hex OnAfterSalesInvHeaderInsert"(VAR SalesInvHeader: Record "Sales Invoice Header"; SalesHeader: Record "Sales Header"; CommitIsSuppressed: Boolean)
+    var
+        UpdateJobRecords: Codeunit "Update Job Records";
+    begin
+        //gk
+        // HEX SMAX
+        //gk
+        UpdateJobRecords.UpdateInvoiceDetails(SalesInvHeader);
+        //gk
+    END;
+
+
+    [EventSubscriber(ObjectType::Codeunit, 1012, 'OnAfterApplyUsageLink', '', false, false)]
+    procedure "Hex OnAfterApplyUsageLink"(VAR JobLedgerEntry: Record "Job Ledger Entry")
+    var
+        UpdateJobRecords: Codeunit "Update Job Records";
+    begin
+        //gk
+        // HEX SMAX
+        //gk
+        UpdateJobRecords.UpdateSerialNo(JobLedgerEntry);
+        //gk
+        // HEX SMAX
+    end;
+
 
     [EventSubscriber(ObjectType::Codeunit, 80, 'OnAfterPostItemJnlLine', '', false, false)]
     procedure "Hex OnAfterPostItemJnlLine"(VAR ItemJournalLine: Record "Item Journal Line"; SalesLine: Record "Sales Line"; SalesHeader: Record "Sales Header"; VAR ItemJnlPostLine: Codeunit "Item Jnl.-Post Line")
