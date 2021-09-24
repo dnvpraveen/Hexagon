@@ -114,7 +114,7 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                     ELSE
                         MESSAGE('The Country Code CUSTOM2 Dimenstion %1 need to be added manually', CountryRegion."HEX Country Code");
                 END ELSE
-                    MESSAGE('The Country Code is blank CUSTOM2 Dimenstion %1 need to be added manually', CountryRegion."HEX Country Code");
+                    MESSAGE('The Country Code Is Blank So CUSTOM2 Dimenstion %1 need to be added manually', CountryRegion."HEX Country Code");
             end;
         }
         modify("Campaign No.")

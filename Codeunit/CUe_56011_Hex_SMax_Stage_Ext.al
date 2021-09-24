@@ -563,8 +563,8 @@ codeunit 56011 "Hex Smax Stage Ext"
     begin
 
         GetGLSetup;
-        GLSetup.Get();
-        GLSetupShortcutDimCode[10] := GLSetup."Shortcut Dimension 10 Code";//DNVP
+        //GLSetup.Get();
+        //GLSetupShortcutDimCode[10] := GLSetup."Shortcut Dimension 10 Code";//DNVP
         REPEAT
             lintI += 1;
             IF pcodDimCode = GLSetupShortcutDimCode[lintI] THEN
@@ -587,6 +587,7 @@ codeunit 56011 "Hex Smax Stage Ext"
             GLSetupShortcutDimCode[6] := GLSetup."Shortcut Dimension 6 Code";
             GLSetupShortcutDimCode[7] := GLSetup."Shortcut Dimension 7 Code";
             GLSetupShortcutDimCode[8] := GLSetup."Shortcut Dimension 8 Code";
+            GLSetupShortcutDimCode[10] := GLSetup."Shortcut Dimension 10 Code";//DNVP
             HasGotGLSetup := TRUE;
         END;
     end;

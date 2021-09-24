@@ -152,9 +152,9 @@ tableextension 57018 "Hex Job" extends Job
                     IF DimensionValue.FINDFIRST THEN
                         ValidateShortcutDimCode(gmdlDimMgt.gfcnGetShortcutDimNo(GetGLsetup."Shortcut Dimension 10 Code"), CountryRegion."HEX Country Code")
                     ELSE
-                        Message('The Country Code  Customt2 Dimension %1 need to be added manually', "Bill-to Country/Region Code");
+                        Message('The Country Code Customt2 Dimension %1 need to be added manually', "Bill-to Country/Region Code");
                 END ELSE
-                    Message('The Country Code Customt2 Dimension %1 need to be added manually', "Bill-to Country/Region Code");
+                    Message('The Country Code Is Blank So Customt2 Dimension %1 need to be added manually', "Bill-to Country/Region Code");
                 //gk
             end;
         }
