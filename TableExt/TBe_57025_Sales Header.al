@@ -90,7 +90,7 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                 //DATABASE::Campaign, "Campaign No.",
                 //DATABASE::"Responsibility Center", "Responsibility Center",
                 //  DATABASE::"Customer Template", "Bill-to Customer Template Code");
-                VALIDATE("Ship-to Country/Region Code");
+                //----VALIDATE("Ship-to Country/Region Code");
                 //gk
 
             end;
@@ -131,7 +131,7 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                 //DATABASE::"Customer Template", "Bill-to Customer Template Code");
                 //}
 
-                VALIDATE("Ship-to Country/Region Code");
+                //--- VALIDATE("Ship-to Country/Region Code");
                 //gk
             end;
         }
