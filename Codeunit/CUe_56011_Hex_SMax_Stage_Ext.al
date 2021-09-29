@@ -1134,6 +1134,17 @@ codeunit 56011 "Hex Smax Stage Ext"
         IsHandled := true;
     end;
 
+    // CUstom2 DIM
+
+    [EventSubscriber(ObjectType::Table, 36, 'OnBeforeUpdateAllLineDim', '', false, false)]
+    procedure "Hex OnBeforeUpdateAllLineDim"(VAR SalesHeader: Record "Sales Header"; NewParentDimSetID: Integer; OldParentDimSetID: Integer; VAR IsHandled: Boolean)
+    var
+    begin
+        IsHandled := true;
+        Message('Beta MX testing for default Dim');
+    end;
+
+
     var
         ArchiveMgt: Codeunit ArchiveManagement;
         HasGotGLSetup: Boolean;
