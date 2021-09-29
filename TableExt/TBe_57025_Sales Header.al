@@ -108,13 +108,13 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                 IF CountryRegion.GET("Ship-to Country/Region Code") THEN BEGIN
                     DimensionValue.INIT;
                     DimensionValue.SETRANGE("Dimension Code", GetGLsetup."Shortcut Dimension 6 Code");
-                    DimensionValue.SETRANGE(Code, CountryRegion."HEX Country Code");
+                    DimensionValue.SETRANGE(Code, CountryRegion."ISO Code");
                     IF DimensionValue.FINDFIRST THEN
-                        CreateCustom2Dim(gmdlDimMgt.gfcnGetShortcutDimNo(GetGLsetup."Shortcut Dimension 6 Code"), CountryRegion."HEX Country Code")
+                        CreateCustom2Dim(gmdlDimMgt.gfcnGetShortcutDimNo(GetGLsetup."Shortcut Dimension 6 Code"), CountryRegion."ISO Code")
                     ELSE
-                        MESSAGE('The Country Code CUSTOM2 Dimenstion %1 need to be added manually', CountryRegion."HEX Country Code");
+                        MESSAGE('The Country Code CUSTOM2 Dimenstion %1 need to be added manually', CountryRegion."ISO Code");
                 END ELSE
-                    MESSAGE('The Country Code Is Blank So CUSTOM2 Dimenstion %1 need to be added manually', CountryRegion."HEX Country Code");
+                    MESSAGE('The Country Code Is Blank So CUSTOM2 Dimenstion %1 need to be added manually', CountryRegion."ISO Code");
             end;
         }
         modify("Campaign No.")
