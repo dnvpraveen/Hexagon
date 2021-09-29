@@ -1144,15 +1144,6 @@ codeunit 56011 "Hex Smax Stage Ext"
         Message('Beta MX testing for default Dim');
     end;
 
-    [EventSubscriber(ObjectType::Table, 36, 'OnAfterCreateDimTableIDs', '', false, false)]
-    procedure "Hex OnAfterCreateDimTableIDs"(VAR SalesHeader: Record "Sales Header"; CallingFieldNo: Integer; VAR TableID: ARRAY[10] OF Integer; VAR No: ARRAY[10] OF Code[20])
-    var
-    begin
-
-        Message('MX testing for OnAfter Create Dim TableID');
-    end;
-
-
     var
         ArchiveMgt: Codeunit ArchiveManagement;
         HasGotGLSetup: Boolean;
