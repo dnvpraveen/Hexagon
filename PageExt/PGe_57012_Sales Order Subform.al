@@ -22,6 +22,11 @@ pageextension 57012 "Hex Sales Order Subform" extends "Sales Order Subform"
             {
                 Editable = true;
             }
+            field("Job No."; "Job No.")
+            { }
+            field("Job Planning Line No."; "Job Planning Line No.")
+            { }
+            field("Job Task No."; "Job Task No.") { }
         }
     }
 
