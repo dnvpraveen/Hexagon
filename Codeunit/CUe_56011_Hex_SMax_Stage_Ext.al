@@ -645,6 +645,7 @@ codeunit 56011 "Hex Smax Stage Ext"
         lrecSalesHeader."Job No." := HexJob."No.";
         lrecSalesHeader."Sell-to Contact" := HexJob."Bill-to Contact";
         lrecSalesHeader."External Document No." := HexJob."External Doc No.";
+        lrecSalesHeader."Salesperson Code" := HexJob."Salesperson Code";
         lrecSalesHeader."Assigned User ID" := USERID;
         //gk
         lrecSalesHeader.VALIDATE("Shortcut Dimension 1 Code", HexJob."Global Dimension 1 Code");
@@ -913,9 +914,11 @@ codeunit 56011 "Hex Smax Stage Ext"
     var
     begin
         //gk
-        RequisitionLine."Job Task No." := UnplannedDemand."Job Task No.";
-        RequisitionLine."Job Planning Line No." := UnplannedDemand."Job Planning Line No.";
-        //gk
+        IF UnplannedDemand."Demand Type" = UnplannedDemand."Demand Type"::Job THEN BEGIN
+            RequisitionLine."Job Task No." := UnplannedDemand."Job Task No.";
+            RequisitionLine."Job Planning Line No." := UnplannedDemand."Job Planning Line No.";
+            //gk
+        end;
     end;
 
     // Codeunit 90 Purch.-Post
