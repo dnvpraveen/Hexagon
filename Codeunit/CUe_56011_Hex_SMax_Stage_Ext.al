@@ -779,6 +779,8 @@ codeunit 56011 "Hex Smax Stage Ext"
         lrecSalesHeader.VALIDATE("Sell-to Customer No.", HexJob."Bill-to Customer No.");
         lrecSalesHeader.VALIDATE("Currency Code", HexJob."Currency Code");
         lrecSalesHeader."Job No." := HexJob."No.";
+        lrecSalesHeader."External Document No." := HexJob."External Doc No.";
+        lrecSalesHeader."Salesperson Code" := HexJob."Salesperson Code";
         lrecSalesHeader.VALIDATE("Shortcut Dimension 1 Code", HexJob."Global Dimension 1 Code");
         lrecSalesHeader.VALIDATE("Shortcut Dimension 2 Code", HexJob."Global Dimension 2 Code");
 
@@ -814,15 +816,18 @@ codeunit 56011 "Hex Smax Stage Ext"
                 LrecSalesLine."Document Type" := poptDocType;
                 LrecSalesLine."Document No." := lrecSalesHeader."No.";
                 LrecSalesLine."Line No." := lintLineNo;
+                LrecSalesLine.INSERT(TRUE);
                 LrecSalesLine.VALIDATE(Type, LrecSalesLine.Type::Item);
                 LrecSalesLine.VALIDATE("No.", LrecJobPlanningLine."No.");
+                LrecSalesLine.VALIDATE("Location Code", LrecJobPlanningLine."Location Code");
                 LrecSalesLine.VALIDATE(Quantity, LrecJobPlanningLine.Quantity);
                 LrecSalesLine.VALIDATE("Unit Cost", LrecJobPlanningLine."Unit Cost");
+                LrecSalesLine."Unit Price" := LrecJobPlanningLine."Unit Price";
                 LrecSalesLine.Description := LrecJobPlanningLine.Description;
                 LrecSalesLine."Job No." := LrecJobPlanningLine."Job No.";
                 LrecSalesLine."Job Task No." := LrecJobPlanningLine."Job Task No.";
                 LrecSalesLine."Job Planning Line No." := LrecJobPlanningLine."Line No.";
-                LrecSalesLine.INSERT(TRUE);
+                LrecSalesLine.Modify(TRUE);
 
             UNTIL LrecJobPlanningLine.NEXT <= 0;
         END;
