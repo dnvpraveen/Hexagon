@@ -35,7 +35,7 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
             Field("Product Serial No."; "Product Serial No.")
             {
                 Caption = 'Product Serial No.';
-                Editable = fill;
+                //Editable = fill;
             }
 
         }
