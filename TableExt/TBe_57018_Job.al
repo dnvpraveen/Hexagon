@@ -147,10 +147,10 @@ tableextension 57018 "Hex Job" extends Job
                 GetGLsetup.GET;
                 IF CountryRegion.GET("Bill-to Country/Region Code") THEN BEGIN
                     DimensionValue.INIT;
-                    DimensionValue.SETRANGE("Dimension Code", GetGLsetup."Shortcut Dimension 10 Code");
-                    DimensionValue.SETRANGE(Code, CountryRegion."HEX Country Code");
+                    DimensionValue.SETRANGE("Dimension Code", GetGLsetup."Shortcut Dimension 6 Code");
+                    DimensionValue.SETRANGE(Code, CountryRegion."ISO Code");
                     IF DimensionValue.FINDFIRST THEN
-                        ValidateShortcutDimCode(gmdlDimMgt.gfcnGetShortcutDimNo(GetGLsetup."Shortcut Dimension 10 Code"), CountryRegion."HEX Country Code")
+                        ValidateShortcutDimCode(gmdlDimMgt.gfcnGetShortcutDimNo(GetGLsetup."Shortcut Dimension 6 Code"), CountryRegion."ISO Code")
                     ELSE
                         Message('The Country Code Customt2 Dimension %1 need to be added manually', "Bill-to Country/Region Code");
                 END ELSE
