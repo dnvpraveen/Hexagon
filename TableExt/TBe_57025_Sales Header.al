@@ -72,10 +72,10 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                 Cust: Record Customer;
             begin
                 //gk Ship-to Code
-                //IF "Document Type" = "Document Type"::"Credit Memo" THEN BEGIN
-                //  IF Cust.Get("Sell-to Customer No.") then
-                //    VALIDATE("Ship-to Country/Region Code", Cust."Country/Region Code");
-                // END;
+                IF "Document Type" = "Document Type"::"Credit Memo" THEN BEGIN
+                    IF Cust.Get("Sell-to Customer No.") then
+                        VALIDATE("Ship-to Country/Region Code", Cust."Country/Region Code");
+                END;
                 //gk
             end;
         }

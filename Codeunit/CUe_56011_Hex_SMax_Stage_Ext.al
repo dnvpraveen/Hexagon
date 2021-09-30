@@ -1140,8 +1140,8 @@ codeunit 56011 "Hex Smax Stage Ext"
     procedure "Hex OnBeforeUpdateAllLineDim"(VAR SalesHeader: Record "Sales Header"; NewParentDimSetID: Integer; OldParentDimSetID: Integer; VAR IsHandled: Boolean)
     var
     begin
-        IsHandled := true;
-        Message('Beta MX testing for default Dim');
+        // IsHandled := true;
+        Message('Beta MX testing for default Dim in lines');
     end;
 
     var
