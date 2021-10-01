@@ -101,14 +101,16 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                 //GLSetupShortcutDimCode[3] := xRec."Shortcut Dimension 3 Code";
                 //GLSetupShortcutDimCode[4] := lrecGlSetup."Shortcut Dimension 4 Code";
                 //GLSetupShortcutDimCode[5] := lrecGlSetup."Shortcut Dimension 5 Code";
-                //IF CountryRegion.GET("Ship-to Country/Region Code") THEN
+                IF CountryRegion.GET("Ship-to Country/Region Code") THEN
+                    ValidateShortcutDimCode(6, CountryRegion."ISO Code");
                 //  GLSetupShortcutDimCode[6] := CountryRegion."ISO Code";
                 //GLSetupShortcutDimCode[7] := lrecGlSetup."Shortcut Dimension 7 Code";
                 //GLSetupShortcutDimCode[8] := lrecGlSetup."Shortcut Dimension 8 Code";
                 //FOR i := 1 TO 8 DO BEGIN
                 //  Rec.ValidateShortcutDimCode(i, GLSetupShortcutDimCode[i]);
                 //END;
-                VALIDATE("Ship-to Country/Region Code");
+
+                //VALIDATE("Ship-to Country/Region Code");
                 //gk
 
             end;
