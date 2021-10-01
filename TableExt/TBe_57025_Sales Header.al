@@ -88,12 +88,6 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                 CountryRegion: Record "Country/Region";
             begin
                 //gk
-                //CreateDim(
-                //DATABASE::"Salesperson/Purchaser", "Salesperson Code",
-                //DATABASE::Customer, "Bill-to Customer No.",
-                //DATABASE::Campaign, "Campaign No.",
-                //DATABASE::"Responsibility Center", "Responsibility Center",
-                //  DATABASE::"Customer Template", "Bill-to Customer Template Code");
                 //VALIDATE("Shortcut Dimension 1 Code", xRec."Shortcut Dimension 1 Code");
                 //VALIDATE("Shortcut Dimension 2 Code", xRec."Shortcut Dimension 2 Code");
                 //GLSetupShortcutDimCode[1] := xRec."Shortcut Dimension 1 Code";
@@ -101,8 +95,8 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                 //GLSetupShortcutDimCode[3] := xRec."Shortcut Dimension 3 Code";
                 //GLSetupShortcutDimCode[4] := lrecGlSetup."Shortcut Dimension 4 Code";
                 //GLSetupShortcutDimCode[5] := lrecGlSetup."Shortcut Dimension 5 Code";
-                IF CountryRegion.GET("Ship-to Country/Region Code") THEN
-                    ValidateShortcutDimCode(6, CountryRegion."ISO Code");
+                //IF CountryRegion.GET("Ship-to Country/Region Code") THEN
+                //  ValidateShortcutDimCode(6, CountryRegion."ISO Code");
                 //  GLSetupShortcutDimCode[6] := CountryRegion."ISO Code";
                 //GLSetupShortcutDimCode[7] := lrecGlSetup."Shortcut Dimension 7 Code";
                 //GLSetupShortcutDimCode[8] := lrecGlSetup."Shortcut Dimension 8 Code";
@@ -110,7 +104,7 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                 //  Rec.ValidateShortcutDimCode(i, GLSetupShortcutDimCode[i]);
                 //END;
 
-                //VALIDATE("Ship-to Country/Region Code");
+                VALIDATE("Ship-to Country/Region Code");
                 //gk
 
             end;
@@ -185,49 +179,6 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
             MODIFY;
             UpdateAllLineDim("Dimension Set ID", OldDimSetID);
         END;
-    end;
-
-    procedure RestoredefaultDim();
-    var
-        lrecGlSetup: Record 98;
-        lrecJobSetup: Record 315;
-        lrecSalesHeader: Record 36;
-        Text50000: Label '%1 No. %2 created';
-        lrecJobOrderLink: Record 50000;
-        lrecDimValue: Record 349;
-        lrecDimSetEntry: Record 480;
-        lintLineNo: Integer;
-        OldDimSetID: Integer;
-        i: Integer;
-        LrecSalesLine: Record 37;
-        LrecJobTaskLine: Record 1001;
-        LrecJobPlanningLine: Record 1003;
-        JobTaskDimension: Record 1002;
-        RecordLinkManagement: Codeunit 447;
-    begin
-
-        //Rec.VALIDATE("Shortcut Dimension 1 Code", xRec."Shortcut Dimension 1 Code");
-        //Rec.VALIDATE("Shortcut Dimension 2 Code", xRec."Shortcut Dimension 2 Code");
-
-        //lrecGlSetup.GET;
-        //GLSetupShortcutDimCode[1] := lrecGlSetup."Shortcut Dimension 1 Code";
-        //GLSetupShortcutDimCode[2] := lrecGlSetup."Shortcut Dimension 2 Code";
-        //GLSetupShortcutDimCode[3] := lrecGlSetup."Shortcut Dimension 3 Code";
-        //GLSetupShortcutDimCode[4] := lrecGlSetup."Shortcut Dimension 4 Code";
-        //GLSetupShortcutDimCode[5] := lrecGlSetup."Shortcut Dimension 5 Code";
-        //GLSetupShortcutDimCode[6] := lrecGlSetup."Shortcut Dimension 6 Code";
-        //GLSetupShortcutDimCode[7] := lrecGlSetup."Shortcut Dimension 7 Code";
-        //GLSetupShortcutDimCode[8] := lrecGlSetup."Shortcut Dimension 8 Code";
-
-        //FOR i := 1 TO 8 DO BEGIN
-        //JobTaskDimension.RESET;
-        //JobTaskDimension.SETRANGE("Job No.", HexJob."No.");
-        //JobTaskDimension.SETRANGE("Dimension Code", GLSetupShortcutDimCode[i]);
-        //IF JobTaskDimension.FINDFIRST THEN
-        //      lrecSalesHeader.ValidateShortcutDimCode(i, JobTaskDimension."Dimension Value Code");
-        //END;
-        //  lrecSalesHeader.MODIFY;
-
     end;
 
 }
