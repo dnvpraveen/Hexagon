@@ -86,6 +86,7 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                 i: Integer;
                 GLSetupShortcutDimCode: ARRAY[20] OF Code[20];
                 CountryRegion: Record "Country/Region";
+                gmdlDimMgt: Codeunit "Hex Smax Stage Ext";
             begin
                 //gk
                 //VALIDATE("Shortcut Dimension 1 Code", xRec."Shortcut Dimension 1 Code");
@@ -103,8 +104,8 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                 //FOR i := 1 TO 8 DO BEGIN
                 //  Rec.ValidateShortcutDimCode(i, GLSetupShortcutDimCode[i]);
                 //END;
-
-                VALIDATE("Ship-to Country/Region Code");
+                gmdlDimMgt.RestoredefaultDim(Rec, xRec);
+                //VALIDATE("Ship-to Country/Region Code");
                 //gk
 
             end;

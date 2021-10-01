@@ -856,6 +856,35 @@ codeunit 56011 "Hex Smax Stage Ext"
         IF poptDocType = poptDocType::"Credit Memo" THEN
             PAGE.RUN(44, lrecSalesHeader);
     end;
+
+    procedure RestoredefaultDim(var SalesHeader: Record 36; var xSalesHeader: Record 36)
+
+    var
+        i: Integer;
+        GLSetupShortcutDimCode: ARRAY[20] OF Code[20];
+        CountryRegion: Record "Country/Region";
+    begin
+        //gk
+        //VALIDATE("Shortcut Dimension 1 Code", xRec."Shortcut Dimension 1 Code");
+        //VALIDATE("Shortcut Dimension 2 Code", xRec."Shortcut Dimension 2 Code");
+        GLSetupShortcutDimCode[1] := xSalesHeader."Shortcut Dimension 1 Code";
+        GLSetupShortcutDimCode[2] := xSalesHeader."Shortcut Dimension 2 Code";
+        //GLSetupShortcutDimCode[3] := xRec."Shortcut Dimension 3 Code";
+        //GLSetupShortcutDimCode[4] := lrecGlSetup."Shortcut Dimension 4 Code";
+        //GLSetupShortcutDimCode[5] := lrecGlSetup."Shortcut Dimension 5 Code";
+        //IF CountryRegion.GET("Ship-to Country/Region Code") THEN
+        //  ValidateShortcutDimCode(6, CountryRegion."ISO Code");
+        //  GLSetupShortcutDimCode[6] := CountryRegion."ISO Code";
+        //GLSetupShortcutDimCode[7] := lrecGlSetup."Shortcut Dimension 7 Code";
+        //GLSetupShortcutDimCode[8] := lrecGlSetup."Shortcut Dimension 8 Code";
+        FOR i := 1 TO 8 DO BEGIN
+            if GLSetupShortcutDimCode[i] <> '' then
+                SalesHeader.ValidateShortcutDimCode(i, GLSetupShortcutDimCode[i]);
+        END;
+        SalesHeader.Modify();
+
+    end;
+
     //Codeunit 333 Req. Wksh.-Make Order
     [EventSubscriber(ObjectType::Codeunit, 333, 'OnAfterInitPurchOrderLine', '', false, false)]
     procedure "Hex InitPurchOrderLine Ext"(VAR PurchaseLine: Record "Purchase Line"; RequisitionLine: Record "Requisition Line")
@@ -1149,7 +1178,7 @@ codeunit 56011 "Hex Smax Stage Ext"
     var
     begin
         // IsHandled := true;
-        Message('Beta MX testing for default Dim in lines');
+        //Message('Beta MX testing for default Dim in lines');
     end;
 
     var
