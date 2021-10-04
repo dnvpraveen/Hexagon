@@ -81,6 +81,13 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
         }
         modify("Salesperson Code")
         {
+            trigger OnBeforeValidate()
+            var
+                gmdlDimMgt: Codeunit "Hex Smax Stage Ext";
+            begin
+                gmdlDimMgt.GetDefaultDim(Rec, xRec);
+            end;
+
             trigger OnAfterValidate()
             var
                 i: Integer;

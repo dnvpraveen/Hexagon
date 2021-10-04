@@ -857,32 +857,68 @@ codeunit 56011 "Hex Smax Stage Ext"
             PAGE.RUN(44, lrecSalesHeader);
     end;
 
-    procedure RestoredefaultDim(var SalesHeader: Record 36; var xSalesHeader: Record 36)
-
+    procedure GetDefaultDim(var SalesHeader: Record 36; var xSalesHeader: Record 36)
     var
         i: Integer;
         GLSetupShortcutDimCode: ARRAY[20] OF Code[20];
         CountryRegion: Record "Country/Region";
+        lrecGlSetup: Record 98;
+        SalesDim: Record TempSalesDim;
+        DimensionSetEntry: Record "Dimension Set Entry";
+    begin
+        SalesDim.Init();
+        DimensionSetEntry.Init();
+        DimensionSetEntry.SetRange("Dimension Set ID", SalesHeader."Dimension Set ID");
+        IF DimensionSetEntry.Find('-') THEN begin
+            repeat
+                SalesDim."Dimension Set ID" := DimensionSetEntry."Dimension Set ID";
+                SalesDim."Dimension Code" := DimensionSetEntry."Dimension Code";
+                SalesDim."Dimension Value Code" := DimensionSetEntry."Dimension Value Code";
+                SalesDim.Modify();
+            UNTIL DimensionSetEntry.NEXT = 0;
+        end;
+        Message('Beta Dimensions need to be entered manuvally');
+    end;
+
+    procedure RestoredefaultDim(var SalesHeader: Record 36; var xSalesHeader: Record 36)
+    var
+        i: Integer;
+        GLSetupShortcutDimCode: ARRAY[20] OF Code[20];
+        CountryRegion: Record "Country/Region";
+        SalesDim: Record TempSalesDim;
+        DimensionSetEntry: Record "Dimension Set Entry";
     begin
         //gk
         //VALIDATE("Shortcut Dimension 1 Code", xRec."Shortcut Dimension 1 Code");
         //VALIDATE("Shortcut Dimension 2 Code", xRec."Shortcut Dimension 2 Code");
-        GLSetupShortcutDimCode[1] := xSalesHeader."Shortcut Dimension 1 Code";
-        GLSetupShortcutDimCode[2] := xSalesHeader."Shortcut Dimension 2 Code";
+        //GLSetupShortcutDimCode[1] := xSalesHeader."Shortcut Dimension 1 Code";
+        //GLSetupShortcutDimCode[2] := xSalesHeader."Shortcut Dimension 2 Code";
         //GLSetupShortcutDimCode[3] := xRec."Shortcut Dimension 3 Code";
         //GLSetupShortcutDimCode[4] := lrecGlSetup."Shortcut Dimension 4 Code";
         //GLSetupShortcutDimCode[5] := lrecGlSetup."Shortcut Dimension 5 Code";
-        //IF CountryRegion.GET("Ship-to Country/Region Code") THEN
-        //  ValidateShortcutDimCode(6, CountryRegion."ISO Code");
-        //  GLSetupShortcutDimCode[6] := CountryRegion."ISO Code";
+        //IF CountryRegion.GET(SalesHeader."Ship-to Country/Region Code") THEN
+        //ValidateShortcutDimCode(6, CountryRegion."ISO Code");
+        //GLSetupShortcutDimCode[6] := CountryRegion."ISO Code";
         //GLSetupShortcutDimCode[7] := lrecGlSetup."Shortcut Dimension 7 Code";
         //GLSetupShortcutDimCode[8] := lrecGlSetup."Shortcut Dimension 8 Code";
-        FOR i := 1 TO 8 DO BEGIN
-            if GLSetupShortcutDimCode[i] <> '' then
-                SalesHeader.ValidateShortcutDimCode(i, GLSetupShortcutDimCode[i]);
-        END;
-        SalesHeader.Modify();
-
+        //FOR i := 1 TO 8 DO BEGIN
+        //  if GLSetupShortcutDimCode[i] <> '' then begin
+        //    SalesHeader.ValidateShortcutDimCode(i, GLSetupShortcutDimCode[i]);
+        //end;
+        //END;
+        //SalesHeader.Modify();
+        //------------------
+        SalesDim.Init();
+        DimensionSetEntry.Init();
+        SalesDim.SetRange("Dimension Set ID", SalesHeader."Dimension Set ID");
+        IF SalesDim.Find('-') THEN begin
+            repeat
+                DimensionSetEntry."Dimension Set ID" := SalesDim."Dimension Set ID";
+                DimensionSetEntry."Dimension Code" := SalesDim."Dimension Code";
+                DimensionSetEntry."Dimension Value Code" := SalesDim."Dimension Value Code";
+                DimensionSetEntry.Modify();
+            UNTIL SalesDim.NEXT = 0;
+        end;
     end;
 
     //Codeunit 333 Req. Wksh.-Make Order
