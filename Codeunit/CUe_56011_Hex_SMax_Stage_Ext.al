@@ -885,11 +885,11 @@ codeunit 56011 "Hex Smax Stage Ext"
                     SalesDim."Sales order no" := SalesHeader."No.";
                     SalesDim.Insert();
                 end;
-                Message('GetDefaultDim Dimensions need to be entered manuvally %1', SalesDim."Dimension Value Code");
+            //Message('GetDefaultDim Dimensions need to be entered manuvally %1', SalesDim."Dimension Value Code");
             UNTIL DimensionSetEntry.NEXT = 0;
 
         end;
-        Message('GetDefaultDim Dimensions need to be entered manuvally');
+        //Message('GetDefaultDim Dimensions need to be entered manuvally');
     end;
 
     procedure RestoredefaultDim(var SalesHeader: Record 36; var xSalesHeader: Record 36)
@@ -929,14 +929,17 @@ codeunit 56011 "Hex Smax Stage Ext"
                     DimensionSetEntry."Dimension Set ID" := SalesHeader."Dimension Set ID";
                     DimensionSetEntry."Dimension Code" := SalesDim."Dimension Code";
                     DimensionSetEntry."Dimension Value Code" := SalesDim."Dimension Value Code";
+                    Message('Modify RestoredefaultDim Dimensions need to be entered manuvally %1', SalesDim."Dimension Value Code");
                     DimensionSetEntry.Modify();
+
                 end ELSE begin
                     DimensionSetEntry."Dimension Set ID" := SalesHeader."Dimension Set ID";
                     DimensionSetEntry."Dimension Code" := SalesDim."Dimension Code";
                     DimensionSetEntry."Dimension Value Code" := SalesDim."Dimension Value Code";
+                    Message('RestoredefaultDim Dimensions need to be entered manuvally %1', SalesDim."Dimension Value Code");
                     DimensionSetEntry.Insert();
                 end;
-                Message('RestoredefaultDim Dimensions need to be entered manuvally %1', SalesDim."Dimension Value Code");
+
             UNTIL SalesDim.NEXT = 0;
         end;
     end;
