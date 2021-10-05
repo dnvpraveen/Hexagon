@@ -871,13 +871,25 @@ codeunit 56011 "Hex Smax Stage Ext"
         DimensionSetEntry.SetRange("Dimension Set ID", SalesHeader."Dimension Set ID");
         IF DimensionSetEntry.Find('-') THEN begin
             repeat
-                SalesDim."Dimension Set ID" := DimensionSetEntry."Dimension Set ID";
-                SalesDim."Dimension Code" := DimensionSetEntry."Dimension Code";
-                SalesDim."Dimension Value Code" := DimensionSetEntry."Dimension Value Code";
-                SalesDim.Modify();
+                // IF SalesDim.Get("Dimension Set ID", "Dimension Code") then
+                IF SalesDim.Get(DimensionSetEntry."Dimension Set ID", DimensionSetEntry."Dimension Code") Then begin
+                    SalesDim."Dimension Set ID" := DimensionSetEntry."Dimension Set ID";
+                    SalesDim."Dimension Code" := DimensionSetEntry."Dimension Code";
+                    SalesDim."Dimension Value Code" := DimensionSetEntry."Dimension Value Code";
+                    SalesDim."Sales order no" := SalesHeader."No.";
+                    SalesDim.Modify();
+                end ELSE begin
+                    SalesDim."Dimension Set ID" := DimensionSetEntry."Dimension Set ID";
+                    SalesDim."Dimension Code" := DimensionSetEntry."Dimension Code";
+                    SalesDim."Dimension Value Code" := DimensionSetEntry."Dimension Value Code";
+                    SalesDim."Sales order no" := SalesHeader."No.";
+                    SalesDim.Insert();
+                end;
+                Message('GetDefaultDim Dimensions need to be entered manuvally %1', SalesDim."Dimension Value Code");
             UNTIL DimensionSetEntry.NEXT = 0;
+
         end;
-        Message('Beta Dimensions need to be entered manuvally');
+        Message('GetDefaultDim Dimensions need to be entered manuvally');
     end;
 
     procedure RestoredefaultDim(var SalesHeader: Record 36; var xSalesHeader: Record 36)
@@ -910,13 +922,21 @@ codeunit 56011 "Hex Smax Stage Ext"
         //------------------
         SalesDim.Init();
         DimensionSetEntry.Init();
-        SalesDim.SetRange("Dimension Set ID", SalesHeader."Dimension Set ID");
+        SalesDim.SetRange(SalesDim."Sales order no", SalesHeader."No.");
         IF SalesDim.Find('-') THEN begin
             repeat
-                DimensionSetEntry."Dimension Set ID" := SalesDim."Dimension Set ID";
-                DimensionSetEntry."Dimension Code" := SalesDim."Dimension Code";
-                DimensionSetEntry."Dimension Value Code" := SalesDim."Dimension Value Code";
-                DimensionSetEntry.Modify();
+                IF DimensionSetEntry.Get(SalesHeader."Dimension Set ID", SalesDim."Dimension Code") Then begin
+                    DimensionSetEntry."Dimension Set ID" := SalesHeader."Dimension Set ID";
+                    DimensionSetEntry."Dimension Code" := SalesDim."Dimension Code";
+                    DimensionSetEntry."Dimension Value Code" := SalesDim."Dimension Value Code";
+                    DimensionSetEntry.Modify();
+                end ELSE begin
+                    DimensionSetEntry."Dimension Set ID" := SalesHeader."Dimension Set ID";
+                    DimensionSetEntry."Dimension Code" := SalesDim."Dimension Code";
+                    DimensionSetEntry."Dimension Value Code" := SalesDim."Dimension Value Code";
+                    DimensionSetEntry.Insert();
+                end;
+                Message('RestoredefaultDim Dimensions need to be entered manuvally %1', SalesDim."Dimension Value Code");
             UNTIL SalesDim.NEXT = 0;
         end;
     end;

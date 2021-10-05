@@ -29,6 +29,11 @@ table 56052 TempSalesDim
         {
             Description = 'Dimension Value Name';
         }
+
+        field(7; "Sales order no"; code[20])
+        {
+
+        }
     }
     keys
     {
