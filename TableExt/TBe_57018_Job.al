@@ -285,6 +285,7 @@ tableextension 57018 "Hex Job" extends Job
         modify("Person Responsible")
         {
             TableRelation = "Salesperson/Purchaser" WHERE("Project Manager" = CONST(false));
+            //TableRelation = "Salesperson/Purchaser" WHERE("Project Manager" = CONST(No));
         }
     }
     trigger OnBeforeInsert()
