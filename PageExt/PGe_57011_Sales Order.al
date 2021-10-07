@@ -18,6 +18,10 @@ pageextension 57011 "Hex Sales Order" extends "Sales Order"
                 Caption = 'Order Inserted';
             }
         }
+        modify("Opportunity No.")
+        {
+            Visible = false;
+        }
     }
 
     actions

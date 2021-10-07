@@ -35,7 +35,7 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
             Field("Product Serial No."; "Product Serial No.")
             {
                 Caption = 'Product Serial No.';
-                //Editable = fill;
+                Editable = fill;
             }
 
         }
@@ -104,15 +104,15 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
                 Runobject = Report 50099;
                 Image = "Order";
             }
-            action("Create Sales Order")
-            {
-                trigger OnAction()
-                var
-                    Hexext: Codeunit "Hex Smax Stage Ext";
-                begin
-                    Hexext.gfncCreateSalesDoc(rec, 1);     //sales order
-                end;
-            }
+            //action("Create Sales Order")
+            //{
+            //trigger OnAction()
+            //var
+            //  Hexext: Codeunit "Hex Smax Stage Ext";
+            //begin
+            //     Hexext.gfncCreateSalesDoc(rec, 1);     //sales order
+            //   end;
+            // }
             action("Create IP Sales Order")
             {
                 trigger OnAction()

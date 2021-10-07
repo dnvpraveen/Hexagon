@@ -111,7 +111,7 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                 //FOR i := 1 TO 8 DO BEGIN
                 //  Rec.ValidateShortcutDimCode(i, GLSetupShortcutDimCode[i]);
                 //END;
-                gmdlDimMgt.RestoredefaultDim(Rec, xRec);
+                //gmdlDimMgt.RestoredefaultDim(Rec, xRec);
                 //VALIDATE("Ship-to Country/Region Code");
                 //gk
 

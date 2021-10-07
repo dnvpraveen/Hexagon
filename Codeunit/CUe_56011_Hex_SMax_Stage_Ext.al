@@ -929,14 +929,14 @@ codeunit 56011 "Hex Smax Stage Ext"
                     DimensionSetEntry."Dimension Set ID" := SalesHeader."Dimension Set ID";
                     DimensionSetEntry."Dimension Code" := SalesDim."Dimension Code";
                     DimensionSetEntry."Dimension Value Code" := SalesDim."Dimension Value Code";
-                    Message('Modify RestoredefaultDim Dimensions need to be entered manuvally %1', SalesDim."Dimension Value Code");
+                    //Message('Modify RestoredefaultDim Dimensions need to be entered manuvally %1', SalesDim."Dimension Value Code");
                     DimensionSetEntry.Modify();
 
                 end ELSE begin
                     DimensionSetEntry."Dimension Set ID" := SalesHeader."Dimension Set ID";
                     DimensionSetEntry."Dimension Code" := SalesDim."Dimension Code";
                     DimensionSetEntry."Dimension Value Code" := SalesDim."Dimension Value Code";
-                    Message('RestoredefaultDim Dimensions need to be entered manuvally %1', SalesDim."Dimension Value Code");
+                    //Message('RestoredefaultDim Dimensions need to be entered manuvally %1', SalesDim."Dimension Value Code");
                     DimensionSetEntry.Insert();
                 end;
 
@@ -944,6 +944,75 @@ codeunit 56011 "Hex Smax Stage Ext"
         end;
     end;
 
+    procedure gfncUpdateJobOrderLinkPO(precPurchHeader: Record "Purchase Header"; poptDocType: Option Quote,Order,Invoice,"Credit Memo","Blanket Order","Return Order"; pcodDocNo: Code[20])
+    var
+        lrecJobOrderLink: Record "Job Order Link";
+        lrecJobOrderLink2: Record "Job Order Link";
+        lrecSalesHeader: Record "Sales Header";
+        lintLineNo: Integer;
+    begin
+        //HEXGBSL.01 xx7 new function
+        IF lrecJobOrderLink.FINDLAST THEN
+            lintLineNo := lrecJobOrderLink."Line No."
+        ELSE
+            lintLineNo := 0;
+
+        lrecJobOrderLink.RESET;
+        lrecJobOrderLink.SETRANGE("Sales Doc. Type", precPurchHeader."Document Type");
+        lrecJobOrderLink.SETRANGE("Order No.", precPurchHeader."No.");
+        IF NOT lrecJobOrderLink.FINDLAST THEN
+            EXIT;
+        lrecJobOrderLink2 := lrecJobOrderLink;
+        //link record with no invoice no.
+        lrecJobOrderLink."Invoice Doc. Type" := poptDocType;
+        lrecJobOrderLink."Invoice No." := pcodDocNo;
+        lrecJobOrderLink.MODIFY;
+
+        IF lrecSalesHeader.GET(precPurchHeader."Document Type", precPurchHeader."No.") THEN BEGIN
+            //create a new Link record if sales order still exists
+            lrecJobOrderLink.RESET;
+            lrecJobOrderLink := lrecJobOrderLink2;
+            lrecJobOrderLink."Line No." := lintLineNo + 10000;
+            lrecJobOrderLink."Invoice Doc. Type" := poptDocType;
+            lrecJobOrderLink."Invoice No." := '';
+            lrecJobOrderLink.INSERT;
+        END;
+    END;
+
+    procedure gfncUpdateJobOrderLink(precSalesHeader: Record "Sales Header"; poptDocType: Option Quote,Order,Invoice,"Credit Memo","Blanket Order","Return Order"; pcodDocNo: Code[20])
+    var
+        lrecJobOrderLink: Record "Job Order Link";
+        lrecJobOrderLink2: Record "Job Order Link";
+        lrecSalesHeader: Record "Sales Header";
+        lintLineNo: Integer;
+    begin
+        //HEXGBSL.01 xx7 new function
+        IF lrecJobOrderLink.FINDLAST THEN
+            lintLineNo := lrecJobOrderLink."Line No."
+        ELSE
+            lintLineNo := 0;
+
+        lrecJobOrderLink.RESET;
+        lrecJobOrderLink.SETRANGE("Sales Doc. Type", precSalesHeader."Document Type");
+        lrecJobOrderLink.SETRANGE("Order No.", precSalesHeader."No.");
+        IF NOT lrecJobOrderLink.FINDLAST THEN
+            EXIT;
+        lrecJobOrderLink2 := lrecJobOrderLink;
+        //link record with no invoice no.
+        lrecJobOrderLink."Invoice Doc. Type" := poptDocType;
+        lrecJobOrderLink."Invoice No." := pcodDocNo;
+        lrecJobOrderLink.MODIFY;
+
+        IF lrecSalesHeader.GET(precSalesHeader."Document Type", precSalesHeader."No.") THEN BEGIN
+            //create a new Link record if sales order still exists
+            lrecJobOrderLink.RESET;
+            lrecJobOrderLink := lrecJobOrderLink2;
+            lrecJobOrderLink."Line No." := lintLineNo + 10000;
+            lrecJobOrderLink."Invoice Doc. Type" := poptDocType;
+            lrecJobOrderLink."Invoice No." := '';
+            lrecJobOrderLink.INSERT;
+        END;
+    END;
     //Codeunit 333 Req. Wksh.-Make Order
     [EventSubscriber(ObjectType::Codeunit, 333, 'OnAfterInitPurchOrderLine', '', false, false)]
     procedure "Hex InitPurchOrderLine Ext"(VAR PurchaseLine: Record "Purchase Line"; RequisitionLine: Record "Requisition Line")
@@ -1128,6 +1197,8 @@ codeunit 56011 "Hex Smax Stage Ext"
     var
         UpdateJobRecords: Codeunit "Update Job Records";
         Test80: Codeunit "sales-post";
+        poptDocType: Option Quote,Order,Invoice,"Credit Memo","Blanket Order","Return Order";
+        pcodDocNo: Code[20];
     begin
         //gk
         // HEX SMAX
@@ -1135,8 +1206,11 @@ codeunit 56011 "Hex Smax Stage Ext"
         IF NOT SalesHeader.Preview THEN begin
             UpdateJobRecords.UpdateBillingInvoiceDetails(SalesInvHeader, SalesInvLine);
             // HEX SMAX
-        end;
-    END;
+            poptDocType := 2;
+            pcodDocNo := SalesInvHeader."No.";
+            gfncUpdateJobOrderLink(SalesHeader, poptDocType, pcodDocNo);
+        END;
+    end;
 
     [EventSubscriber(ObjectType::Codeunit, 80, 'OnAfterSalesShptHeaderInsert', '', false, false)]
     procedure "Hex OnAfterSalesShptHeaderInsert"(VAR SalesShipmentHeader: Record "Sales Shipment Header"; SalesHeader: Record "Sales Header"; SuppressCommit: Boolean)
@@ -1228,6 +1302,16 @@ codeunit 56011 "Hex Smax Stage Ext"
         //  IF HexSalesHeader.get(SalesLine."Document Type", SalesLine."Document No.") then
         //    IF HexSalesHeader."Job No." = '' THEN
         IsHandled := true;
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 90, 'OnAfterPostPurchaseDoc', '', false, false)]
+    procedure "Hex OnAfterPostPurchaseDoc"(VAR PurchaseHeader: Record "Purchase Header"; VAR GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line"; PurchRcpHdrNo: Code[20]; RetShptHdrNo: Code[20]; PurchInvHdrNo: Code[20]; PurchCrMemoHdrNo: Code[20]; CommitIsSupressed: Boolean)
+    var
+        poptDocType: Option Quote,Order,Invoice,"Credit Memo","Blanket Order","Return Order";
+        pcodDocNo: Code[20];
+    begin
+        poptDocType := 2;
+        gfncUpdateJobOrderLinkPO(PurchaseHeader, poptDocType, PurchInvHdrNo);
     end;
 
     // CUstom2 DIM

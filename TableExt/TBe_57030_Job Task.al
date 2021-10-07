@@ -103,6 +103,7 @@ tableextension 57030 "Job Task" extends "Job Task"
                     VALIDATE("Performance Obligation", JobTaskMaster."Performance Obligation");
                     VALIDATE("Order Type", JobTaskMaster."Order Type");
                     VALIDATE("Activity Type", JobTaskMaster."Activity Type");
+                    Validate(Description, JobTaskMaster."Performance Obligation");
                 END ELSE
                     ERROR('Job Task No not exists in Job Task Master');
                 //gk Smax1.0
