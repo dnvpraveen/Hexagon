@@ -47,6 +47,7 @@ codeunit 56012 "Auto Sale JobLine Consumption"
         ItemJnlLine.VALIDATE(Quantity, LSalesLine.Quantity);
         ItemJnlLine."Unit of Measure Code" := LSalesLine."Unit of Measure";
         ItemJnlLine."Location Code" := LSalesLine."Location Code";
+        ItemJnlLine."Bin Code" := LSalesLine."Bin Code";//dnvp
         Item.GET(LSalesLine."No.");
         ItemJnlLine."Gen. Prod. Posting Group" := Item."Gen. Prod. Posting Group";
         ItemJnlLine.VALIDATE("Shortcut Dimension 1 Code", LSalesLine."Shortcut Dimension 1 Code");
