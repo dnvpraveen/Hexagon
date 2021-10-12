@@ -37,6 +37,10 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
                 Caption = 'Product Serial No.';
                 Editable = fill;
             }
+            field("ERP Company No."; "ERP Company No.")
+            {
+                Editable = fill;
+            }
 
         }
 
@@ -71,6 +75,10 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
         modify("Bill-to Contact No.")
         {
             Caption = 'Sell-to Contact No.';
+        }
+        modify("Person Responsible")
+        {
+            Visible = false;
         }
         addafter("% Invoiced")
         {

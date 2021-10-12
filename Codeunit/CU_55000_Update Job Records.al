@@ -149,6 +149,8 @@ codeunit 55000 "Update Job Records"
             JobRecordsforSmax."Shipment Date" := SalesShipmentHeader."Posting Date";
             JobRecordsforSmax."Response Status" := JobRecordsforSmax."Response Status"::Modified;
             JobRecordsforSmax."Shipment Status" := 'Staged';
+            IF JobRecordsforSmax."Serial No." <> '' THEN
+                JobRecordsforSmax.Picked := FALSE;
             JobRecordsforSmax."Integration Status" := 0;
             JobRecordsforSmax."IP Created" := TRUE;
             JobRecordsforSmax.MODIFY;
