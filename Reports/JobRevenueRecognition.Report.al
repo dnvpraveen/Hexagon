@@ -143,7 +143,7 @@ report 50099 "Job Revenue Recognition"
 
     requestpage
     {
-
+        //SaveValues = false;
         layout
         {
             area(content)

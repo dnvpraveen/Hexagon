@@ -126,10 +126,10 @@ codeunit 50100 "IFRS15 Mgt"
         rec.CALCFIELDS("IFRS15 Perf. Obligation Status");
         IF rec."IFRS15 Perf. Obligation Status" = rec."IFRS15 Perf. Obligation Status"::Posted THEN
             EXIT;
-        IF rec."Total Cost" <> OldRec."Total Cost" THEN
-            rec."IFRS15 Line Amount" := 0;
-        IF rec."IFRS15 Line Amount" = OldRec."IFRS15 Line Amount" THEN
-            EXIT;
+        // IF rec."Total Cost" <> OldRec."Total Cost" THEN
+        //   rec."IFRS15 Line Amount" := 0;
+        //IF rec."IFRS15 Line Amount" = OldRec."IFRS15 Line Amount" THEN
+        // EXIT;
         IF NOT JobTask.GET(rec."Job No.", rec."Job Task No.") THEN
             EXIT;
         JobTask.VALIDATE("IFRS15 Perf. Obligation Status", JobTask."IFRS15 Perf. Obligation Status"::" ");

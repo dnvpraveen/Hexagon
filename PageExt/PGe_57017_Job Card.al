@@ -121,6 +121,16 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
             //     Hexext.gfncCreateSalesDoc(rec, 1);     //sales order
             //   end;
             // }
+            action("General Ledger Entries")
+            {
+                trigger OnAction()
+                var
+                    GLetnry: Record "G/L Entry";
+                begin
+                    GLetnry.setrange("Document No.", "No.");
+                    PAGE.RUNMODAL(0, GLetnry);
+                end;
+            }
             action("Create IP Sales Order")
             {
                 trigger OnAction()

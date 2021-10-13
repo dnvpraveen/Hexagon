@@ -208,10 +208,11 @@ codeunit 56012 "Auto Sale JobLine Consumption"
         JobJnlLine."Posting Date" := WORKDATE;
         JobJnlLine."Document Date" := WORKDATE;
         JobJournalBatch.GET(JobJnlLine."Journal Template Name", JobJnlLine."Journal Batch Name");
-        IF JobJournalBatch."No. Series" <> '' THEN
-            JobJnlLine."Document No." := NoSeriesMgt.GetNextNo(JobJournalBatch."No. Series", WORKDATE, FALSE)
-        ELSE
-            JobJnlLine."Document No." := JobPlanningLine."Document No.";
+        // IF JobJournalBatch."No. Series" <> '' THEN
+        //JobJnlLine."Document No." := NoSeriesMgt.GetNextNo(JobJournalBatch."No. Series", WORKDATE, FALSE)
+        //ELSE
+        //JobJnlLine."Document No." := JobPlanningLine."Document No.";
+        JobJnlLine."Document No." := LSalesLine."Document No.";
 
         JobJnlLine.Type := JobPlanningLine.Type;
         JobJnlLine."No." := JobPlanningLine."No.";
