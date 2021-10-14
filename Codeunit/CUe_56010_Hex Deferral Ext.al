@@ -269,6 +269,38 @@ codeunit 56010 "Hex Deferral Ext"
 
     end;
 
+    [EventSubscriber(ObjectType::Table, 81, 'OnAfterGetDeferralAmount', '', false, false)]
+    procedure "Hex OnAfterGetDeferralAmount"(VAR GenJournalLine: Record "Gen. Journal Line"; VAR DeferralAmount: Decimal)
+    var
+        IFRS15Setup: Record "IFRS15 Setup";
+    begin
+        // base code amended by gk
+        IFRS15Setup.GET;
+        IF NOT (GenJournalLine."Source Type" IN [GenJournalLine."Source Type"::Vendor, GenJournalLine."Source Type"::Customer]) THEN
+            IF (GenJournalLine."Source Code" = IFRS15Setup."Source Code") THEN
+                DeferralAmount := GenJournalLine.Amount
+            ELSE BEGIN // base code amended by gk
+                IF GenJournalLine."VAT Base Amount" <> 0 THEN
+                    DeferralAmount := GenJournalLine."VAT Base Amount"
+                ELSE
+                    DeferralAmount := GenJournalLine.Amount;
+            END; // base code amended by gk
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 1720, 'OnBeforePostedDeferralLineInsert', '', false, false)]
+    procedure "Hex OnBeforePostedDeferralLineInsert"(VAR PostedDeferralLine: Record "Posted Deferral Line"; GenJournalLine: Record "Gen. Journal Line")
+    var
+        //DeferralHeader: Record "Deferral Header";
+        //DeferralLine:	Record	Deferral Line	
+        DeferralTemplate: Record "Deferral Template";
+    begin
+        //gk
+        IF GenJournalLine."IFRS15 Posting" THEN
+            IF DeferralTemplate.GET(GenJournalLine."Deferral Code") THEN
+                PostedDeferralLine."Deferral Account" := DeferralTemplate."P&L Deferral Account";
+        //gk
+    end;
+
     var
         AmountRoundingPrecision: Decimal;
 

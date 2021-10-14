@@ -1324,6 +1324,24 @@ codeunit 56011 "Hex Smax Stage Ext"
         //Message('Beta MX testing for default Dim in lines');
     end;
 
+    //Deferral 
+
+    [EventSubscriber(ObjectType::Codeunit, 12, 'OnBeforePostDeferral', '', false, false)]
+    procedure "Hex OnBeforePostDeferral"(VAR GenJournalLine: Record "Gen. Journal Line"; VAR AccountNo: Code[20])
+    var
+        IFRS15Setup: Record "IFRS15 Setup";
+        DeferralTemplate: Record "Deferral Template";
+    begin
+        IFRS15Setup.GET;
+        IFRS15Setup.TESTFIELD("Source Code");
+        DeferralTemplate.GET(GenJournalLine."Deferral Code");
+        DeferralTemplate.TESTFIELD("Deferral Account");
+        DeferralTemplate.TESTFIELD("Deferral %");
+        IF NOT (GenJournalLine."Source Type" IN [GenJournalLine."Source Type"::Vendor, GenJournalLine."Source Type"::Customer]) THEN
+            IF (GenJournalLine."Source Code" = IFRS15Setup."Source Code") THEN
+                AccountNo := DeferralTemplate."P&L Deferral Account";
+    end;
+
     var
         ArchiveMgt: Codeunit ArchiveManagement;
         HasGotGLSetup: Boolean;

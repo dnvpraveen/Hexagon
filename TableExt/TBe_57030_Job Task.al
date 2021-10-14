@@ -29,8 +29,20 @@ tableextension 57030 "Job Task" extends "Job Task"
         field(50103; "Deferral Template"; Code[10])
         {
             TableRelation = "Deferral Template"."Deferral Code";
-
             Description = 'Deferral Template';
+            trigger OnValidate()
+            var
+                DeferralUtilities: Codeunit "Deferral Utilities";
+                job: Record job;
+            begin
+                CALCFIELDS("IFRS15 Line Amount");
+                if job.Get("Job No.") then
+                    DeferralUtilities.DeferralCodeOnValidate(
+                      "Deferral Template", 0, '', '',
+                      0, "Job No.", "Line No.",
+                      "IFRS15 Line Amount", WORKDATE,
+                      Description, Job."Currency Code");
+            end;
         }
         field(50104; "Total Cost"; Decimal)
         {
@@ -61,6 +73,10 @@ tableextension 57030 "Job Task" extends "Job Task"
 
             Editable = false;
             AutoFormatType = 1;
+        }
+        field(50107; "Line No."; Integer)
+        {
+            Description = 'Line No.';
         }
         field(55000; "ERP Company No."; Code[10])
         {
@@ -117,7 +133,29 @@ tableextension 57030 "Job Task" extends "Job Task"
 
         }
     }
+    procedure UpdateDeferralAmounts()
+    var
+        DeferralUtilities: Codeunit "Deferral Utilities";
+        job: Record job;
+    begin
+        if job.Get("Job No.") then
+            DeferralUtilities.RemoveOrSetDeferralSchedule(
+    "Deferral Template", 0, '', '',
+    0, Job."No.", "Line No.",
+    "IFRS15 Line Amount", WORKDATE,
+    Description, Job."Currency Code", TRUE);
+    end;
 
-
+    procedure ShowDeferrals(PostingDate: Date; CurrencyCode: Code[10]): Boolean
+    var
+        DeferralUtilities: Codeunit "Deferral Utilities";
+        job: Record job;
+    begin
+        if job.Get("Job No.") then
+            EXIT(DeferralUtilities.OpenLineScheduleEdit(
+                "Deferral Template", 0, '', '',
+                0, Job."No.", "Line No.",
+                "IFRS15 Line Amount", WORKDATE, Description, Job."Currency Code"));
+    end;
 }
 
