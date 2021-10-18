@@ -56,6 +56,7 @@ codeunit 55000 "Update Job Records"
                             JobRecordsforSmax."Currency Code" := Job."Currency Code";
                             JobRecordsforSmax."External Doc No." := Job."External Doc No.";
                             //JobRecordsforSmax."Order Date" := Job."Order Date";
+                            JobRecordsforSmax."Serial No." := Job."Product Serial No.";
                             JobRecordsforSmax."Promised Delivery Date" := JobPlanningLine."Promised Delivery Date";
                             JobRecordsforSmax."Order Type" := JobPlanningLine."Order Type";
                             JobRecordsforSmax."Location Code" := JobPlanningLine."Location Code";
@@ -103,6 +104,7 @@ codeunit 55000 "Update Job Records"
                             JobRecordsforSmax."Currency Code" := Job."Currency Code";
                             JobRecordsforSmax."External Doc No." := Job."External Doc No.";
                             //JobRecordsforSmax."Order Date" := Job."Order Date";
+                            JobRecordsforSmax."Serial No." := Job."Product Serial No.";
                             JobRecordsforSmax."Promised Delivery Date" := JobPlanningLine."Promised Delivery Date";
                             JobRecordsforSmax."Order Type" := JobPlanningLine."Order Type";
                             JobRecordsforSmax."Location Code" := JobPlanningLine."Location Code";
