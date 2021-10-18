@@ -291,7 +291,8 @@ report 50099 "Job Revenue Recognition"
         GenJournalLine.VALIDATE("Account No.", IFRS15Setup."Revenue Recognition Account");         //Hexagon Changes
         GenJournalLine.VALIDATE("Bal. Account Type", GenJournalLine."Bal. Account Type"::"G/L Account");
         //VALIDATE("Bal. Account No.", IFRS15Setup."Revenue Recognition Account");    //Original Code
-        GenJournalLine.VALIDATE("Bal. Account No.", GeneralPostingSetup."Sales Account");      //Hexagon Changes
+        //GenJournalLine.VALIDATE("Bal. Account No.", GeneralPostingSetup."Sales Account");      //Hexagon Changes
+        GenJournalLine.VALIDATE("Bal. Account No.", GeneralPostingSetup."IFRS15 Sales Account");      //Mexico Changes
         GenJournalLine.VALIDATE("Source Code", IFRS15Setup."Source Code");
         //gk
         GenJournalLine.VALIDATE(Amount, JobPlanningLine."IFRS15 Line Amount (LCY)");
