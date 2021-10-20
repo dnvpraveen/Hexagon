@@ -6,6 +6,10 @@ pageextension 57012 "Hex Sales Order Subform" extends "Sales Order Subform"
         //addlast()
         addafter("Shipment Date")
         {
+            field("Gen. Prod. Posting Group"; "Gen. Prod. Posting Group")
+            {
+                Editable = true;
+            }
             field("Smax Line No."; "Smax Line No.")
             {
                 Editable = false;
