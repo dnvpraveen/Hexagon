@@ -1351,6 +1351,7 @@ codeunit 56011 "Hex Smax Stage Ext"
         //gk
     end;
 
+
     var
         ArchiveMgt: Codeunit ArchiveManagement;
         HasGotGLSetup: Boolean;

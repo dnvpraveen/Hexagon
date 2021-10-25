@@ -214,6 +214,13 @@ tableextension 57027 "Job Planning Line" extends "Job Planning Line"
                 VALIDATE("Qty. to Transfer to Journal", 0); //gk
             end;
         }
+        modify("Qty. Posted")
+        {
+            trigger OnAfterValidate()
+            begin
+                "Completed %" := ("Qty. Posted" / "Quantity (Base)") * 100;
+            end;
+        }
     }
 
     trigger OnModify()
@@ -223,4 +230,5 @@ tableextension 57027 "Job Planning Line" extends "Job Planning Line"
         Modified := TRUE;
         //gk
     end;
+
 }

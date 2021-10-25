@@ -237,7 +237,8 @@ codeunit 56012 "Auto Sale JobLine Consumption"
         JobJnlLine.VALIDATE(Quantity, JobPlanningLine."Qty. to Transfer to Journal");
         JobJnlLine.VALIDATE("Qty. per Unit of Measure", JobPlanningLine."Qty. per Unit of Measure");
         JobJnlLine."Direct Unit Cost (LCY)" := JobPlanningLine."Direct Unit Cost (LCY)";
-        JobJnlLine.VALIDATE("Unit Cost", JobPlanningLine."Unit Cost");
+        //JobJnlLine.VALIDATE("Unit Cost", JobPlanningLine."Unit Cost");
+        JobJnlLine.VALIDATE("Unit Cost", LSalesLine."Line Amount");
         JobJnlLine.VALIDATE("Unit Price", JobPlanningLine."Unit Price");
         JobJnlLine.VALIDATE("Line Discount %", JobPlanningLine."Line Discount %");
         Item.GET(JobPlanningLine."No.");
