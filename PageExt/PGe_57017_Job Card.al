@@ -112,15 +112,16 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
                 Runobject = Report 50099;
                 Image = "Order";
             }
-            //action("Create Sales Order")
-            //{
-            //trigger OnAction()
-            //var
-            //  Hexext: Codeunit "Hex Smax Stage Ext";
-            //begin
-            //     Hexext.gfncCreateSalesDoc(rec, 1);     //sales order
-            //   end;
-            // }
+            action("Job Lines for Smax")
+            {
+                trigger OnAction()
+                var
+                    SmaxJobLine: Record "Job Records for Smax";
+                begin
+                    SmaxJobLine.SetRange("Job No.", "No.");     //Smax Job Lines order
+                    Page.RunModal(0, SmaxJobLine);
+                end;
+            }
             action("General Ledger Entries")
             {
                 trigger OnAction()
