@@ -1342,6 +1342,15 @@ codeunit 56011 "Hex Smax Stage Ext"
                 AccountNo := DeferralTemplate."P&L Deferral Account";
     end;
 
+    [EventSubscriber(ObjectType::Table, 1003, 'OnAfterInitJobPlanningLine', '', false, false)]
+    procedure "Hex OnAfterInitJobPlanningLine"(VAR JobPlanningLine: Record "Job Planning Line")
+    var
+    begin
+        //gk
+        JobPlanningLine.Created := TRUE;
+        //gk
+    end;
+
     var
         ArchiveMgt: Codeunit ArchiveManagement;
         HasGotGLSetup: Boolean;

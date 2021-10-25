@@ -2,7 +2,6 @@ codeunit 55000 "Update Job Records"
 {
     trigger OnRun()
     begin
-
     end;
 
     VAR
@@ -16,6 +15,7 @@ codeunit 55000 "Update Job Records"
         JobPlanningLine: Record 1003;
         Customer: Record 18;
     BEGIN
+        //to update new records
         JobTask.RESET;
         JobTask.SETRANGE("Job No.", Job."No.");
         IF JobTask.FINDSET THEN BEGIN
@@ -25,6 +25,8 @@ codeunit 55000 "Update Job Records"
                 JobPlanningLine.SETRANGE("Job No.", JobTask."Job No.");
                 JobPlanningLine.SETRANGE("Job Task No.", JobTask."Job Task No.");
                 JobPlanningLine.SETFILTER(Type, '<>%1', JobPlanningLine.Type::Text);
+                JobPlanningLine.SETRANGE(Created, TRUE);
+                JobPlanningLine.SETRANGE(Modified, FALSE);
                 IF JobPlanningLine.FINDSET THEN BEGIN
                     REPEAT
                         JobRecordsforSmax2.RESET;
@@ -46,8 +48,7 @@ codeunit 55000 "Update Job Records"
                                 JobRecordsforSmax."Address 2" := Customer."Address 2";
                                 JobRecordsforSmax."Post Code" := Customer."Post Code";
                                 JobRecordsforSmax."BOM Component" := JobPlanningLine."BOM Component";
-                                //JobRecordsforSmax."Country /Region Code" := Customer."Country/Region Code";//Mexico Country convertion
-                                JobRecordsforSmax."Country /Region Code" := Customer.HEXCountry;//Mexico Country convertion
+                                JobRecordsforSmax."Country /Region Code" := Customer."Country/Region Code";
                                 IF Customer."Customer Posting Group" = 'DOMESTIC' THEN
                                     JobRecordsforSmax."Customer Type" := 'DO';
                                 IF (Customer."Customer Posting Group" = 'FOREIGN') OR (Customer."Customer Posting Group" = 'INTERCOMP') THEN
@@ -55,9 +56,12 @@ codeunit 55000 "Update Job Records"
                             END;
                             JobRecordsforSmax."Currency Code" := Job."Currency Code";
                             JobRecordsforSmax."External Doc No." := Job."External Doc No.";
-                            //JobRecordsforSmax."Order Date" := Job."Order Date";
                             JobRecordsforSmax."Serial No." := Job."Product Serial No.";
-                            JobRecordsforSmax."Promised Delivery Date" := JobPlanningLine."Promised Delivery Date";
+                            IF JobPlanningLine."Promised Delivery Date" <> 0D THEN
+                                JobRecordsforSmax."Promised Delivery Date" := JobPlanningLine."Promised Delivery Date"
+                            ELSE
+                                JobRecordsforSmax."Promised Delivery Date" := WORKDATE;
+
                             JobRecordsforSmax."Order Type" := JobPlanningLine."Order Type";
                             JobRecordsforSmax."Location Code" := JobPlanningLine."Location Code";
                             JobRecordsforSmax.Type := JobPlanningLine.Type;
@@ -74,14 +78,48 @@ codeunit 55000 "Update Job Records"
                             IF JobPlanningLine.IP THEN
                                 OriginalOrderNo := JobPlanningLine."Job No." + '-' + JobPlanningLine."Job Task No." + '-' + FORMAT(JobPlanningLine."Line No.");
                             JobRecordsforSmax."Smax Order for IP" := OriginalOrderNo;
-                            JobRecordsforSmax."Start Date" := JobPlanningLine."Warranty Start Date";
-                            JobRecordsforSmax."End Date" := JobPlanningLine."Warranty End Date";
+                            IF ((JobPlanningLine."Warranty Start Date" <> 0D) AND (JobPlanningLine."Warranty End Date" <> 0D)) THEN BEGIN
+                                JobRecordsforSmax."Start Date" := JobPlanningLine."Warranty Start Date";
+                                JobRecordsforSmax."End Date" := JobPlanningLine."Warranty End Date";
+                            END;
+                            IF ((JobPlanningLine."Warranty Start Date" <> 0D) AND (JobPlanningLine."Warranty End Date" = 0D)) THEN BEGIN
+                                JobRecordsforSmax."Start Date" := JobPlanningLine."Warranty Start Date";
+                                JobRecordsforSmax."End Date" := CALCDATE('<+1Y>', JobPlanningLine."Warranty Start Date");
+                            END;
+                            IF (JobPlanningLine."Warranty Start Date" = 0D) THEN BEGIN
+                                JobRecordsforSmax."Start Date" := WORKDATE;
+                                JobRecordsforSmax."End Date" := CALCDATE('<+1Y>', JobRecordsforSmax."Start Date");
+                            END;
                             JobRecordsforSmax."CPQ Item" := Job."CPQ Item";
                             JobRecordsforSmax.Status := Job.Status;
                             JobRecordsforSmax."Response Status" := JobRecordsforSmax."Response Status"::Created;
                             JobRecordsforSmax."Integration Status" := 0;
                             JobRecordsforSmax.INSERT;
-                        END ELSE BEGIN
+                        END;
+                    UNTIL JobPlanningLine.NEXT = 0;
+                END;
+            UNTIL JobTask.NEXT = 0;
+        END;
+
+        //to update modified records
+        JobTask.RESET;
+        JobTask.SETRANGE("Job No.", Job."No.");
+        IF JobTask.FINDSET THEN BEGIN
+            CLEAR(OriginalOrderNo);
+            REPEAT
+                JobPlanningLine.RESET;
+                JobPlanningLine.SETRANGE("Job No.", JobTask."Job No.");
+                JobPlanningLine.SETRANGE("Job Task No.", JobTask."Job Task No.");
+                JobPlanningLine.SETFILTER(Type, '<>%1', JobPlanningLine.Type::Text);
+                JobPlanningLine.SETRANGE(Created, TRUE);
+                JobPlanningLine.SETRANGE(Modified, TRUE);
+                IF JobPlanningLine.FINDSET THEN BEGIN
+                    REPEAT
+                        JobRecordsforSmax2.RESET;
+                        JobRecordsforSmax2.SETRANGE("Job No.", JobPlanningLine."Job No.");
+                        JobRecordsforSmax2.SETRANGE("Job Task No.", JobPlanningLine."Job Task No.");
+                        JobRecordsforSmax2.SETRANGE("Line No.", JobPlanningLine."Line No.");
+                        IF JobRecordsforSmax2.FINDFIRST THEN BEGIN
                             JobRecordsforSmax."Job No." := JobPlanningLine."Job No.";
                             JobRecordsforSmax."Job Task No." := JobPlanningLine."Job Task No.";
                             JobRecordsforSmax."Line No." := JobPlanningLine."Line No.";
@@ -94,8 +132,7 @@ codeunit 55000 "Update Job Records"
                                 JobRecordsforSmax.Address := Customer.Address;
                                 JobRecordsforSmax."Address 2" := Customer."Address 2";
                                 JobRecordsforSmax."Post Code" := Customer."Post Code";
-                                //JobRecordsforSmax."Country /Region Code" := Customer."Country/Region Code";//Mexico Country convertion
-                                JobRecordsforSmax."Country /Region Code" := Customer.HEXCountry;//Mexico Country convertion
+                                JobRecordsforSmax."Country /Region Code" := Customer."Country/Region Code";
                                 IF Customer."Customer Posting Group" = 'DOMESTIC' THEN
                                     JobRecordsforSmax."Customer Type" := 'DO';
                                 IF (Customer."Customer Posting Group" = 'FOREIGN') OR (Customer."Customer Posting Group" = 'INTERCOMP') THEN
@@ -103,9 +140,11 @@ codeunit 55000 "Update Job Records"
                             END;
                             JobRecordsforSmax."Currency Code" := Job."Currency Code";
                             JobRecordsforSmax."External Doc No." := Job."External Doc No.";
-                            //JobRecordsforSmax."Order Date" := Job."Order Date";
                             JobRecordsforSmax."Serial No." := Job."Product Serial No.";
-                            JobRecordsforSmax."Promised Delivery Date" := JobPlanningLine."Promised Delivery Date";
+                            IF JobPlanningLine."Promised Delivery Date" <> 0D THEN
+                                JobRecordsforSmax."Promised Delivery Date" := JobPlanningLine."Promised Delivery Date"
+                            ELSE
+                                JobRecordsforSmax."Promised Delivery Date" := WORKDATE;
                             JobRecordsforSmax."Order Type" := JobPlanningLine."Order Type";
                             JobRecordsforSmax."Location Code" := JobPlanningLine."Location Code";
                             JobRecordsforSmax.Type := JobPlanningLine.Type;
@@ -115,25 +154,37 @@ codeunit 55000 "Update Job Records"
                             JobRecordsforSmax."Unit Price" := JobPlanningLine."Unit Price";
                             JobRecordsforSmax."Activity Type" := JobPlanningLine."Activity Type";
                             JobRecordsforSmax."BOM Component" := JobPlanningLine."BOM Component";
+                            JobRecordsforSmax."IP Created" := TRUE;
                             JobRecordsforSmax."Smax Order No." := JobPlanningLine."Job No." + '-' + JobPlanningLine."Job Task No." + '-' +
                                         FORMAT(JobPlanningLine."Line No.");
                             JobRecordsforSmax.IP := JobPlanningLine.IP;
-                            IF JobPlanningLine.IP THEN
-                                OriginalOrderNo := JobPlanningLine."Job No." + '-' + JobPlanningLine."Job Task No." + '-' + FORMAT(JobPlanningLine."Line No.");
-                            JobRecordsforSmax."Smax Order for IP" := OriginalOrderNo;
-                            JobRecordsforSmax."Start Date" := JobPlanningLine."Warranty Start Date";
-                            JobRecordsforSmax."End Date" := JobPlanningLine."Warranty End Date";
+                            IF ((JobPlanningLine."Warranty Start Date" <> 0D) AND (JobPlanningLine."Warranty End Date" <> 0D)) THEN BEGIN
+                                JobRecordsforSmax."Start Date" := JobPlanningLine."Warranty Start Date";
+                                JobRecordsforSmax."End Date" := JobPlanningLine."Warranty End Date";
+                            END;
+                            IF ((JobPlanningLine."Warranty Start Date" <> 0D) AND (JobPlanningLine."Warranty End Date" = 0D)) THEN BEGIN
+                                JobRecordsforSmax."Start Date" := JobPlanningLine."Warranty Start Date";
+                                JobRecordsforSmax."End Date" := CALCDATE('<+1Y>', JobPlanningLine."Warranty Start Date");
+                            END;
+                            IF (JobPlanningLine."Warranty Start Date" = 0D) THEN BEGIN
+                                JobRecordsforSmax."Start Date" := WORKDATE;
+                                JobRecordsforSmax."End Date" := CALCDATE('<+1Y>', JobRecordsforSmax."Start Date");
+                            END;
                             JobRecordsforSmax."CPQ Item" := Job."CPQ Item";
                             JobRecordsforSmax.Status := Job.Status;
                             JobRecordsforSmax."Response Status" := JobRecordsforSmax."Response Status"::Modified;
                             JobRecordsforSmax."Integration Status" := 0;
+                            JobRecordsforSmax."Integration Completed" := FALSE;
+                            JobRecordsforSmax.Picked := FALSE;
                             JobRecordsforSmax.MODIFY;
                         END;
+                        JobPlanningLine.Modified := FALSE;
+                        JobPlanningLine.MODIFY;
                     UNTIL JobPlanningLine.NEXT = 0;
                 END;
             UNTIL JobTask.NEXT = 0;
         END;
-    END;
+    end;
 
     PROCEDURE UpdateShipmentDetails(SalesShipmentHeader: Record 110);
     VAR
@@ -151,8 +202,6 @@ codeunit 55000 "Update Job Records"
             JobRecordsforSmax."Shipment Date" := SalesShipmentHeader."Posting Date";
             JobRecordsforSmax."Response Status" := JobRecordsforSmax."Response Status"::Modified;
             JobRecordsforSmax."Shipment Status" := 'Staged';
-            IF JobRecordsforSmax."Serial No." <> '' THEN
-                JobRecordsforSmax.Picked := FALSE;
             JobRecordsforSmax."Integration Status" := 0;
             JobRecordsforSmax."IP Created" := TRUE;
             JobRecordsforSmax.MODIFY;
@@ -188,7 +237,7 @@ codeunit 55000 "Update Job Records"
                 OrderLogDetails.MODIFY;
             UNTIL OrderLogDetails.NEXT = 0;
         END;
-    END;
+    end;
 
     PROCEDURE UpdateSerialNo(JobLedgerEntry: Record 169);
     VAR
@@ -203,6 +252,7 @@ codeunit 55000 "Update Job Records"
             JobRecordsforSmax."Serial No." := JobLedgerEntry."Serial No.";
             JobRecordsforSmax."Response Status" := JobRecordsforSmax."Response Status"::Modified;
             JobRecordsforSmax."Integration Status" := 0;
+            JobRecordsforSmax.Picked := FALSE;
             JobRecordsforSmax."IP Created" := TRUE;
             JobRecordsforSmax.MODIFY;
         END;
@@ -213,27 +263,28 @@ codeunit 55000 "Update Job Records"
         SalesInvoiceHeader_ACk: Record 55012;
         SalesInvoiceLine_Ack: Record 55013;
     BEGIN
-        If LSalesInvoiceHeader."Order Created" then begin
+        IF LSalesInvoiceHeader."Order Created" THEN BEGIN
             SalesInvoiceHeader_ACk.RESET;
             SalesInvoiceHeader_ACk.SETRANGE("No.", LSalesInvoiceHeader."No.");
             IF NOT SalesInvoiceHeader_ACk.FINDFIRST THEN BEGIN
                 SalesInvoiceHeader_ACk.INIT;
                 SalesInvoiceHeader_ACk.TRANSFERFIELDS(LSalesInvoiceHeader);
                 SalesInvoiceHeader_ACk.INSERT;
-            END;
 
-            SalesInvoiceLine_Ack.RESET;
-            SalesInvoiceLine_Ack.SETRANGE("Document No.", LSalesInvoiceLine."Document No.");
-            SalesInvoiceLine_Ack.SETRANGE("Line No.", LSalesInvoiceLine."Line No.");
-            IF NOT SalesInvoiceLine_Ack.FINDFIRST THEN BEGIN
-                SalesInvoiceLine_Ack.INIT;
-                SalesInvoiceLine_Ack.TRANSFERFIELDS(LSalesInvoiceLine);
-                SalesInvoiceLine_Ack."Smax Line No." := LSalesInvoiceLine."Smax Line No.";
-                SalesInvoiceLine_Ack."Order Created" := TRUE;
-                SalesInvoiceLine_Ack.INSERT;
-            END;
-        end;
-    END;
+                SalesInvoiceLine_Ack.RESET;
+                SalesInvoiceLine_Ack.SETRANGE("Document No.", LSalesInvoiceHeader."No.");
+                SalesInvoiceLine_Ack.SETRANGE("Line No.", LSalesInvoiceLine."Line No.");
+                IF NOT SalesInvoiceLine_Ack.FINDFIRST THEN BEGIN
+                    SalesInvoiceLine_Ack.INIT;
+                    SalesInvoiceLine_Ack.TRANSFERFIELDS(LSalesInvoiceLine);
+                    SalesInvoiceLine_Ack."Smax Line No." := LSalesInvoiceLine."Smax Line No.";
+                    IF LSalesInvoiceHeader."Order Created" THEN
+                        SalesInvoiceLine_Ack."Order Created" := TRUE;
+                    SalesInvoiceLine_Ack.INSERT;
+                END;
+            end;
+        END;
+    end;
 
 
 }

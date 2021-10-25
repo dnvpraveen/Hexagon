@@ -216,5 +216,11 @@ tableextension 57027 "Job Planning Line" extends "Job Planning Line"
         }
     }
 
-
+    trigger OnModify()
+    begin
+        //gk
+        //TESTFIELD(Status,Status::Planning);
+        Modified := TRUE;
+        //gk
+    end;
 }
