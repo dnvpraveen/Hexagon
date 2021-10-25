@@ -212,8 +212,8 @@ codeunit 56012 "Auto Sale JobLine Consumption"
         //JobJnlLine."Document No." := NoSeriesMgt.GetNextNo(JobJournalBatch."No. Series", WORKDATE, FALSE)
         //ELSE
         //JobJnlLine."Document No." := JobPlanningLine."Document No.";
-        JobJnlLine."Document No." := LSalesLine."Document No.";
-
+        //JobJnlLine."Document No." := LSalesLine."Document No.";
+        JobJnlLine."Document No." := JobPlanningLine."Job No.";
         JobJnlLine.Type := JobPlanningLine.Type;
         JobJnlLine."No." := JobPlanningLine."No.";
         JobJnlLine."Entry Type" := JobJnlLine."Entry Type"::Usage;

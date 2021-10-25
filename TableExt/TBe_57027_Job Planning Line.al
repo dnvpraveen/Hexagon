@@ -218,7 +218,8 @@ tableextension 57027 "Job Planning Line" extends "Job Planning Line"
         {
             trigger OnAfterValidate()
             begin
-                "Completed %" := ("Qty. Posted" / "Quantity (Base)") * 100;
+                If "Qty. Posted" <> 0 then
+                    "Completed %" := ("Qty. Posted" / "Quantity (Base)") * 100;
             end;
         }
     }
