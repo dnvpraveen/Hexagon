@@ -85,7 +85,7 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
             var
                 gmdlDimMgt: Codeunit "Hex Smax Stage Ext";
             begin
-                gmdlDimMgt.GetDefaultDim(Rec, xRec);
+                //gmdlDimMgt.GetDefaultDim(Rec, xRec);
             end;
 
             trigger OnAfterValidate()

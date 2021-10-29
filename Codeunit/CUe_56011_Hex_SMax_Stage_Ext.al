@@ -1351,6 +1351,22 @@ codeunit 56011 "Hex Smax Stage Ext"
         //gk
     end;
 
+    //Testing for codeunit 12 defferalpost
+    // [EventSubscriber(ObjectType::Table, Database::"G/L Entry", 'OnBeforeInsertEvent', '', false, false)]
+    //procedure "Hex DeferralCode"(var Rec: Record "G/L Entry")
+    //var
+    // IFRS15Setup: Record "IFRS15 Setup";
+    //DeferralTemplate: Record "Deferral Template";
+    //begin
+    //  IFRS15Setup.GET;
+    //IFRS15Setup.TESTFIELD("Source Code");
+    //DeferralTemplate.GET(GenJournalLine."Deferral Code");
+    //DeferralTemplate.TESTFIELD("Deferral Account");
+    //DeferralTemplate.TESTFIELD("Deferral %");
+    //IF NOT (rec."Source Type" IN [rec."Source Type"::Vendor, rec."Source Type"::Customer]) THEN
+    //  IF (rec."Source Code" = IFRS15Setup."Source Code") THEN
+    //    AccountNo := DeferralTemplate."P&L Deferral Account";
+    //end;
 
     var
         ArchiveMgt: Codeunit ArchiveManagement;
