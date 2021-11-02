@@ -14,8 +14,10 @@ codeunit 55000 "Update Job Records"
         JobTask: Record 1001;
         JobPlanningLine: Record 1003;
         Customer: Record 18;
+        Glsetup: Record 98;
     BEGIN
         //to update new records
+        Glsetup.Get();
         JobTask.RESET;
         JobTask.SETRANGE("Job No.", Job."No.");
         IF JobTask.FINDSET THEN BEGIN
@@ -54,7 +56,10 @@ codeunit 55000 "Update Job Records"
                                 IF (Customer."Customer Posting Group" = 'FOREIGN') OR (Customer."Customer Posting Group" = 'INTERCOMP') THEN
                                     JobRecordsforSmax."Customer Type" := 'FO';
                             END;
-                            JobRecordsforSmax."Currency Code" := Job."Currency Code";
+                            If job."Currency Code" <> '' then
+                                JobRecordsforSmax."Currency Code" := Job."Currency Code"
+                            else
+                                JobRecordsforSmax."Currency Code" := Glsetup."LCY Code";
                             JobRecordsforSmax."External Doc No." := Job."External Doc No.";
                             JobRecordsforSmax."Serial No." := Job."Product Serial No.";
                             IF JobPlanningLine."Promised Delivery Date" <> 0D THEN
@@ -138,7 +143,10 @@ codeunit 55000 "Update Job Records"
                                 IF (Customer."Customer Posting Group" = 'FOREIGN') OR (Customer."Customer Posting Group" = 'INTERCOMP') THEN
                                     JobRecordsforSmax."Customer Type" := 'FO';
                             END;
-                            JobRecordsforSmax."Currency Code" := Job."Currency Code";
+                            If job."Currency Code" <> '' then
+                                JobRecordsforSmax."Currency Code" := Job."Currency Code"
+                            else
+                                JobRecordsforSmax."Currency Code" := Glsetup."LCY Code";
                             JobRecordsforSmax."External Doc No." := Job."External Doc No.";
                             JobRecordsforSmax."Serial No." := Job."Product Serial No.";
                             IF JobPlanningLine."Promised Delivery Date" <> 0D THEN
