@@ -6,7 +6,8 @@ tableextension 57004 deferralTemplate extends "Deferral Template"
         {
             //DataClassification = ToBeClassified;
             Description = 'P&L Deferral Account';
-            TableRelation = "G/L Account" WHERE("Income/Balance" = CONST("Income Statement"), Blocked = filter(false));
+            TableRelation = "G/L Account" WHERE("Account Type" = const(Posting), Blocked = filter(false));
+            //"G/L Account" WHERE (Account Type=CONST(Posting),Blocked=CONST(No))
         }
     }
 }

@@ -119,7 +119,7 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
                     SmaxJobLine: Record "Job Records for Smax";
                 begin
                     SmaxJobLine.SetRange("Job No.", "No.");     //Smax Job Lines order
-                    Page.RunModal(0, SmaxJobLine);
+                    Page.RunModal(55000, SmaxJobLine);
                 end;
             }
             action("General Ledger Entries")
