@@ -104,8 +104,6 @@ tableextension 57032 "Hex Transfer Header" extends "Transfer Header"
         field(55022; "Header Status"; Text[30])
         {
             Description = 'Header Status';
-            //OptionMembers = " ",Closed,Shipped,"Partially Shipped",Completed;
-            // OptionCaption = '  ,Closed,Shipped,Partially Shipped,Completed';
         }
         field(55023; "Ship-to Address"; Text[50])
         {
