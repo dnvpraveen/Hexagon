@@ -80,6 +80,10 @@ pageextension 57017 "Hex Job Card" extends "Job Card"
         {
             Visible = false;
         }
+        modify("Invoice Currency Code")
+        {
+            Visible = false;
+        }
         addafter("% Invoiced")
         {
             field("Total Revenue to Recognize"; "Total Revenue to Recognize")
