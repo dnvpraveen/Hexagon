@@ -26,9 +26,6 @@ codeunit 55001 "Update ITDW to  Planning Lines"
 
     end;
 
-
-
-
     PROCEDURE UpdatePlanningLines();
     VAR
         ITDWProformaRecords: Record 55014;

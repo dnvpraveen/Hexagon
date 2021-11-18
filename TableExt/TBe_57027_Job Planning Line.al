@@ -190,11 +190,15 @@ tableextension 57027 "Job Planning Line" extends "Job Planning Line"
             var
                 job: Record Job;
                 jobtask: Record "Job Task";
+                cust: Record Customer;
             begin
                 Job.GET("Job No.");
                 //GetJob;
                 "Customer Price Group" := Job."Customer Price Group";
                 //gk Smax1.0
+                if cust.get(job."Bill-to Customer No.") then
+                    "Gen. Bus. Posting Group" := cust."Gen. Bus. Posting Group";
+
                 "ERP Company No." := Job."ERP Company No.";
                 "Opportunity No." := Job."Opportunity No.";
                 JobTask.GET("Job No.", "Job Task No.");
