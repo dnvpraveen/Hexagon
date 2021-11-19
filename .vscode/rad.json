@@ -1,1 +1,1 @@
-﻿{"Added":[],"Modified":[],"Removed":[]}
+﻿{"Added":[],"Modified":[{"Id":55000,"Kind":11,"Name":"Update Job Records","PackagePath":"/src/Codeunit/CU_55000_Update%20Job%20Records.al"},{"Id":57027,"Kind":17,"Name":"Job Planning Line","PackagePath":"/src/TableExt/TBe_57027_Job%20Planning%20Line.al"}],"Removed":[]}

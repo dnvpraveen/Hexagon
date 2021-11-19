@@ -281,10 +281,10 @@ table 55000 "Job Records for Smax"
         {
             Description = 'Qty to Invoice';
         }
-        Field(250; "Completed %"; Decimal)
-        {
-            Description = 'Completed %';
-        }
+        //Field(250; "Completed %"; Decimal)
+        //{
+        //  Description = 'Completed %';
+        //}
     }
 
     keys
