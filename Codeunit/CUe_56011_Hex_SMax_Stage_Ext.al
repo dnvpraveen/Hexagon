@@ -1269,8 +1269,8 @@ codeunit 56011 "Hex Smax Stage Ext"
         // new code added gk
         IF (SalesLine.Type = SalesLine.Type::Item) AND SalesHeader.Invoice THEN BEGIN
             //PostItemJnlLineItemCharges(SalesHeader, SalesLine, OriginalItemJnlLine, "Item Shpt. Entry No.");
-            //IF SalesLine."Job No." <> '' THEN
-            // AutoSaleJobLineConsumption.PostItemJnlLineJobConsumption(SalesHeader, SalesLine, salesline."Qty. to Invoice (Base)", ItemJournalLine."Item Shpt. Entry No.");
+            IF SalesLine."Job No." <> '' THEN
+                AutoSaleJobLineConsumption.PostItemJnlLineJobConsumption(SalesHeader, SalesLine, salesline."Qty. to Invoice (Base)", ItemJournalLine."Item Shpt. Entry No.");
         END;
         // new code end gk
     end;
