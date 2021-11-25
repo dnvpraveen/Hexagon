@@ -33,6 +33,7 @@ codeunit 56012 "Auto Sale JobLine Consumption"
     var
 
         ItemJnlLine: Record "Item Journal Line";
+        LItemLedgerEntry: Record "Item Ledger Entry";
     begin
         ItemJnlLine.INIT;
         ItemJnlLine."Journal Template Name" := 'ITEM';
@@ -53,6 +54,13 @@ codeunit 56012 "Auto Sale JobLine Consumption"
         ItemJnlLine.VALIDATE("Shortcut Dimension 1 Code", LSalesLine."Shortcut Dimension 1 Code");
         ItemJnlLine.VALIDATE("Shortcut Dimension 2 Code", LSalesLine."Shortcut Dimension 2 Code");
         ItemJnlLine.VALIDATE("Dimension Set ID", LSalesLine."Dimension Set ID");
+
+        LItemLedgerEntry.RESET;
+        LItemLedgerEntry.SETRANGE("Entry No.", ItemShipmentEntryNo);
+        IF LItemLedgerEntry.FINDFIRST THEN begin
+            ItemJnlLine."Entry/Exit Point" := LItemLedgerEntry."Entry/Exit Point";
+        end;
+
         IF Item."Item Tracking Code" <> '' THEN
             UpdatePositiveResEntry(ItemJnlLine, LSalesLine, ItemShipmentEntryNo);
         ItemJnlPostLine.RunWithCheck(ItemJnlLine);
