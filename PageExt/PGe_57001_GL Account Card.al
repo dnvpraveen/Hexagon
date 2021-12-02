@@ -15,10 +15,10 @@ pageextension 57001 "Hex G/L Account Card" extends "G/L Account Card"
             // {
             //     Caption = 'HexSeqID';
             // }
-            field(Indentation; Indentation)
-            {
-                Caption = 'Indentation';
-            }
+            //   field(Indentation; Indentation)
+            // {
+            //   Caption = 'Indentation';
+            //}
         }
 
 

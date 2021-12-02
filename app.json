@@ -13,6 +13,14 @@
   "screenshots": [],
   "platform": "14.0.0.0",
   "application": "14.0.0.0",
+  "dependencies": [
+    {
+      "appId": "07dde111-e4fc-4faf-94a7-94ff65cdd113",
+      "name": "AkkOn For Business Central",
+      "publisher": "Akkomplish Consulting Pvt. Ltd.",
+      "version": "1.0.14.281"
+    }
+  ],
   "idRanges": [
     {
       "from": 50000,

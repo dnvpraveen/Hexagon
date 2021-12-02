@@ -59,6 +59,8 @@ codeunit 56012 "Auto Sale JobLine Consumption"
         LItemLedgerEntry.SETRANGE("Entry No.", ItemShipmentEntryNo);
         IF LItemLedgerEntry.FINDFIRST THEN begin
             ItemJnlLine."Entry/Exit Point" := LItemLedgerEntry."Entry/Exit Point";
+            ItemJnlLine."AkkOn-Entry/Exit Date" := LItemLedgerEntry."AkkOn-Entry/Exit Date";
+            ItemJnlLine."AkkOn-Entry/Exit No." := LItemLedgerEntry."AkkOn-Entry/Exit No.";
         end;
 
         IF Item."Item Tracking Code" <> '' THEN

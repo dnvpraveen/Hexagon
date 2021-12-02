@@ -14,10 +14,10 @@ pageextension 57003 "hex Chart of Accounts" extends "Chart of Accounts"
             // {
             //     Caption = 'HexSeqID';
             // }
-            field(Indentation; Indentation)
-            {
-                Caption = 'Indentation';
-            }
+            // field(Indentation; Indentation)
+            //{
+            //  Caption = 'Indentation';
+            //}
         }
     }
     actions
