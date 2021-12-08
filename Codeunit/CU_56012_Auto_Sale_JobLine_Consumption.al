@@ -122,6 +122,7 @@ codeunit 56012 "Auto Sale JobLine Consumption"
                 ReservationEntry.VALIDATE("Expiration Date", OldReservationEntry."Expiration Date");
                 ReservationEntry.INSERT;
                 OldReservationEntry.DELETE;
+                ItemJournalLine."Document No." := Salesline."Job No.";
             UNTIL OldReservationEntry.NEXT = 0;
     end;
 
