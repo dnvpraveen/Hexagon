@@ -41,7 +41,8 @@ codeunit 56012 "Auto Sale JobLine Consumption"
         ItemJnlLine."Entry Type" := ItemJnlLine."Entry Type"::"Positive Adjmt.";
         ItemJnlLine."Line No." := LSalesLine."Line No.";
         ItemJnlLine."Source No." := LSalesLine."Bill-to Customer No.";
-        ItemJnlLine."Document No." := LSalesLine."Document No.";
+        ItemJnlLine."Document No." := LSalesLine."Document No.";//dnvp
+        //ItemJnlLine."Document No." := LSalesLine."Job No.";
         ItemJnlLine."Document Line No." := LSalesLine."Line No.";
         ItemJnlLine."Posting Date" := LSalesHeader."Posting Date";
         ItemJnlLine.VALIDATE("Item No.", LSalesLine."No.");
