@@ -17,6 +17,10 @@ pageextension 57011 "Hex Sales Order" extends "Sales Order"
             {
                 Caption = 'Order Inserted';
             }
+            field("Action Code"; "Action Code")
+            {
+                Caption = 'Action Code';
+            }
         }
         modify("Opportunity No.")
         {
