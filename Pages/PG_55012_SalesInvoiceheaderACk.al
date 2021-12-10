@@ -67,11 +67,11 @@ page 55012 "Sales Invoice header ACk"
                 {
                 }
             }
-            part("Sales Invoice Line ACK"; "Sales Invoice Line ACK")
-            {
-                SubPageLink = "Document No." = FIELD("No.");
-                UpdatePropagation = Both;
-            }
+            // part("Sales Invoice Line ACK"; "Sales Invoice Line ACK")
+            //{
+            //  SubPageLink = "Document No." = FIELD("No.");
+            //UpdatePropagation = Both;
+            //}
         }
     }
 
