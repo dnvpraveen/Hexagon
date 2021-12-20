@@ -41,8 +41,8 @@ codeunit 56012 "Auto Sale JobLine Consumption"
         ItemJnlLine."Entry Type" := ItemJnlLine."Entry Type"::"Positive Adjmt.";
         ItemJnlLine."Line No." := LSalesLine."Line No.";
         ItemJnlLine."Source No." := LSalesLine."Bill-to Customer No.";
-        ItemJnlLine."Document No." := LSalesLine."Document No.";//dnvp
-        //ItemJnlLine."Document No." := LSalesLine."Job No.";
+        //ItemJnlLine."Document No." := LSalesLine."Document No.";//dnvp
+        ItemJnlLine."Document No." := LSalesLine."Job No.";
         ItemJnlLine."Document Line No." := LSalesLine."Line No.";
         ItemJnlLine."Posting Date" := LSalesHeader."Posting Date";
         ItemJnlLine.VALIDATE("Item No.", LSalesLine."No.");
@@ -95,7 +95,8 @@ codeunit 56012 "Auto Sale JobLine Consumption"
         OldReservationEntry.RESET;
         OldReservationEntry.SETRANGE("Source Type", DATABASE::"Item Journal Line");
         OldReservationEntry.SETRANGE("Source Ref. No.", Salesline."Line No.");
-        OldReservationEntry.SETRANGE("Source ID", Salesline."Document No.");
+        OldReservationEntry.SETRANGE("Source ID", Salesline."Job No.");
+        //OldReservationEntry.SETRANGE("Source ID", Salesline."Document No.");
         IF OldReservationEntry.FINDSET THEN
             REPEAT
                 ReservationEntry.INIT;
@@ -273,7 +274,8 @@ codeunit 56012 "Auto Sale JobLine Consumption"
 
 
         ItemLedgerEntry.RESET;
-        ItemLedgerEntry.SETRANGE("Document No.", Salesline."Document No.");
+        ItemLedgerEntry.SETRANGE("Document No.", Salesline."Job No.");
+        //ItemLedgerEntry.SETRANGE("Document No.", Salesline."Document No.");
         ItemLedgerEntry.SETRANGE("Entry Type", ItemLedgerEntry."Entry Type"::"Positive Adjmt.");
         IF ItemLedgerEntry.FINDLAST THEN;
 
@@ -288,7 +290,8 @@ codeunit 56012 "Auto Sale JobLine Consumption"
         OldReservationEntry.RESET;
         OldReservationEntry.SETRANGE("Source Type", DATABASE::"Job Journal Line");
         OldReservationEntry.SETRANGE("Source Ref. No.", Salesline."Line No.");
-        OldReservationEntry.SETRANGE("Source ID", Salesline."Document No.");
+        //OldReservationEntry.SETRANGE("Source ID", Salesline."Document No.");
+        OldReservationEntry.SETRANGE("Source ID", Salesline."Job No.");
         IF OldReservationEntry.FINDSET THEN
             REPEAT
                 ReservationEntry.INIT;

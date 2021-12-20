@@ -124,6 +124,10 @@ table 56001 "Sales Log"
         {
             Description = 'Requested Delivery Date';
         }
+        field(78; "Fully Shipped Date"; Date)
+        {
+            Description = 'Fully Shipped Date';
+        }
     }
 
     keys
