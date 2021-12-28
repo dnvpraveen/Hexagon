@@ -1,6 +1,6 @@
 table 55015 "Sales Header Archive - ACK"
 {
-    //DataClassification = ToBeClassified;
+    DataClassification = ToBeClassified;
     //LookupPageID=Page5161;
     //DrillDownPageID=Page5161;
 
@@ -673,8 +673,8 @@ table 55015 "Sales Header Archive - ACK"
         }
         field(5752; "Completely Shipped"; Boolean)
         {
-            FieldClass = FlowField;
-            CalcFormula = Min("Sales Line Archive"."Completely Shipped" WHERE("Document Type" = FIELD("Document Type"), "Document No." = FIELD("No."), "Version No." = FIELD("Version No."), "Shipment Date" = FIELD("Date Filter"), "Location Code" = FIELD("Location Filter")));
+            //FieldClass = FlowField;
+            // CalcFormula = Min("Sales Line Archive - ACK"."Completely Shipped" WHERE("Document Type" = FIELD("Document Type"), "Document No." = FIELD("No."), "Version No." = FIELD("Version No."), "Shipment Date" = FIELD("Date Filter"), "Location Code" = FIELD("Location Filter")));
             Description = 'Completely Shipped';
             Editable = false;
         }
@@ -713,9 +713,9 @@ table 55015 "Sales Header Archive - ACK"
         }
         field(5795; "Late Order Shipping"; Boolean)
         {
-            FieldClass = FlowField;
-            CalcFormula = Exist("Sales Line Archive" WHERE("Document Type" = FIELD("Document Type"), "Sell-to Customer No." = FIELD("Sell-to Customer No."),
-                          "Document No." = FIELD("No."), "Doc. No. Occurrence" = FIELD("Doc. No. Occurrence"), "Version No." = FIELD("Version No."), "Shipment Date" = filter('Date Filter')));
+            //  FieldClass = FlowField;
+            //CalcFormula = Exist("Sales Line Archive - ACK" WHERE("Document Type" = FIELD("Document Type"), "Sell-to Customer No." = FIELD("Sell-to Customer No."),
+            //          "Document No." = FIELD("No."), "Doc. No. Occurrence" = FIELD("Doc. No. Occurrence"), "Version No." = FIELD("Version No."), "Shipment Date" = filter('Date Filter')));
             Description = 'Late Order Shipping';
             Editable = false;
         }
