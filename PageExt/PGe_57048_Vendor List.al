@@ -5,8 +5,8 @@ pageextension 57048 "Hex Vendor List" extends "Vendor List"
         // Add changes to page layout here
         addafter("Fax No.")
         {
-            //  field()
-            //{ }
+            field("AkkOn-DIOT Tax ID"; "AkkOn-DIOT Tax ID")
+            { }
             field("VAT Registration No."; "VAT Registration No.")
             { }
         }
