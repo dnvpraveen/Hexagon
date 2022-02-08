@@ -5,8 +5,8 @@ tableextension 57017 "Hex Resource" extends Resource
         //Description=IFRS15
         field(55000; "SVMX Work Type"; Option)
         {
-            OptionMembers = ,Labour,Expenses;
-            OptionCaptionML = ENU = ' ,Labour,Expenses';
+            OptionMembers = " ",Labor,Expense,Travel,Parts;
+            OptionCaptionML = ENU = ' ,Labor,Expense,Travel,Parts';
             Description = 'SVMX Work Type';
 
         }
