@@ -26,7 +26,7 @@ codeunit 50002 "Daily Sales Arch"
     [EventSubscriber(ObjectType::Codeunit, 5063, 'OnBeforeSalesHeaderArchiveInsert', '', false, false)]
     procedure "Hex OnBeforeSalesHeaderArchiveInsert"(VAR SalesHeaderArchive: Record "Sales Header Archive"; SalesHeader: Record "Sales Header")
     begin
-        if AutoArchive then
+        if NOT SalesHeaderArchive."Interaction Exist" then
             SalesHeaderArchive."Archived By" := 'Daily Archive';
     end;
 
