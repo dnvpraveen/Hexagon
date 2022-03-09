@@ -1,8 +1,8 @@
 report 50098 "Hexagon Standard Statement"
 {
-    RDLCLayout = './StandardStatement.rdlc';
-    WordLayout = './StandardStatement.docx';
-    Caption = 'Standard Statement';
+    RDLCLayout = 'Reports\Layout\StandardStatement.rdlc';
+    WordLayout = 'Reports\Layout\StandardStatement.docx';
+    Caption = 'Hexagon Standard Statement';
     DefaultLayout = Word;
 
     dataset
