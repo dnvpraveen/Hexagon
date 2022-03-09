@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="es-MX" original="Please update this value">
+    <body>
+      <group id="body">
+        <trans-unit id="Report 871204514 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Standard Statement</source>
+          <target>Estado de cuenta estándar</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 2346885236 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Options</source>
+          <target>Opciones</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control Options - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 474480784 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date</source>
+          <target>Fecha inicial</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control Start Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 474480784 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the date from which the report or batch job processes information.</source>
+          <target>Especifica la fecha a partir de la cual el informe o el trabajo por lotes procesa la información.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control Start Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 2649176925 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date</source>
+          <target>Fecha final</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control End Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 2649176925 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the date to which the report or batch job processes information.</source>
+          <target>Especifica la fecha hasta la cual el informe o el trabajo por lotes procesa la información.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control End Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 120518645 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Show Overdue Entries</source>
+          <target>Muestra movs. vencidos</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control ShowOverdueEntries - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 120518645 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies if you want overdue entries to be shown separately for each currency.</source>
+          <target>Especifica si desea que los movimientos vencidos se muestren por separado por divisas.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control ShowOverdueEntries - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 3349558288 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Include</source>
+          <target>Incluye</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control Include - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 2059574099 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Include All Customers with Ledger Entries</source>
+          <target>Incluye todos los clientes con movs.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control IncludeAllCustomerswithLE - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 2059574099 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies if you want entries displayed for customers that have ledger entries at the end of the selected period.</source>
+          <target>Especifica si desea que se muestren los movimientos de los clientes que tienen movimientos contables al final del periodo seleccionado.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control IncludeAllCustomerswithLE - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 686806962 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Include All Customers with a Balance</source>
+          <target>Incluye todos los clientes con saldo</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control IncludeAllCustomerswithBalance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 686806962 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies if you want entries displayed for customers that have a balance at the end of the selected period.</source>
+          <target>Especifica si desea que se muestren los movimientos de los clientes que tienen saldo al final del periodo seleccionado.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control IncludeAllCustomerswithBalance - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 3414096222 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Include Reversed Entries</source>
+          <target>Incluir movs. revertidos</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control IncludeReversedEntries - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 3414096222 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies if you want to include reversed entries in the report.</source>
+          <target>Especifica si desea incluir movimientos revertidos en el informe.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control IncludeReversedEntries - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 2809948940 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Include Unapplied Entries</source>
+          <target>Incluir movimientos sin liquidar</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control IncludeUnappliedEntries - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 2809948940 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies if you want to include unapplied entries in the report.</source>
+          <target>Especifica si desea incluir movimientos no liquidados en el informe.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control IncludeUnappliedEntries - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 3843728681 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Aging Band</source>
+          <target>Rango antigüedad</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control Aging Band - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 4178264437 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Include Aging Band</source>
+          <target>Incluye rango antigüedad</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control IncludeAgingBand - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 4178264437 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies if you want an aging band to be included in the document. If you select the check box, then you must also fill the Aging Band Period Length and Aging Band by fields.</source>
+          <target>Especifica si desea incluir en el documento un rango de antigüedad. Si activa la casilla, también debe rellenar los campos Longitud periodo rango antigüedad y Rango antigüedad por.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control IncludeAgingBand - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 4278445754 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Aging Band Period Length</source>
+          <target>Longitud periodo rango antigüedad</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control AgingBandPeriodLengt - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 4278445754 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the length of each of the four periods in the aging band, for example, enter "1M" for one month. The most recent period will end on the last day of the period in the Date Filter field.</source>
+          <target>Especifica la duración de cada uno de los cuatro periodos del rango de antigüedad. Por ejemplo, introduzca "1M" para un mes. El periodo más reciente terminará el último día del periodo del campo Filtro fecha.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control AgingBandPeriodLengt - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 1031320896 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Aging Band by</source>
+          <target>Rango antigüedad por</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control AgingBandby - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 1031320896 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Due Date,Posting Date</source>
+          <target>Fecha vto,Fecha registro</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control AgingBandby - Property OptionCaption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 1031320896 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies if the aging band will be calculated from the due date or from the posting date.</source>
+          <target>Especifica si el rango de antigüedad se calculará desde la fecha de vencimiento o desde la fecha de registro.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control AgingBandby - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 816368762 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Log Interaction</source>
+          <target>Log interacción</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control LogInteraction - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 816368762 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies if you want the program to log this interaction.</source>
+          <target>Especifica si desea que el programa registre esta interacción.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control LogInteraction - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 2092947929 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Output Options</source>
+          <target>Opciones de salida</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control Output Options - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 3039415211 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Report Output</source>
+          <target>Salida de informe</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control ReportOutput - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 3039415211 - Property 62802879" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Print,Preview,Word,PDF,Email,XML - RDLC layouts only</source>
+          <target>Imprimir,Vista previa,Word,PDF,Correo electrónico,XML - solo diseños RDLC</target>
+          <note from="Developer" annotates="general" priority="2">, Comment='Each item is a verb/action - to print, to preview, to export to Word, export to PDF, send email, export to XML for RDLC layouts only'</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control ReportOutput - Property OptionCaption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 3039415211 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the output of the scheduled report, such as PDF or Word.</source>
+          <target>Especifica el tipo del informe programado, como PDF o Word.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control ReportOutput - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 506008736 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Email Options</source>
+          <target>Opciones de correo electrónico</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control EmailOptions - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 3593006799 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Print Although Email is Missing</source>
+          <target>Imprimir aunque falte correo electrónico</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control PrintMissingAddresses - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - Control 3593006799 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies if you want to print also the statements for customers that have not been set up with a send-to email address.</source>
+          <target>Especifica si desea imprimir también los estados de cuenta de los clientes que no se han configurado con una dirección de correo electrónico de envío.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - Control PrintMissingAddresses - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 392547388" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Entries %1</source>
+          <target>Movimientos %1</target>
+          <note from="Developer" annotates="general" priority="2">, Comment='%1 = Currency code'</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType EntriesLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 2380365702" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Overdue Entries %1</source>
+          <target>Movs. vencidos %1</target>
+          <note from="Developer" annotates="general" priority="2">, Comment='%1=Currency code'</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType OverdueEntriesLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 1610312953" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Statement </source>
+          <target>Estado de cuenta </target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType StatementLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 2658247183" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Multicurrency Application</source>
+          <target>Aplicación multidivisa</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType MulticurrencyAppLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 91193263" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Payment Discount</source>
+          <target>Dto. P.P.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType PaymentDiscountLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 4178136980" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Rounding</source>
+          <target>Redondeo</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType RoundingLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 3369796449" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You must specify the Aging Band Period Length.</source>
+          <target>Debe especificar la longitud periodo rango antigüedad.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType AgingBandPeriodErr</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 648825967" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You must specify Aging Band Ending Date.</source>
+          <target>Debe especificar la fecha final del rango antigüedad.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType AgingBandEndErr</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 914934739" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Aged Summary by %1 (%2 by %3)</source>
+          <target>Sumario por fecha de %1 (%2 por %3)</target>
+          <note from="Developer" annotates="general" priority="2">, Comment='%1=Report aging band end date, %2=Aging band period, %3=Type of deadline (''due date'', ''posting date'') as given in DuePostingDateLbl'</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType AgedSummaryLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 1939410736" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Period Length is out of range.</source>
+          <target>La longitud del periodo está fuera del rango.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType PeriodLengthErr</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 755770214" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Due Date,Posting Date</source>
+          <target>Fecha vto,Fecha registro</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType DuePostingDateLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 1004911421" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Application Writeoffs</source>
+          <target>Pérdidas por aplicación</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType WriteoffsLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 2936027006" size-unit="char" translate="yes" xml:space="preserve">
+          <source>-%1</source>
+          <target>-%1</target>
+          <note from="Developer" annotates="general" priority="2">, Comment='Negating the period length: %1 is the period length'</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType PeriodSeparatorLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 698237251" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Statement</source>
+          <target>Estado de cuenta</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType StatementCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 2512069321" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Phone No.</source>
+          <target>Nº teléfono</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType PhoneNo_CompanyInfoCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 276525116" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Tax Registration No.</source>
+          <target>RFC/Curp</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType VATRegNo_CompanyInfoCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 3655449964" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Giro No.</source>
+          <target>Nº giro postal</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType GiroNo_CompanyInfoCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 3144910853" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bank</source>
+          <target>Banco</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType BankName_CompanyInfoCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 1931799952" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Account No.</source>
+          <target>Nº cuenta</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType BankAccNo_CompanyInfoCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 3162110670" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Customer No.</source>
+          <target>Nº cliente</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType No1_CustCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 2209068532" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Starting Date</source>
+          <target>Fecha inicial</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType StartDateCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 3982372241" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Ending Date</source>
+          <target>Fecha final</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType EndDateCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 3303928736" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Statement No.</source>
+          <target>Nº estado de cta. banco</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType LastStatmntNo_CustCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 3401669194" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posting Date</source>
+          <target>Fecha registro</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType PostDate_DtldCustLedgEntriesCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 58467362" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Due Date</source>
+          <target>Fecha vencimiento</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType DueDate_CustLedgEntry2CaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 3136279037" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Running Total</source>
+          <target>Total acumulado</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType CustBalanceCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 106401415" size-unit="char" translate="yes" xml:space="preserve">
+          <source>..before</source>
+          <target>...antes</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType beforeCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 2869507195" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Home Page</source>
+          <target>Página principal</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType CompanyInfoHomepageCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 2377105323" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Email</source>
+          <target>Correo electrónico</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType CompanyInfoEmailCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 3112881028" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Document Date</source>
+          <target>Fecha emisión documento</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType DocDateCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 3102655787" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total</source>
+          <target>Total</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType Total_CaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 1460927981" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start Date must have a value.</source>
+          <target>La fecha inicial debe tener un valor.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType BlankStartDateErr</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 159342192" size-unit="char" translate="yes" xml:space="preserve">
+          <source>End Date must have a value.</source>
+          <target>La fecha final debe tener un valor.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType BlankEndDateErr</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 3956382959" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Start date must be earlier than End date.</source>
+          <target>La fecha inicial debe ser anterior a la fecha final.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType StartDateLaterTheEndDateErr</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 684809554" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Page</source>
+          <target>Pág.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType CurrReportPageNoCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 514421613" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Hello</source>
+          <target>Hola</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType GreetingLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 2771379227" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sincerely</source>
+          <target>Un saludo,</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType ClosingLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 871204514 - NamedType 1908025102" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Thank you for your business. Your statement is attached to this message.</source>
+          <target>Gracias por confiar en nosotros. Su estado de cuenta está adjunto a este mensaje.</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report Standard Statement - NamedType BodyLbl</note>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

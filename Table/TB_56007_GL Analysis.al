@@ -36,7 +36,7 @@ table 56007 "GL Analysis"
             description = 'Amount';
         }
 
-        field(7; "Description"; Text[50])
+        field(7; "Description"; Text[100])
         {
             description = 'Description';
         }
