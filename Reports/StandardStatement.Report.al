@@ -3,7 +3,8 @@ report 50098 "Hexagon Standard Statement"
     RDLCLayout = 'Reports\Layout\StandardStatement.rdlc';
     WordLayout = 'Reports\Layout\StandardStatement.docx';
     Caption = 'Hexagon Standard Statement';
-    DefaultLayout = Word;
+    //DefaultLayout = Word;
+    //DefaultLayout = RDLC;
 
     dataset
     {
