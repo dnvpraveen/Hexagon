@@ -31,6 +31,9 @@ pageextension 57012 "Hex Sales Order Subform" extends "Sales Order Subform"
             field("Job Planning Line No."; "Job Planning Line No.")
             { }
             field("Job Task No."; "Job Task No.") { }
+            field("VAT Identifier"; "VAT Identifier")
+            {
+            }
         }
     }
 

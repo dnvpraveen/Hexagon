@@ -30,7 +30,10 @@ pageextension 57008 "Hex Customer Card" extends "Customer Card"
             Caption = 'SFDC ID';
             Editable = false;
         }
-
+        modify("No.")
+        {
+            Editable = false;
+        }
     }
 
     actions

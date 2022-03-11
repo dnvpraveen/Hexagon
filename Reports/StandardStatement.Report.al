@@ -4,7 +4,9 @@ report 50098 "Hexagon Standard Statement"
     WordLayout = 'Reports\Layout\StandardStatement.docx';
     Caption = 'Hexagon Standard Statement';
     //DefaultLayout = Word;
-    //DefaultLayout = RDLC;
+    DefaultLayout = RDLC;
+    ApplicationArea = All;
+    UsageCategory = ReportsAndAnalysis;
 
     dataset
     {
