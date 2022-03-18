@@ -1,6 +1,6 @@
 page 50000 "Job Order Link List"
 {
-    Editable = false;
+    Editable = true;
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Lists;
