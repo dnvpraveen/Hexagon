@@ -65,6 +65,7 @@ codeunit 55003 HexInventorySmax
             HexCustomerCreditCheck.Name := Customer.Name;
             HexCustomerCreditCheck."Name 2" := Customer."Name 2";
             HexCustomerCreditCheck."Currency Code" := Customer."Currency Code";
+            HexCustomerCreditCheck.ModifyDate := CURRENTDATETIME;
             HexCustomerCreditCheck.BypassCreditCheck := FALSE;
             Customer.CALCFIELDS("Balance (LCY)");
             Customer.CALCFIELDS("Outstanding Orders (LCY)");
@@ -202,6 +203,7 @@ codeunit 55003 HexInventorySmax
                     HexInventoryBalance."Bin Code" := 'DEFAULT';
                 END;
                 //HexInventoryBalance.Status := HexInventoryBalance.Status::New;
+                HexInventoryBalance.ModifyDate := CURRENTDATETIME;
                 HexInventoryBalance.TargetSystem := 'SMAX';
                 HexInventoryBalance.INSERT;
             UNTIL ItemLedgerEntry.NEXT = 0;
