@@ -3,7 +3,7 @@ tableextension 57001 "Hex Item" extends Item
     fields
     {
 
-        field(50100; HexServicePart; Code[2])
+        field(50100; HexServicePart; Code[10])
         {
             Description = 'HexServicePart';
         }
@@ -38,6 +38,12 @@ tableextension 57001 "Hex Item" extends Item
         field(50108; HexSourceSystem; Code[5])
         {
             Description = 'HexSourceSystem';
+        }
+        field(55000; "SVMX Work Type"; Option)
+        {
+            OptionCaption = ' ,Labor,Expenses,Travel,Parts';
+            OptionMembers = ,Labor,Expenses,Travel,Parts;
+            Description = 'SVMX Work Type';
         }
         modify("Item Category Code")
         {
