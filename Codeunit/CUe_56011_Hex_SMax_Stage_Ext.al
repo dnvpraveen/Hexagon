@@ -1130,8 +1130,8 @@ codeunit 56011 "Hex Smax Stage Ext"
         TransferShipmentHeader."Smax Order No." := TransferHeader."Smax Order No.";
         TransferShipmentHeader."Parts Order No." := TransferHeader."Parts Order No.";
         TransferShipmentHeader."Target System" := TransferHeader."Target System";
-        //TransferShipmentHeader."Header Status" := TransferHeader."Header Status"::Shipped;
-        TransferShipmentHeader."Header Status" := 'Shipped';
+        TransferShipmentHeader."Header Status" := TransferHeader."Header Status"::Shipped;
+        //TransferShipmentHeader."Header Status" := 'Shipped';
         // HEX END
         //gk
 
@@ -1170,12 +1170,12 @@ codeunit 56011 "Hex Smax Stage Ext"
             LTransferShipmentLine.SETRANGE("Document No.", LTransferShipmentHeader."No.");
             LTransferShipmentLine.SETFILTER("Line Status", '<>%1', LTransferShipmentLine."Line Status"::Shipped);
             IF LTransferShipmentLine.FINDFIRST THEN BEGIN
-                //LTransferShipmentHeader."Header Status" := LTransferShipmentHeader."Header Status"::"Partially shipped";
-                LTransferShipmentHeader."Header Status" := 'Partially shipped';
+                LTransferShipmentHeader."Header Status" := LTransferShipmentHeader."Header Status"::"Partially shipped";
+                //LTransferShipmentHeader."Header Status" := 'Partially shipped';
                 LTransferShipmentHeader.MODIFY;
             END ELSE BEGIN
-                //LTransferShipmentHeader."Header Status" := LTransferShipmentHeader."Header Status"::Shipped;
-                LTransferShipmentHeader."Header Status" := 'Shipped';
+                LTransferShipmentHeader."Header Status" := LTransferShipmentHeader."Header Status"::Shipped;
+                //LTransferShipmentHeader."Header Status" := 'Shipped';
                 LTransferShipmentHeader.MODIFY
             END;
         END;

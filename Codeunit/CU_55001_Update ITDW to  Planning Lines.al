@@ -95,6 +95,7 @@ codeunit 55001 "Update ITDW to  Planning Lines"
                         LTransferLine.MODIFY;
                     UNTIL LTransferLine.NEXT = 0;
                     TransferHeader."Order Inserted" := TRUE;
+                    TransferHeader."Header Status" := TransferHeader."Header Status"::Closed;
                     TransferHeader.MODIFY;
                 END;
             UNTIL TransferHeader.NEXT = 0;
