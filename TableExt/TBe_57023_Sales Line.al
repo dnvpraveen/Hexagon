@@ -31,6 +31,10 @@ tableextension 57023 "Hex Sales Line" extends "Sales Line"
         {
             Description = 'Ready to Invoice';
         }
+        field(55011; "Line Status"; Text[30])
+        {
+            Description = 'Line Status';
+        }
         field(57000; "Job Planning Line No."; Integer)
         {
             Description = 'Job Planning Line No.';

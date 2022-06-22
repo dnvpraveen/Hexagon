@@ -1,8 +1,7 @@
-tableextension 57022 "Hex Item Ledger Entry" extends "Item Ledger Entry"
+tableextension 57050 "Hex ItemJournalLine" extends "Item Journal Line"
 {
     fields
     {
-
         // Add changes to table fields here
         field(55000; "Sell-to Customer No."; Code[20])
         {
@@ -30,6 +29,4 @@ tableextension 57022 "Hex Item Ledger Entry" extends "Item Ledger Entry"
         }
     }
 
-    var
-        myInt: Integer;
 }

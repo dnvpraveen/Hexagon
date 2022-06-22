@@ -28,6 +28,15 @@ tableextension 57011 "Hex Sales Invoice Line" extends "Sales Invoice Line"
             Description = 'Work Order No.';
 
         }
+        field(55008; "Ready to Invoice"; Boolean)
+        {
+            Description = 'Ready to Invoice';
+        }
+        field(55011; "Line Status"; Text[30])
+        {
+            Description = 'Line Status';
+        }
+
 
     }
 

@@ -33,6 +33,26 @@ tableextension 57010 "Hex Sales Invoice Header" extends "Sales Invoice Header"
         {
             Description = 'Order Created';
         }
+        field(55008; "Action Code"; Integer)
+        {
+            Description = 'Action Code';
+        }
+
+        field(55011; "Header Status"; Text[30])
+        {
+            Description = 'Header Status';
+        }
+        Field(55019; "Zero Value Order"; Boolean)
+        {
+            Description = 'Zero Value Order';
+        }
+        field(55050; "Cancel / Short Close"; Option)
+        {
+            OptionCaption = ' ,Cancelled,Short Closed';
+            OptionMembers = ,Cancelled,"Short Closed";
+            Description = 'Cancel / Short Close';
+            Editable = false;
+        }
     }
 
 

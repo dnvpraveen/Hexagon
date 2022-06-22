@@ -31,11 +31,19 @@ tableextension 57041 "Hex Sales Header Archive" extends "Sales Header Archive"
         {
             Description = 'Action Code';
         }
-        field(60000; "Cancel / Short Close"; Option)
+        field(55011; "Header Status"; Text[30])
         {
-            Description = 'Cancel / Short Close';
+            Description = 'Header Status';
+        }
+        Field(55019; "Zero Value Order"; Boolean)
+        {
+            Description = 'Zero Value Order';
+        }
+        field(55050; "Cancel / Short Close"; Option)
+        {
             OptionCaption = ' ,Cancelled,Short Closed';
             OptionMembers = ,Cancelled,"Short Closed";
+            Description = 'Cancel / Short Close';
             Editable = false;
         }
     }

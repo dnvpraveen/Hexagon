@@ -784,7 +784,15 @@ table 55015 "Sales Header Archive - ACK"
         {
             Description = 'Action Code';
         }
-        field(60000; "Cancel / Short Close"; Option)
+        field(55011; "Header Status"; Text[30])
+        {
+            Description = 'Header Status';
+        }
+        Field(55019; "Zero Value Order"; Boolean)
+        {
+            Description = 'Zero Value Order';
+        }
+        field(55050; "Cancel / Short Close"; Option)
         {
             OptionCaption = ' ,Cancelled,Short Closed';
             OptionMembers = ,Cancelled,"Short Closed";

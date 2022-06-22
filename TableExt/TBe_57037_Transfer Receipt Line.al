@@ -12,11 +12,10 @@ tableextension 57037 "Hex Transfer Receipt Line" extends "Transfer Receipt Line"
         {
             Description = 'Action Code';
         }
-        field(55002; "Line Status"; Option)
+
+        field(55002; "Line Status"; Text[30])
         {
             Description = 'Line Status';
-            OptionMembers = " ",Closed,Shipped,"Partially Shipped",Completed;
-            OptionCaption = '  ,Closed,Shipped,Partially Shipped,Completed';
         }
         field(55005; "Order Created"; Boolean)
         {

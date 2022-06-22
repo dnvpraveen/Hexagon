@@ -15,6 +15,22 @@ tableextension 57042 "hex Sales Line Archive" extends "Sales Line Archive"
         {
             Description = 'Order Created';
         }
+        field(55006; "Order Type"; Code[10])
+        {
+            Description = 'Order Type';
+        }
+        field(55007; "Work Order No."; Text[30])
+        {
+            Description = 'Work Order No.';
+        }
+        field(55008; "Ready to Invoice"; Boolean)
+        {
+            Description = 'Ready to Invoice';
+        }
+        field(55011; "Line Status"; Text[30])
+        {
+            Description = 'Line Status';
+        }
     }
 
 

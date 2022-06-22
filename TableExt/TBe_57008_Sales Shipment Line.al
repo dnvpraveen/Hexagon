@@ -23,6 +23,15 @@ tableextension 57008 "Hex Sales Shipment Line" extends "Sales Shipment Line"
             Description = 'Work Order No.';
 
         }
+        field(55008; "Ready to Invoice"; Boolean)
+        {
+            Description = 'Ready to Invoice';
+        }
+        field(55011; "Line Status"; Text[30])
+        {
+            Description = 'Line Status';
+        }
+
 
     }
 

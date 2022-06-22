@@ -1130,8 +1130,8 @@ codeunit 56011 "Hex Smax Stage Ext"
         TransferShipmentHeader."Smax Order No." := TransferHeader."Smax Order No.";
         TransferShipmentHeader."Parts Order No." := TransferHeader."Parts Order No.";
         TransferShipmentHeader."Target System" := TransferHeader."Target System";
-        TransferShipmentHeader."Header Status" := TransferHeader."Header Status"::Shipped;
-        //TransferShipmentHeader."Header Status" := 'Shipped';
+        //TransferShipmentHeader."Header Status" := TransferHeader."Header Status"::Shipped;
+        TransferShipmentHeader."Header Status" := 'Shipped';
         // HEX END
         //gk
 
@@ -1148,9 +1148,11 @@ codeunit 56011 "Hex Smax Stage Ext"
         TransferShipmentLine."Action Code" := TransferLine."Action Code";
         //IF TransferLine."Qty. to Ship" <> TransferLine."Qty. to Ship (Base)" THEN
         if TransferLine.Quantity <> TransferLine."Qty. to Ship" then
-            TransferShipmentLine."Line Status" := TransferLine."Line Status"::"Partially shipped"
+            //TransferShipmentLine."Line Status" := TransferLine."Line Status"::"Partially shipped"
+            TransferShipmentLine."Line Status" := 'Partially shipped'
         ELSE
-            TransferShipmentLine."Line Status" := TransferLine."Line Status"::Shipped;
+            //TransferShipmentLine."Line Status" := TransferLine."Line Status"::Shipped;
+            TransferShipmentLine."Line Status" := 'Shipped';
         TransferShipmentLine."Order Created" := TRUE;
         TransferShipmentLine."Order Dispatched" := TRUE;
         // HEX END;
@@ -1168,14 +1170,14 @@ codeunit 56011 "Hex Smax Stage Ext"
         IF LTransferShipmentHeader.GET(TransferShipmentHeader."No.") THEN BEGIN
             LTransferShipmentLine.RESET;
             LTransferShipmentLine.SETRANGE("Document No.", LTransferShipmentHeader."No.");
-            LTransferShipmentLine.SETFILTER("Line Status", '<>%1', LTransferShipmentLine."Line Status"::Shipped);
+            LTransferShipmentLine.SETFILTER("Line Status", '<>%1', 'Shipped');
             IF LTransferShipmentLine.FINDFIRST THEN BEGIN
-                LTransferShipmentHeader."Header Status" := LTransferShipmentHeader."Header Status"::"Partially shipped";
-                //LTransferShipmentHeader."Header Status" := 'Partially shipped';
+                //LTransferShipmentHeader."Header Status" := LTransferShipmentHeader."Header Status"::"Partially shipped";
+                LTransferShipmentHeader."Header Status" := 'Partially shipped';
                 LTransferShipmentHeader.MODIFY;
             END ELSE BEGIN
-                LTransferShipmentHeader."Header Status" := LTransferShipmentHeader."Header Status"::Shipped;
-                //LTransferShipmentHeader."Header Status" := 'Shipped';
+                //LTransferShipmentHeader."Header Status" := LTransferShipmentHeader."Header Status"::Shipped;
+                LTransferShipmentHeader."Header Status" := 'Shipped';
                 LTransferShipmentHeader.MODIFY
             END;
         END;

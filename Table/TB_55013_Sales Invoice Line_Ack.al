@@ -484,9 +484,29 @@ table 55013 "Sales Invoice Line_Ack"
         {
             Description = 'Action Code';
         }
+        field(55004; "Order Inserted"; Boolean)
+        {
+            Description = 'Order Inserted';
+        }
         field(55005; "Order Created"; Boolean)
         {
             Description = 'Order Created';
+        }
+        field(55006; "Order Type"; Code[10])
+        {
+            Description = 'Order Type';
+        }
+        field(55007; "Work Order No."; Text[30])
+        {
+            Description = 'Work Order No.';
+        }
+        field(55008; "Ready to Invoice"; Boolean)
+        {
+            Description = 'Ready to Invoice';
+        }
+        field(55011; "Line Status"; Text[30])
+        {
+            Description = 'Line Status';
         }
         field(56000; "Quote Currency Amount"; Decimal)
         {
