@@ -863,7 +863,7 @@ report 50015 "Aged Accounts Receivable Cust"
     trigger OnPostReport()
     begin
         IF PrintToExcel THEN BEGIN
-            ExcelBuffer.CreateBookAndOpenExcel('', 'Aged Accounts Receivable Cust', 'Aged Accounts Receivable Cust', COMPANYNAME, USERID);
+            ExcelBuffer.CreateBookAndOpenExcel_HGN('', 'Aged Accounts Receivable Cust', 'Aged Accounts Receivable Cust', COMPANYNAME, USERID);
         END;
     end;
 
