@@ -1,1 +1,1 @@
-﻿{"Added":[],"Modified":[{"Id":50015,"Kind":13,"Name":"Aged Accounts Receivable Cust","PackagePath":"/src/Reports/AgedAccountsReceivableCust.Report.al"}],"Removed":[]}
+﻿{"Added":[],"Modified":[{"Id":50015,"Kind":13,"Name":"Aged Accounts Receivable Cust","PackagePath":"/src/Reports/AgedAccountsReceivableCust.Report.al"},{"Id":50102,"Kind":11,"Name":"Financial Data Export Mgt._HGN","PackagePath":"/src/Codeunit/FinancialDataExportMgt.Codeunit.al"}],"Removed":[]}
