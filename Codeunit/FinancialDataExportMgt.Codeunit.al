@@ -119,7 +119,7 @@ codeunit 50102 "Financial Data Export Mgt._HGN"
 
     procedure ExportBufferToTxt(var FinExportBuffer: Record "Financial Data Exp. Buffer_HGN"; Year: Integer; Month: Integer)
     var
-        //TempBlob: Codeunit tempblob;
+        TempBlob: Record TempBlob;
         CR: Char;
         LF: Char;
         FileName: Text;
@@ -141,7 +141,7 @@ codeunit 50102 "Financial Data Export Mgt._HGN"
         FinExportBuffer.Reset();
         if not FinExportBuffer.FindFirst() then
             exit;
-        // TempBlob.CreateOutStream(OutStr, TextEncoding::Windows);
+        TempBlob.blob.CreateOutStream(OutStr, TextEncoding::Windows);
         repeat
             if FinExportBuffer."Balance at Date" <> 0 then
                 OutStr.WriteText(
@@ -156,7 +156,7 @@ codeunit 50102 "Financial Data Export Mgt._HGN"
                   Format(FinExportBuffer."Balance at Date", 0, '<Precision,2:2><Sign><Integer><Decimals>') + Enter);
         until FinExportBuffer.Next() = 0;
 
-        // TempBlob.CreateInStream(InStr, TextEncoding::Windows);
+        TempBlob.blob.CreateInStream(InStr, TextEncoding::Windows);
         DownloadFromStream(InStr, '', '', '', FileName);
     end;
 

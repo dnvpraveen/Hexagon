@@ -168,6 +168,25 @@ tableextension 57025 "Hex Sales Header" extends "Sales Header"
                 //gk
             end;
         }
+        modify("Bill-to Customer No.")
+        {
+            trigger OnAfterValidate()
+            var
+                Cust: Record Customer;
+            begin
+                //gk
+                IF Cust.Get("Bill-to Customer No.") then
+                    IF "User Created" THEN
+                        "Currency Code" := Cust."Currency Code"
+                    else begin
+                        "Currency Code" := '';
+                        "Currency Factor" := 1;
+                    end;
+                Validate("Currency Code");
+                //gk
+            end;
+        }
+
     }
 
 

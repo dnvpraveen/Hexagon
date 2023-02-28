@@ -63,4 +63,10 @@ pageextension 57011 "Hex Sales Order" extends "Sales Order"
 
 
     }
+    trigger OnNewRecord(BelowxRec: Boolean)
+    begin
+        //gk
+        "User Created" := TRUE;
+        //gk
+    end;
 }
