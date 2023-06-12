@@ -1149,10 +1149,10 @@ codeunit 56011 "Hex Smax Stage Ext"
         //IF TransferLine."Qty. to Ship" <> TransferLine."Qty. to Ship (Base)" THEN
         if TransferLine.Quantity <> TransferLine."Qty. to Ship" then
             //TransferShipmentLine."Line Status" := TransferLine."Line Status"::"Partially shipped"
-            TransferShipmentLine."Line Status" := 'Partially shipped'
+         TransferShipmentLine."Line Status" := 'Partially shipped'
         ELSE
             //TransferShipmentLine."Line Status" := TransferLine."Line Status"::Shipped;
-            TransferShipmentLine."Line Status" := 'Shipped';
+         TransferShipmentLine."Line Status" := 'Shipped';
         TransferShipmentLine."Order Created" := TRUE;
         TransferShipmentLine."Order Dispatched" := TRUE;
         // HEX END;
@@ -1171,6 +1171,7 @@ codeunit 56011 "Hex Smax Stage Ext"
             LTransferShipmentLine.RESET;
             LTransferShipmentLine.SETRANGE("Document No.", LTransferShipmentHeader."No.");
             LTransferShipmentLine.SETFILTER("Line Status", '<>%1', 'Shipped');
+            //LTransferShipmentLine.SETFILTER("Line Status", '<>%1', LTransferShipmentLine."Line Status"::Shipped);
             IF LTransferShipmentLine.FINDFIRST THEN BEGIN
                 //LTransferShipmentHeader."Header Status" := LTransferShipmentHeader."Header Status"::"Partially shipped";
                 LTransferShipmentHeader."Header Status" := 'Partially shipped';

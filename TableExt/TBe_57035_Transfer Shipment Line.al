@@ -15,6 +15,12 @@ tableextension 57035 "Hex Transfer Shipment Line" extends "Transfer Shipment Lin
         {
             Description = 'Line Status';
         }
+        //field(55002; "Line Status"; Option)
+        //{
+        //  Description = 'Line Status';
+        //OptionMembers = " ",Closed,Shipped,"Partially Shipped",Completed;
+        //OptionCaption = '  ,Closed,Shipped,Partially Shipped,Completed';
+        //}
         field(55005; "Order Created"; Boolean)
         {
             Description = 'Order Created';
