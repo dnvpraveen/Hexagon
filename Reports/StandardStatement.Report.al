@@ -664,7 +664,7 @@ report 50098 "Hexagon Standard Statement"
             trigger OnAfterGetRecord()
             begin
                 TempAgingBandBuf.DELETEALL;
-                CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
+                //CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
                 PrintLine := FALSE;
                 Cust2 := Customer;
                 COPYFILTER("Currency Filter", TempCurrency2.Code);
@@ -950,7 +950,7 @@ report 50098 "Hexagon Standard Statement"
         Cust2: Record 18;
         Currency: Record 4;
         TempCurrency2: Record 4 temporary;
-        Language: Record 8;
+        //Language: Record 8;
         CustLedgerEntry: Record 21;
         DetailedCustLedgEntry2: Record 379;
         TempAgingBandBuf: Record 47 temporary;

@@ -1122,17 +1122,69 @@ codeunit 56011 "Hex Smax Stage Ext"
     begin
         //gk
         //HEX  SMAX Code
+        //TransferShipmentHeader."Sell-to Customer No." := TransferHeader."Sell-to Customer No.";
+        //TransferShipmentHeader."Sell-to Customer Name" := TransferHeader."Sell-to Customer Name";
+        //TransferShipmentHeader."Order Created" := TransferHeader."Order Created";
+        //TransferShipmentHeader."Order Inserted" := TransferHeader."Order Inserted";
+        //TransferShipmentHeader."Order Type" := TransferHeader."Order Type";
+        //TransferShipmentHeader."Smax Order No." := TransferHeader."Smax Order No.";
+        //TransferShipmentHeader."Parts Order No." := TransferHeader."Parts Order No.";
+        //TransferShipmentHeader."Target System" := TransferHeader."Target System";
+        //TransferShipmentHeader."Header Status" := TransferHeader."Header Status"::Shipped;
+        //TransferShipmentHeader."Header Status" := 'Shipped';
+        // HEX END
+        TransferShipmentHeader."Transfer-from Code" := TransferHeader."Transfer-from Code";
+        TransferShipmentHeader."Transfer-from Name" := TransferHeader."Transfer-from Name";
+        TransferShipmentHeader."Transfer-from Name 2" := TransferHeader."Transfer-from Name 2";
+        TransferShipmentHeader."Transfer-from Address" := TransferHeader."Transfer-from Address";
+        TransferShipmentHeader."Transfer-from Address 2" := TransferHeader."Transfer-from Address 2";
+        TransferShipmentHeader."Transfer-from Post Code" := TransferHeader."Transfer-from Post Code";
+        TransferShipmentHeader."Transfer-from City" := TransferHeader."Transfer-from City";
+        TransferShipmentHeader."Transfer-from County" := TransferHeader."Transfer-from County";
+        TransferShipmentHeader."Trsf.-from Country/Region Code" := TransferHeader."Trsf.-from Country/Region Code";
+        TransferShipmentHeader."Transfer-from Contact" := TransferHeader."Transfer-from Contact";
+        TransferShipmentHeader."Transfer-to Code" := TransferHeader."Transfer-to Code";
+        TransferShipmentHeader."Transfer-to Name" := TransferHeader."Transfer-to Name";
+        TransferShipmentHeader."Transfer-to Name 2" := TransferHeader."Transfer-to Name 2";
+        TransferShipmentHeader."Transfer-to Address" := TransferHeader."Transfer-to Address";
+        TransferShipmentHeader."Transfer-to Address 2" := TransferHeader."Transfer-to Address 2";
+        TransferShipmentHeader."Transfer-to Post Code" := TransferHeader."Transfer-to Post Code";
+        TransferShipmentHeader."Transfer-to City" := TransferHeader."Transfer-to City";
+        TransferShipmentHeader."Transfer-to County" := TransferHeader."Transfer-to County";
+        TransferShipmentHeader."Trsf.-to Country/Region Code" := TransferHeader."Trsf.-to Country/Region Code";
+        TransferShipmentHeader."Transfer-to Contact" := TransferHeader."Transfer-to Contact";
+        TransferShipmentHeader."Transfer Order Date" := TransferHeader."Posting Date";
+        TransferShipmentHeader."Posting Date" := TransferHeader."Posting Date";
+        TransferShipmentHeader."Shipment Date" := TransferHeader."Shipment Date";
+        TransferShipmentHeader."Receipt Date" := TransferHeader."Receipt Date";
+        TransferShipmentHeader."Shortcut Dimension 1 Code" := TransferHeader."Shortcut Dimension 1 Code";
+        TransferShipmentHeader."Shortcut Dimension 2 Code" := TransferHeader."Shortcut Dimension 2 Code";
+        TransferShipmentHeader."Dimension Set ID" := TransferHeader."Dimension Set ID";
+        TransferShipmentHeader."Transfer Order No." := TransferHeader."No.";
+        TransferShipmentHeader."External Document No." := TransferHeader."External Document No.";
+        TransferShipmentHeader."In-Transit Code" := TransferHeader."In-Transit Code";
+        TransferShipmentHeader."Shipping Agent Code" := TransferHeader."Shipping Agent Code";
+        TransferShipmentHeader."Shipping Agent Service Code" := TransferHeader."Shipping Agent Service Code";
+        TransferShipmentHeader."Shipment Method Code" := TransferHeader."Shipment Method Code";
+        TransferShipmentHeader."Transaction Type" := TransferHeader."Transaction Type";
+        TransferShipmentHeader."Transport Method" := TransferHeader."Transport Method";
+        TransferShipmentHeader."Entry/Exit Point" := TransferHeader."Entry/Exit Point";
+        TransferShipmentHeader.Area := TransferHeader.Area;
+        TransferShipmentHeader."Transaction Specification" := TransferHeader."Transaction Specification";
+        //HEX  SMAX Code
         TransferShipmentHeader."Sell-to Customer No." := TransferHeader."Sell-to Customer No.";
         TransferShipmentHeader."Sell-to Customer Name" := TransferHeader."Sell-to Customer Name";
         TransferShipmentHeader."Order Created" := TransferHeader."Order Created";
         TransferShipmentHeader."Order Inserted" := TransferHeader."Order Inserted";
+        IF TransferHeader."Order Inserted" THEN
+            TransferShipmentHeader."Order Disptached" := TRUE;
         TransferShipmentHeader."Order Type" := TransferHeader."Order Type";
         TransferShipmentHeader."Smax Order No." := TransferHeader."Smax Order No.";
         TransferShipmentHeader."Parts Order No." := TransferHeader."Parts Order No.";
         TransferShipmentHeader."Target System" := TransferHeader."Target System";
-        //TransferShipmentHeader."Header Status" := TransferHeader."Header Status"::Shipped;
-        TransferShipmentHeader."Header Status" := 'Shipped';
+        //"Header Status" := TransHeader."Header Status"
         // HEX END
+
         //gk
 
     end;
@@ -1144,17 +1196,43 @@ codeunit 56011 "Hex Smax Stage Ext"
     begin
         //gk
         // HEX SMAX Code
+        TransferShipmentLine."Line No." := TransferLine."Line No.";
+        TransferShipmentLine."Item No." := TransferLine."Item No.";
+        TransferShipmentLine.Description := TransferLine.Description;
+        TransferShipmentLine.Quantity := TransferLine."Qty. to Ship";
+        TransferShipmentLine."Unit of Measure" := TransferLine."Unit of Measure";
+        TransferShipmentLine."Shortcut Dimension 1 Code" := TransferLine."Shortcut Dimension 1 Code";
+        TransferShipmentLine."Shortcut Dimension 2 Code" := TransferLine."Shortcut Dimension 2 Code";
+        TransferShipmentLine."Dimension Set ID" := TransferLine."Dimension Set ID";
+        TransferShipmentLine."Gen. Prod. Posting Group" := TransferLine."Gen. Prod. Posting Group";
+        TransferShipmentLine."Inventory Posting Group" := TransferLine."Inventory Posting Group";
+        TransferShipmentLine."Quantity (Base)" := TransferLine."Qty. to Ship (Base)";
+        TransferShipmentLine."Qty. per Unit of Measure" := TransferLine."Qty. per Unit of Measure";
+        TransferShipmentLine."Unit of Measure Code" := TransferLine."Unit of Measure Code";
+        TransferShipmentLine."Gross Weight" := TransferLine."Gross Weight";
+        TransferShipmentLine."Net Weight" := TransferLine."Net Weight";
+        TransferShipmentLine."Unit Volume" := TransferLine."Unit Volume";
+        TransferShipmentLine."Variant Code" := TransferLine."Variant Code";
+        TransferShipmentLine."Units per Parcel" := TransferLine."Units per Parcel";
+        TransferShipmentLine."Description 2" := TransferLine."Description 2";
+        TransferShipmentLine."Transfer Order No." := TransferLine."Document No.";
+        TransferShipmentLine."Shipment Date" := TransferLine."Shipment Date";
+        TransferShipmentLine."Shipping Agent Code" := TransferLine."Shipping Agent Code";
+        TransferShipmentLine."Shipping Agent Service Code" := TransferLine."Shipping Agent Service Code";
+        TransferShipmentLine."In-Transit Code" := TransferLine."In-Transit Code";
+        TransferShipmentLine."Transfer-from Code" := TransferLine."Transfer-from Code";
+        TransferShipmentLine."Transfer-to Code" := TransferLine."Transfer-to Code";
+        TransferShipmentLine."Transfer-from Bin Code" := TransferLine."Transfer-from Bin Code";
+        TransferShipmentLine."Shipping Time" := TransferLine."Shipping Time";
+        TransferShipmentLine."Item Category Code" := TransferLine."Item Category Code";
+        //TransferShipmentLine."Product Group Code" := TransferLine."Product Group Code";
+        // HEX SMAX Code
         TransferShipmentLine."Smax Line No." := TransferLine."Smax Line No.";
         TransferShipmentLine."Action Code" := TransferLine."Action Code";
-        //IF TransferLine."Qty. to Ship" <> TransferLine."Qty. to Ship (Base)" THEN
-        if TransferLine.Quantity <> TransferLine."Qty. to Ship" then
-            //TransferShipmentLine."Line Status" := TransferLine."Line Status"::"Partially shipped"
-         TransferShipmentLine."Line Status" := 'Partially shipped'
-        ELSE
-            //TransferShipmentLine."Line Status" := TransferLine."Line Status"::Shipped;
-         TransferShipmentLine."Line Status" := 'Shipped';
         TransferShipmentLine."Order Created" := TRUE;
         TransferShipmentLine."Order Dispatched" := TRUE;
+        // HEX END;
+
         // HEX END;
         //gk
 
@@ -1235,6 +1313,7 @@ codeunit 56011 "Hex Smax Stage Ext"
     procedure "Hex OnAfterSalesInvHeaderInsert"(VAR SalesInvHeader: Record "Sales Invoice Header"; SalesHeader: Record "Sales Header"; CommitIsSuppressed: Boolean)
     var
         UpdateJobRecords: Codeunit "Update Job Records";
+        test: Codeunit "Sales-Post (Yes/No)";
     begin
         //gk
         // HEX SMAX
