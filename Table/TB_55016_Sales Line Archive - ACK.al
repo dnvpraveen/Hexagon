@@ -347,7 +347,7 @@ table 55016 "Sales Line Archive - ACK"
             TableRelation = "VAT Product Posting Group";
             Description = 'VAT Prod. Posting Group';
         }
-        field(91; "Currency Code"; Code[10])
+        field(91; "Currency Code "; Code[10])
         {
             TableRelation = Currency;
             Description = 'Currency Code';

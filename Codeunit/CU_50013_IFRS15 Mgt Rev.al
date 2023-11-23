@@ -150,7 +150,7 @@ codeunit 50013 "IFRS15 Mgt Rev"
 
     PROCEDURE CreateGeneralJnlLineJobTask(VAR JobTask: Record 1001);
     VAR
-        DimMgt: Codeunit 408;
+        DimMgt: Codeunit DimensionManagement;
         GeneralPostingSetup: Record 252;
         DeferralUtilities: Codeunit 1720;
         DeferralDocType: Option Purchase,Sales,"G/L";

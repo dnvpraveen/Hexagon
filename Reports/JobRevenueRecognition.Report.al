@@ -265,7 +265,7 @@ report 50099 "Job Revenue Recognition"
     local procedure CreateGeneralJnlLine(var JobPlanningLine: Record 1003)
     var
         JobTask: Record 1001;
-        DimMgt: Codeunit 408;
+        DimMgt: Codeunit DimensionManagement;
         GeneralPostingSetup: Record 252;
         DeferralUtilities: Codeunit 1720;
         DeferralDocType: Option Purchase,Sales,"G/L";
