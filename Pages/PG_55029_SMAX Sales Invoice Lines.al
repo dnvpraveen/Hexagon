@@ -154,6 +154,28 @@ page 55029 "SMAX Sales Invoice Lines"
                         // -- KMS:20/03/2017-MMI
                     end;
                 }
+                action("View Document")
+                {
+                    Caption = 'View Sales Order Card';
+                    Image = "ViewOrder";
+
+                    trigger OnAction();
+
+                    var
+                        SalesHeader: Record "Sales Header";
+                        SalesOrder: Page "Sales Order";
+                    begin
+                        Clear(SalesHeader);
+                        SalesHeader.Reset();
+                        SalesHeader.SetRange("No.", Rec."Document No.");
+                        SalesHeader.SetRange("Document Type", rec."Document Type");
+                        SalesHeader.FindSet();
+                        SalesOrder.SetRecord(SalesHeader);
+                        SalesOrder.Run();
+
+                        ;
+                    end;
+                }
                 action(Dimensions)
                 {
                     Caption = 'Dimensions';
