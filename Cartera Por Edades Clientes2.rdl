@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="Identificacion">
+          <DataField>Identificacion</DataField>
+        </Field>
+        <Field Name="NombreCliente">
+          <DataField>NombreCliente</DataField>
+        </Field>
+        <Field Name="FechaRegistro">
+          <DataField>FechaRegistro</DataField>
+        </Field>
+        <Field Name="Decripcion">
+          <DataField>Decripcion</DataField>
+        </Field>
+        <Field Name="CuentaContable">
+          <DataField>CuentaContable</DataField>
+        </Field>
+        <Field Name="NoFacturaProveedor">
+          <DataField>NoFacturaProveedor</DataField>
+        </Field>
+        <Field Name="NoDocRegistro">
+          <DataField>NoDocRegistro</DataField>
+        </Field>
+        <Field Name="Costo">
+          <DataField>Costo</DataField>
+        </Field>
+        <Field Name="CostoFormat">
+          <DataField>CostoFormat</DataField>
+        </Field>
+        <Field Name="IVA">
+          <DataField>IVA</DataField>
+        </Field>
+        <Field Name="IVAFormat">
+          <DataField>IVAFormat</DataField>
+        </Field>
+        <Field Name="ReteFuente">
+          <DataField>ReteFuente</DataField>
+        </Field>
+        <Field Name="ReteFuenteFormat">
+          <DataField>ReteFuenteFormat</DataField>
+        </Field>
+        <Field Name="ReteIca">
+          <DataField>ReteIca</DataField>
+        </Field>
+        <Field Name="ReteIcaFormat">
+          <DataField>ReteIcaFormat</DataField>
+        </Field>
+        <Field Name="Descuento">
+          <DataField>Descuento</DataField>
+        </Field>
+        <Field Name="DescuentoFormat">
+          <DataField>DescuentoFormat</DataField>
+        </Field>
+        <Field Name="TotalFactura">
+          <DataField>TotalFactura</DataField>
+        </Field>
+        <Field Name="TotalFacturaFormat">
+          <DataField>TotalFacturaFormat</DataField>
+        </Field>
+        <Field Name="ValorPendiente">
+          <DataField>ValorPendiente</DataField>
+        </Field>
+        <Field Name="ValorPendienteFormat">
+          <DataField>ValorPendienteFormat</DataField>
+        </Field>
+        <Field Name="FechaPago">
+          <DataField>FechaPago</DataField>
+        </Field>
+        <Field Name="Estado">
+          <DataField>Estado</DataField>
+        </Field>
+        <Field Name="DiasVencida">
+          <DataField>DiasVencida</DataField>
+        </Field>
+        <Field Name="FechaImpresion">
+          <DataField>FechaImpresion</DataField>
+        </Field>
+        <Field Name="Usuario">
+          <DataField>Usuario</DataField>
+        </Field>
+        <Field Name="FechaVenci">
+          <DataField>FechaVenci</DataField>
+        </Field>
+        <Field Name="Treinta">
+          <DataField>Treinta</DataField>
+        </Field>
+        <Field Name="TreintaFormat">
+          <DataField>TreintaFormat</DataField>
+        </Field>
+        <Field Name="Sesenta">
+          <DataField>Sesenta</DataField>
+        </Field>
+        <Field Name="SesentaFormat">
+          <DataField>SesentaFormat</DataField>
+        </Field>
+        <Field Name="Noventa">
+          <DataField>Noventa</DataField>
+        </Field>
+        <Field Name="NoventaFormat">
+          <DataField>NoventaFormat</DataField>
+        </Field>
+        <Field Name="CientoOchenta">
+          <DataField>CientoOchenta</DataField>
+        </Field>
+        <Field Name="CientoOchentaFormat">
+          <DataField>CientoOchentaFormat</DataField>
+        </Field>
+        <Field Name="MasCientoOchenta">
+          <DataField>MasCientoOchenta</DataField>
+        </Field>
+        <Field Name="MasCientoOchentaFormat">
+          <DataField>MasCientoOchentaFormat</DataField>
+        </Field>
+        <Field Name="ValorUSD">
+          <DataField>ValorUSD</DataField>
+        </Field>
+        <Field Name="ValorUSDFormat">
+          <DataField>ValorUSDFormat</DataField>
+        </Field>
+        <Field Name="Moneda">
+          <DataField>Moneda</DataField>
+        </Field>
+        <Field Name="trm">
+          <DataField>trm</DataField>
+        </Field>
+        <Field Name="trmFormat">
+          <DataField>trmFormat</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>
