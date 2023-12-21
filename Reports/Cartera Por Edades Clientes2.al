@@ -2,7 +2,7 @@ report 50064 "Cartera Por Edades Clientes2"
 {
     UsageCategory = ReportsAndAnalysis;
     DefaultLayout = RDLC;
-    RDLCLayout = 'Cartera Por Edades Clientes2.rdl';
+    RDLCLayout = 'Reports\Layout\Cartera Por Edades Clientes2.rdl';
 
     dataset
     {

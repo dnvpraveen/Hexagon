@@ -4,7 +4,7 @@ report 50001 "Customer Detail"
     Caption = 'Customer Detail';
     UsageCategory = ReportsAndAnalysis;
     DefaultLayout = RDLC;
-    RDLCLayout = 'CustomerDetail.rdl';
+    RDLCLayout = 'Reports\Layout\CustomerDetail.rdl';
     dataset
     {
         dataitem(CustLedgerEntry; "Cust. Ledger Entry")

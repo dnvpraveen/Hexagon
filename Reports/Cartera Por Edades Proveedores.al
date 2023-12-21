@@ -4,7 +4,7 @@ report 50002 "Cartera Por Edades Proveedores"
     Caption = 'Cartera Edades Proveedores';
     UsageCategory = ReportsAndAnalysis;
     DefaultLayout = RDLC;
-    RDLCLayout = 'Cartera Por Edades Proveedores.rdl';
+    RDLCLayout = 'Reports\Layout\Cartera Por Edades Proveedores.rdl';
 
     dataset
     {
