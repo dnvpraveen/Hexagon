@@ -36,7 +36,21 @@ tableextension 57011 "Hex Sales Invoice Line" extends "Sales Invoice Line"
         {
             Description = 'Line Status';
         }
-
+        field(55102; "Orden de Venta"; Code[100])
+        {
+            FieldClass = FlowField;
+            CalcFormula = Lookup("Sales Invoice Header"."Order No." WHERE("No." = FIELD("Document No.")));
+        }
+        field(55101; "No. Orden de Compra"; Code[100])
+        {
+            FieldClass = FlowField;
+            CalcFormula = Lookup("Sales Invoice Header"."External Document No." WHERE("No." = FIELD("Document No.")));
+        }
+        field(55103; "Fecha de Registro"; Date)
+        {
+            FieldClass = FlowField;
+            CalcFormula = Lookup("Sales Invoice Header"."Posting Date" WHERE("No." = FIELD("Document No.")));
+        }
 
     }
 
