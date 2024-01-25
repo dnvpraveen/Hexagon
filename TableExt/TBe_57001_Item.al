@@ -45,6 +45,30 @@ tableextension 57001 "Hex Item" extends Item
             OptionMembers = ,Labor,Expenses,Travel,Parts;
             Description = 'SVMX Work Type';
         }
+        field(50000; "Bodega Destino"; Code[100])
+        {
+            Caption = 'Bodega Destino';
+            DataClassification = ToBeClassified;
+            TableRelation = Location.Code;
+
+        }
+        field(50001; "Ubicacion Destino"; Code[100])
+        {
+            Caption = 'Ubicacion Destino';
+            DataClassification = ToBeClassified;
+            TableRelation = Bin.Code where("Location Code" = field("Bodega Destino"));
+
+        }
+        field(50002; "Cantidad a Ajustar"; Decimal)
+        {
+            Caption = 'Cantidad a Ajustar';
+            DataClassification = ToBeClassified;
+        }
+        field(50003; "Diferencia"; Decimal)
+        {
+            Caption = 'Diferencia';
+            DataClassification = ToBeClassified;
+        }
         modify("Item Category Code")
         {
             trigger OnAfterValidate()
