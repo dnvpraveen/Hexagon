@@ -18,6 +18,37 @@ page 50097 "Invoice Detail"
                     ToolTip = 'Specifies the value of the Document No. field.';
                 }
 
+                field("Fecha de Registro"; Rec."Fecha de Registro")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Document No. field.';
+                }
+
+                field(Pendiente; rec.Pendiente)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Document No. field.';
+                }
+
+
+                field("Valor Pendiente"; custledger."Remaining Amount")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Document No. field.';
+                }
+
+                field("No. Orden de Compra"; rec."No. Orden de Compra")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Document No. field.';
+                }
+
+                field("Orden de Venta"; rec."Orden de Venta")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Document No. field.';
+                }
+
 
                 field("Bill-to Customer No."; Rec."Bill-to Customer No.")
                 {
@@ -93,12 +124,25 @@ page 50097 "Invoice Detail"
     }
     var
         customer: Record 18;
+        custledger: Record "Cust. Ledger Entry";
 
     var
         SalesHeader: Record 112;
 
     trigger OnAfterGetRecord()
     begin
+        Clear(custledger);
+        custledger.Reset();
+        ;
+        custledger.SetRange("Document No.", rec."Document No.");
+        if custledger.FindSet() then
+            custledger.CalcFields("Remaining Amount");
+
+        rec.CalcFields("Fecha de Registro");
+        rec.CalcFields(Pendiente);
+        rec.CalcFields("No. Orden de Compra");
+        rec.CalcFields("Orden de Venta");
+
         IF customer.GET(Rec."Bill-to Customer No.") THEN;
         SalesHeader.Reset();
         SalesHeader.SetRange("No.", Rec."Document No.");

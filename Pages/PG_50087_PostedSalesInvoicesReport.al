@@ -1,4 +1,4 @@
-page 50096 "Posted Sales Invoices Report"
+page 50087 "Posted Sales Invoices Report"
 {
     ApplicationArea = All;
     Caption = 'Posted Sales Invoices Report';
@@ -75,6 +75,16 @@ page 50096 "Posted Sales Invoices Report"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Description field.';
                 }
+                field("PRODUCT CAT"; rec."Shortcut Dimension 2 Code")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Description field.';
+                }
+                field("PRODUCT CAT Name"; nombreDimension)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Description field.';
+                }
             }
         }
 
@@ -83,6 +93,8 @@ page 50096 "Posted Sales Invoices Report"
         SalesHeader: record "Sales Invoice Header";
         ItemLed: record "Item Ledger Entry";
         Shipment: Record "Sales Shipment Header";
+        DimensionValue: Record "Dimension Value";
+        nombreDimension: Text;
 
     trigger OnAfterGetRecord()
 
@@ -103,5 +115,12 @@ page 50096 "Posted Sales Invoices Report"
         Shipment.SETRANGE("Order No.", SalesHeader."Order No.");
         //Shipment.SETRANGE("Order Line No.","Order Line No.");
         IF Shipment.FINDSET THEN;
+        if rec."Shortcut Dimension 2 Code" <> '' then begin
+            Clear(DimensionValue);
+            Clear(nombreDimension);
+            DimensionValue.SetRange(code, rec."Shortcut Dimension 2 Code");
+            if DimensionValue.FindSet() then
+                nombreDimension := DimensionValue.Name;
+        end;
     end;
 }

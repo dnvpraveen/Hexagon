@@ -61,7 +61,7 @@ pageextension 50088 CFIExt extends "AkkOn-Documento CFDI"
                     Header.Insert();
 
                     rec."AkkOn-XML Invoice".Export('C:\NAV\' + format(rec."AkkOn-Series" + Rec."AkkOn-Folio No.") + '.xml');
-                    UploadIntoStream('Escoja el XML', '', '', Archivo, Instr);
+                    UploadIntoStream('Escoja el XML', 'C:\NAV\', '', Archivo, Instr);
                     XmlDocument.ReadFrom(Instr, xmlFile);
                     xmlFile.GetRoot(tab);
                     LineaTable := 1000;
@@ -69,7 +69,7 @@ pageextension 50088 CFIExt extends "AkkOn-Documento CFDI"
                     foreach nodee in nodelist do begin
                         element := nodee.AsXmlElement();
                         nodelistsec := element.GetChildElements();
-                        Message(Format(nodee));
+
                         foreach nodee1 in nodelistsec do begin
                             if nodee1.AsXmlElement().Name = 'cfdi:Concepto' then begin
                                 Lineas.init;

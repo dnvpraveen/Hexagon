@@ -51,6 +51,11 @@ tableextension 57011 "Hex Sales Invoice Line" extends "Sales Invoice Line"
             FieldClass = FlowField;
             CalcFormula = Lookup("Sales Invoice Header"."Posting Date" WHERE("No." = FIELD("Document No.")));
         }
+        field(50004; Pendiente; Boolean)
+        {
+            FieldClass = FlowField;
+            CalcFormula = Lookup("Cust. Ledger Entry".Open WHERE("Document No." = FIELD("Document No.")));
+        }
 
     }
 
