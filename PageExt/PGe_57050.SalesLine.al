@@ -12,6 +12,13 @@ pageextension 50093 SalesLineExt extends "Sales Lines"
             field("PRODUCT CAT Name"; DimensionValue.Name) { }
             field("Unit Price"; rec."Outstanding Amount") { }
             field("External Document No."; SalesHeader."External Document No.") { }
+            field("Customer Name"; Customer.Name) { }
+            field("VAT %"; rec."VAT %") { }
+            field("Quantity Invoiced"; REC."Quantity Invoiced") { }
+            field("Quantity to Invoice"; REC."Qty. to Invoice") { }
+            field("Amount to Invoice"; AmountToInvoice) { }
+            field("Amount Invoiced"; rec."Line Amount" - AmountToInvoice) { }
+            field("Requested Delivery Date"; rec."Requested Delivery Date") { }
         }
     }
     var
@@ -20,10 +27,13 @@ pageextension 50093 SalesLineExt extends "Sales Lines"
         Customer: Record Customer;
         SalesInvoiceHeader: Record "Sales Invoice Header";
         SalesInvoiceLine: Record "Sales Invoice Line";
+        AmountToInvoice: Decimal;
 
     trigger OnAfterGetRecord()
     var
     begin
+        AmountToInvoice := 0;
+        AmountToInvoice := rec."Qty. to Invoice" * rec."Unit Price";
         CLEAR(DimensionValue);
         CLEAR(Customer);
         IF rec."Sell-to Customer No." <> '' THEN
