@@ -3,6 +3,34 @@ tableextension 57023 "Hex Sales Line" extends "Sales Line"
     fields
     {
         // Add changes to table fields here
+        field(50007; "Doc. Line Discount %_HGN"; Decimal)
+        {
+            CaptionML = ENU = 'Doc. Line Discount %';
+        }
+        field(50008; "Doc. Line Amount_HGN"; Decimal)
+        {
+            CaptionML = ENU = 'Doc. Line Amount';
+            trigger OnValidate()
+            begin
+                if "Doc. Line Amount_HGN" <> 0 then
+                    "Doc. Unit Price_HGN" := "Doc. Line Amount_HGN" / Quantity;
+            end;
+        }
+        field(50011; "Doc. Unit Price_HGN"; Decimal)
+        {
+            Caption = 'Doc. Unit Price_HGN';
+            DataClassification = CustomerContent;
+        }
+        field(50012; "Doc. Qty_HGN"; Decimal)
+        {
+            Caption = 'Doc. Qty_HGN';
+            DataClassification = CustomerContent;
+        }
+        field(50013; "Doc. VAT %_HGN"; Decimal)
+        {
+            Caption = 'Doc. VAT %_HGN';
+            DataClassification = CustomerContent;
+        }
         field(55000; "Smax Line No."; Text[30])
         {
             Description = 'Smax Line No.';
@@ -38,6 +66,23 @@ tableextension 57023 "Hex Sales Line" extends "Sales Line"
         field(57000; "Job Planning Line No."; Integer)
         {
             Description = 'Job Planning Line No.';
+        }
+        modify("Line Amount")
+        {
+            trigger OnAfterValidate()
+            begin
+                "Doc. Line Amount_HGN" := "Line Amount";
+                Validate("Doc. Line Amount_HGN", "Line Amount");
+            end;
+        }
+        modify("Unit Price")
+        {
+            trigger OnAfterValidate()
+            begin
+                "Doc. Line Amount_HGN" := "Line Amount";
+                Validate("Doc. Line Amount_HGN", "Line Amount");
+            end;
+
         }
     }
 }

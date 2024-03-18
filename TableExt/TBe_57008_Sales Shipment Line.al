@@ -3,6 +3,29 @@ tableextension 57008 "Hex Sales Shipment Line" extends "Sales Shipment Line"
     fields
     {
         //Description=IFRS15
+        field(50007; "Doc. Line Discount %_HGN"; Decimal)
+        {
+            CaptionML = ENU = 'Doc. Line Discount %';
+        }
+        field(50008; "Doc. Line Amount_HGN"; Decimal)
+        {
+            CaptionML = ENU = 'Doc. Line Discount %';
+        }
+        field(50011; "Doc. Unit Price_HGN"; Decimal)
+        {
+            Caption = 'Doc. Unit Price_HGN';
+            DataClassification = CustomerContent;
+        }
+        field(50012; "Doc. Qty_HGN"; Decimal)
+        {
+            Caption = 'Doc. Qty_HGN';
+            DataClassification = CustomerContent;
+        }
+        field(50013; "Doc. VAT %_HGN"; Decimal)
+        {
+            Caption = 'Doc. VAT %_HGN';
+            DataClassification = CustomerContent;
+        }
         field(55000; "Smax Line No."; Text[30])
         {
             Description = 'Smax Line No.';

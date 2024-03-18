@@ -3,6 +3,7 @@ pageextension 57025 "Hex Posted Sales Credit Memo" extends "Posted Sales Credit 
     layout
     {
         // Add changes to page layout here
+
     }
 
     actions

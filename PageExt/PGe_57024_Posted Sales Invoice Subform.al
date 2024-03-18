@@ -2,7 +2,27 @@ pageextension 57024 "Hex Posted Sales Invoice Sform" extends "Posted Sales Invoi
 {
     layout
     {
-        // Add changes to page layout here
+        addafter("Quantity")
+        {
+            field("Doc. Line Discount %_HGN"; Rec."Doc. Line Discount %_HGN")
+            {
+                ToolTip = 'Specifies the value of Doc. Line Discount %';
+                Caption = 'Doc. Line Discount %';
+                ApplicationArea = All;
+            }
+            field("Doc. Line Amount_HGN"; Rec."Doc. Line Amount_HGN")
+            {
+                ToolTip = 'Specifies the value of Doc. Line Amount';
+                Caption = 'Doc. Line Amount';
+                ApplicationArea = All;
+            }
+            field("Doc. Unit Price_HGN"; rec."Doc. Unit Price_HGN")
+            {
+                ToolTip = 'Specifies the value of Doc. Unit Price';
+                Caption = 'Doc. Unit Price';
+                ApplicationArea = All;
+            }
+        }
     }
 
     actions
