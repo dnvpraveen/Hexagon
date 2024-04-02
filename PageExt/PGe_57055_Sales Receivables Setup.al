@@ -13,5 +13,13 @@ pageextension 50019 "Sales Receivables Setup_HGN" extends "Sales & Receivables S
                 ToolTip = 'Specifies the value of SDC Enable';
             }
         }
+        addafter("Skip Manual Reservation")
+        {
+            field("Email Copy Invoice"; Rec."Email Copy Invoice")
+            {
+                ApplicationArea = all;
+
+            }
+        }
     }
 }

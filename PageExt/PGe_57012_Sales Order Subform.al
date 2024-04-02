@@ -36,7 +36,7 @@ pageextension 57012 "Hex Sales Order Subform" extends "Sales Order Subform"
             }
             field("Doc. Line Discount %_HGN"; Rec."Doc. Line Discount %_HGN")
             {
-                ToolTip = 'Specifies the value of Doc. Line Discount %';
+                ToolTip = 'Specifies the value of Doc. Line Discount % HGN';
                 Caption = 'Doc. Line Discount %';
                 ApplicationArea = All;
                 Visible = SDCenable_HGN;
@@ -46,7 +46,7 @@ pageextension 57012 "Hex Sales Order Subform" extends "Sales Order Subform"
                 Caption = 'Doc. Line Amount';
                 ApplicationArea = All;
                 Visible = SDCenable_HGN;
-                ToolTip = 'Specifies the value of Doc. Line Amount';
+                ToolTip = 'Specifies the value of Doc. Line Amount HGN';
                 trigger OnValidate()
                 begin
                     SaveRecord();
@@ -55,22 +55,24 @@ pageextension 57012 "Hex Sales Order Subform" extends "Sales Order Subform"
             }
             field("Doc. Unit Price_HGN"; rec."Doc. Unit Price_HGN")
             {
-                ToolTip = 'Specifies the value of Doc. Unit Price';
+                ToolTip = 'Specifies the value of Doc. Unit Price HGN';
                 Caption = 'Doc. Unit Price';
                 ApplicationArea = All;
                 Visible = SDCenable_HGN;
             }
             field("Doc. Qty_HGN"; rec."Doc. Qty_HGN")
             {
-                ToolTip = 'Specifies the value of Doc. Qty';
-                Caption = 'Doc. Qty_HGN';
+                ToolTip = 'Specifies the value of Doc. Qty HGN';
+                Caption = 'Doc. Qty';
                 ApplicationArea = All;
+                Visible = SDCenable_HGN;
             }
             field("Doc. VAT %_HGN"; rec."Doc. VAT %_HGN")
             {
-                ToolTip = 'Specifies the value of Doc. VAT %';
-                Caption = 'Doc. VAT %_HGN';
+                ToolTip = 'Specifies the value of Doc. VAT % HGN';
+                Caption = 'Doc. VAT %';
                 ApplicationArea = All;
+                Visible = SDCenable_HGN;
             }
         }
         addafter("TotalSalesLine.""Line Amount""")

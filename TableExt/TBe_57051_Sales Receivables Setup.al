@@ -16,6 +16,11 @@ tableextension 57051 "Hex SalesReceivablesSetup" extends "Sales & Receivables Se
         {
             Description = 'Zero Value No. Series';
         }
+        field(50021; "Email Copy Invoice"; Text[200])
+        {
+            CaptionML = ENG = 'Email Copy Invoice', ESP = 'Copia Email Factura';
+            DataClassification = ToBeClassified;
+        }
     }
 
 }

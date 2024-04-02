@@ -528,7 +528,36 @@ page 50095 "Sales Invoice Paid "
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Work Type Code field.';
                 }
+                field("Fecha de Pago"; CustomerLedger."Posting Date")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Work Type Code field.';
+                }
+                field("Documento Pago"; detalleCust."Document No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Work Type Code field.';
+                }
             }
         }
     }
+    trigger OnAfterGetRecord()
+    var
+        myInt: Integer;
+    begin
+        Clear(detalleCust);
+        Clear(CustomerLedger);
+        CustomerLedger.Reset();
+        CustomerLedger.SetRange("Document No.", rec."Document No.");
+        if CustomerLedger.FindSet() then begin
+            detalleCust.Reset();
+            detalleCust.SetRange("Cust. Ledger Entry No.", CustomerLedger."Entry No.");
+            detalleCust.SetRange("Entry Type", detalleCust."Entry Type"::Application);
+            if detalleCust.FindSet() then;
+        end;
+    end;
+
+    var
+        CustomerLedger: Record "Cust. Ledger Entry";
+        detalleCust: Record "Detailed Cust. Ledg. Entry";
 }

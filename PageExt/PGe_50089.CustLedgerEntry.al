@@ -24,8 +24,12 @@ pageextension 50089 CustLedgerEntryExt extends "Customer Ledger Entries"
                     OutStream: OutStream;
                     InvoicePdf: InStream;
                     InvoiceXML: InStream;
+                    adjunto: InStream;
                     DocumentServices: Codeunit "Document Service Management";
                     SMTP: Record "SMTP Mail Setup";
+                    RecDocAttached: Record "Document Attachment";
+                    TenantMedia: Record "Tenant Media";
+                    Mail: Text;
 
                 begin
                     IF CONFIRM('Desea enviar la factura a este Cliente?') THEN BEGIN
@@ -41,10 +45,14 @@ pageextension 50089 CustLedgerEntryExt extends "Customer Ledger Entries"
                         SalesInvoice.CalcFields("AkkOn-XML Invoice");
                         SalesInvoice."AkkOn-PDF Invoice".CreateInStream(InvoicePdf);
                         SalesInvoice."AkkOn-XML Invoice".CreateInStream(InvoiceXML);
+                        Mail := '';
+                        Mail := SalesInvoice."Sell-to E-Mail";
+                        if Mail = '' then
+                            Mail := Cliente."E-Mail";
                         IF rec."Currency Code" = '' THEN
                             Moneda := 'MXP' ELSE
                             Moneda := rec."Currency Code";
-                        SMAIL.CreateMessage('Notificaciones ERP NAV', SMTP."User ID", Cliente."E-Mail", 'Factura No. ' + REC."Document No." + ' PO ' + REC."External Document No." + ' Hexagon Metrology', '', TRUE);
+                        SMAIL.CreateMessage('Notificaciones ERP NAV', SMTP."User ID", Mail, 'Factura No. ' + REC."Document No." + ' PO ' + REC."External Document No." + ' Hexagon Metrology', '', TRUE);
                         //SMAIL.AppendBody('<h3>Estimado/a ' + rec."Customer Name" + '</h3>');
                         Mensaje := 'Es un placer saludarte. Adjunto encontrarás la factura correspondiente a los bienes/servicios proporcionados por Hexagon Metrology. Agradecemos sinceramente tu preferencia y confianza en nuestros productos/servicios.';
                         SMAIL.AppendBody('<p>' + Mensaje + '</p>');
@@ -79,6 +87,19 @@ pageextension 50089 CustLedgerEntryExt extends "Customer Ledger Entries"
                         SMAIL.AppendBody('<a href="https://postimages.org/" target="_blank"><img src="https://i.postimg.cc/1tkfTs3N/firma-Hexagon.jpg" border="0" alt="firma-Hexagon"/></a>');
                         SMAIL.AddAttachmentStream(InvoicePdf, SalesInvoice."No." + '.pdf');
                         SMAIL.AddAttachmentStream(InvoiceXML, SalesInvoice."No." + '.xml');
+                        RecDocAttached.Reset();
+                        RecDocAttached.SetRange("No.", SalesInvoice."No.");
+                        if RecDocAttached.FindSet() then
+                            repeat begin
+                                if TenantMedia.get(RecDocAttached."Document Reference ID".MediaId) then begin
+                                    TenantMedia.CalcFields(Content);
+                                    if TenantMedia.Content.HasValue then begin
+                                        Clear(adjunto);
+                                        TenantMedia.Content.CreateInStream(adjunto);
+                                        SMAIL.AddAttachmentStream(adjunto, RecDocAttached."File Name" + '.' + RecDocAttached."File Extension");
+                                    end;
+                                end;
+                            end until RecDocAttached.Next() = 0;
                         SMAIL.Send();
                         Message('Invoice has been sent');
                     END;
@@ -110,9 +131,13 @@ pageextension 50089 CustLedgerEntryExt extends "Customer Ledger Entries"
                     SMTP: Record "SMTP Mail Setup";
                     TotalPayment: Decimal;
                     contador: Integer;
+                    Actualizar: Codeunit UpdateExchangeRate;
 
                 begin
                     IF CONFIRM('Desea enviar recordatorio de facturas vencidas a este Cliente?') THEN BEGIN
+                        Actualizar.Run();
+                        Commit();
+                        Error('OK');
                         Ventana.OPEN('Enviando Correo');
                         rec.CALCFIELDS(rec."Remaining Amount");
                         rec.CALCFIELDS(rec."Original Amount");
