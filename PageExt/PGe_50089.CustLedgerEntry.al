@@ -131,13 +131,9 @@ pageextension 50089 CustLedgerEntryExt extends "Customer Ledger Entries"
                     SMTP: Record "SMTP Mail Setup";
                     TotalPayment: Decimal;
                     contador: Integer;
-                    Actualizar: Codeunit UpdateExchangeRate;
 
                 begin
                     IF CONFIRM('Desea enviar recordatorio de facturas vencidas a este Cliente?') THEN BEGIN
-                        Actualizar.Run();
-                        Commit();
-                        Error('OK');
                         Ventana.OPEN('Enviando Correo');
                         rec.CALCFIELDS(rec."Remaining Amount");
                         rec.CALCFIELDS(rec."Original Amount");

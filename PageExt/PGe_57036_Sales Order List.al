@@ -12,6 +12,14 @@ pageextension 57036 "Hex Sales Order List" extends "Sales Order List"
             {
             }
         }
+        addafter("Posting Date")
+        {
+            field("Promised Delivery Date"; Rec."Promised Delivery Date")
+            {
+
+            }
+        }
+
     }
 
     actions

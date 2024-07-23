@@ -127,6 +127,14 @@ page 50088 "Sales and Cost CM"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Amount field.';
                 }
+                field("Valor Compra"; COMPRA * rec.Quantity)
+                {
+
+                    Caption = 'Valor Compra';
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Amount field.';
+                }
+
 
                 field(OTROS; OTROS * REC.Quantity * -1)
                 {
@@ -143,7 +151,7 @@ page 50088 "Sales and Cost CM"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Amount field.';
                 }
-                field(TotalCosto; (AA + DTA + FLETES + IGI + OTROS + PRV) * rec.Quantity * -1)
+                field(TotalCosto; (COMPRA + AA + DTA + FLETES + IGI + OTROS + PRV) * rec.Quantity * -1)
 
                 {
                     Caption = 'Total Costo';
@@ -169,6 +177,7 @@ page 50088 "Sales and Cost CM"
         IGI: Decimal;
         OTROS: Decimal;
         PRV: Decimal;
+        COMPRA: Decimal;
 
 
 
@@ -184,6 +193,7 @@ page 50088 "Sales and Cost CM"
         IGI := 0;
         OTROS := 0;
         PRV := 0;
+        COMPRA := 0;
         Clear(SalesInvoiceHeader);
         SalesInvoiceHeader.Reset();
         SalesInvoiceHeader.SetRange("No.", rec."Document No.");
@@ -219,7 +229,7 @@ page 50088 "Sales and Cost CM"
             if ItemLedger.FindLast() then
                 ValueEntry2.Reset();
             ValueEntry2.SetRange("Item Ledger Entry No.", ItemLedger."Entry No.");
-            if ValueEntry2.FindSet() then
+            if ValueEntry2.FindSet() then begin
                 repeat
                     IF ValueEntry2."Item Charge No." = 'AA' THEN
                         AA := AA + ValueEntry2."Cost per Unit";
@@ -233,12 +243,17 @@ page 50088 "Sales and Cost CM"
                         OTROS := OTROS + ValueEntry2."Cost per Unit";
                     IF ValueEntry2."Item Charge No." = 'PRV' THEN
                         PRV := PRV + ValueEntry2."Cost per Unit";
-                    IF ValueEntry2."Item Charge No." = '' THEN
-                        OTROS := OTROS + ValueEntry2."Cost per Unit";
                 until ValueEntry2.Next() = 0;
 
-            IF ValueEntry."Invoiced Quantity" <> 0 THEN
-                ValorCosto := ValorCosto / (ValueEntry."Invoiced Quantity" * -1);
+                ValueEntry2.Reset();
+                ValueEntry2.SetRange("Item Ledger Entry No.", ItemLedger."Entry No.");
+                ValueEntry2.SetRange("Item Charge No.", '');
+                if ValueEntry2.FindSet() then
+                    COMPRA := ValueEntry2."Cost per Unit";
+
+                IF ValueEntry."Invoiced Quantity" <> 0 THEN
+                    ValorCosto := ValorCosto / (ValueEntry."Invoiced Quantity" * -1);
+            end;
         END;
         //ValorCosto := AA + DTA + FLETES + IGI + OTROS + PRV;
         if rec.Type = rec.Type::"G/L Account" then

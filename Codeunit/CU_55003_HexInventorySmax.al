@@ -23,7 +23,7 @@ codeunit 55003 HexInventorySmax
             HexInventoryBalance."Posting Date" := ItemLedgerEntry."Posting Date";
             HexInventoryBalance."Entry Type" := ItemLedgerEntry."Entry Type";
             HexInventoryBalance."Document No." := ItemLedgerEntry."Document No.";
-            HexInventoryBalance.Description := ItemLedgerEntry.Description;
+            HexInventoryBalance.Description := CopyStr(ItemLedgerEntry.Description, 1, 49);
             HexInventoryBalance."Location Code" := ItemLedgerEntry."Location Code";
             HexInventoryBalance.Quantity := ItemLedgerEntry.Quantity;
             HexInventoryBalance."External Document No." := ItemLedgerEntry."External Document No.";

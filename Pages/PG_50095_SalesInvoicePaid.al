@@ -528,12 +528,22 @@ page 50095 "Sales Invoice Paid "
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Work Type Code field.';
                 }
-                field("Fecha de Pago"; CustomerLedger."Posting Date")
+                field("Fecha de Pago"; detalleCust."Posting Date")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Work Type Code field.';
                 }
                 field("Documento Pago"; detalleCust."Document No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Work Type Code field.';
+                }
+                field("Amount $"; CustomerLedger."Amount (LCY)")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Work Type Code field.';
+                }
+                field("Currency Code"; CustomerLedger."Currency Code")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Work Type Code field.';
@@ -550,6 +560,8 @@ page 50095 "Sales Invoice Paid "
         CustomerLedger.Reset();
         CustomerLedger.SetRange("Document No.", rec."Document No.");
         if CustomerLedger.FindSet() then begin
+            CustomerLedger.CalcFields("Amount (LCY)");
+
             detalleCust.Reset();
             detalleCust.SetRange("Cust. Ledger Entry No.", CustomerLedger."Entry No.");
             detalleCust.SetRange("Entry Type", detalleCust."Entry Type"::Application);

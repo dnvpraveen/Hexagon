@@ -1,15 +1,10 @@
-pageextension 57027 "Hex Posted Purchase Invoice" extends "Posted Purchase Invoice"
+pageextension 50012 PurchaseInvoicesExt extends "Purchase Invoices"
 {
     layout
     {
-        // Add changes to page layout here
+        addafter("Posting Date")
+        {
+            field("AkkOn-SAT UUID stamp"; Rec."AkkOn-SAT UUID stamp") { }
+        }
     }
-
-    actions
-    {
-        // Add changes to page actions here
-    }
-
-    var
-        myInt: Integer;
 }

@@ -13,7 +13,7 @@ tableextension 57054 VendorExt extends Vendor
         {
             Caption = 'Dividir Valor Factura';
             DataClassification = ToBeClassified;
-            TableRelation = "G/L Account"."No." WHERE("Account Type" = filter(Posting));
+            //TableRelation = "G/L Account"."No." WHERE("Account Type" = filter(Posting));
         }
     }
 }
