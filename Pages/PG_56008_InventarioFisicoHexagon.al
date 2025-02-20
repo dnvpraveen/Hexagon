@@ -14,6 +14,20 @@ page 50091 "Inventario Fisico Hexagon"
     {
         area(content)
         {
+            group("Bodega")
+            {
+                Caption = 'Bodega Ajuste';
+                field("Bodega Ajuste"; BodegaAjuste)
+                {
+                    ApplicationArea = all;
+
+                }
+                field("Ubicacion"; UbicacionDestino)
+                {
+                    ApplicationArea = all;
+
+                }
+            }
             repeater(General)
             {
                 field("No."; Rec."No.")
@@ -85,8 +99,18 @@ page 50091 "Inventario Fisico Hexagon"
                         Linea: Integer;
                         BinConten: Record "Bin Content";
                         ItemLedger: Record "Item Ledger Entry";
+                        NoSeries: Record "No. Series Line";
+                        Document: Code[50];
+                        Bodegas: Record Location;
+                        Bins: Record Bin;
                     begin
                         if Confirm('Desea registrar el inventrio de los productos seleccionados?') then begin
+                            Document := '';
+                            NoSeries.FindSet();
+                            NoSeries.SetRange("Series Code", 'ITEM-JNL');
+                            NoSeries.FindSet();
+                            Document := IncStr(NoSeries."Last No. Used");
+
                             ItemJnl.Reset();
                             ItemJnl.SetRange("Journal Batch Name", 'DEFAULT');
                             ItemJnl.SetRange("Journal Template Name", 'ITEM');
@@ -100,56 +124,120 @@ page 50091 "Inventario Fisico Hexagon"
 
                             Item.Reset();
                             Item.SetFilter("Cantidad a Ajustar", '<>0');
-                            item.SetFilter(Diferencia, '<>0');
+                            //item.SetFilter(Diferencia, '<>0');
                             Item.FindSet();
                             repeat
                                 if Item."Bodega Destino" = '' then
                                     Error('Falta bodega destino en el producto ' + Item."No.");
-                                if Item."Ubicacion Destino" = '' then
-                                    Error('Falta ubicacion en el producto ' + Item."No.");
+                                // if Item."Ubicacion Destino" = '' then
+                                //   Error('Falta ubicacion en el producto ' + Item."No.");
                                 ItemLedger.RESET;
                                 ItemLedger.SetRange("Item No.", Item."No.");
                                 ItemLedger.SetFilter("AkkOn-Entry/Exit No.", '<>''''');
                                 IF ItemLedger.FindLast() then;
+                                IF Item.Diferencia <= 0 THEN begin
+                                    ItemJnl.Init();
+                                    ItemJnl."Journal Batch Name" := 'DEFAULT';
+                                    ItemJnl."Journal Template Name" := 'ITEM';
+                                    ItemJnl."Posting Date" := Today;
+                                    ItemJnl.Validate("Posting Date");
+                                    ItemJnl."Line No." := Linea;
+                                    ItemJnl."Entry Type" := ItemJnl."Entry Type"::"Positive Adjmt.";
+                                    ItemJnl.Validate("Item No.", Item."No.");
+                                    ItemJnl.Validate(Quantity, Abs(item."Cantidad a Ajustar"));
+                                    ItemJnl."Document No." := Document;
+                                    ItemJnl."Location Code" := Item."Bodega Destino";
+                                    ItemJnl."Bin Code" := Item."Ubicacion Destino";
+                                    ItemJnl."AkkOn-Entry/Exit No." := ItemLedger."AkkOn-Entry/Exit No.";
+                                    ItemJnl."AkkOn-Entry/Exit Date" := ItemLedger."AkkOn-Entry/Exit Date";
+                                    ItemJnl."Entry/Exit Point" := ItemLedger."Entry/Exit Point";
+                                    ItemJnl.Insert();
+                                    Linea += 1000;
 
-                                ItemJnl.Init();
-                                ItemJnl."Journal Batch Name" := 'DEFAULT';
-                                ItemJnl."Journal Template Name" := 'ITEM';
-                                ItemJnl."Posting Date" := Today;
-                                ItemJnl."Line No." := Linea;
-                                ItemJnl."Entry Type" := ItemJnl."Entry Type"::"Positive Adjmt.";
-                                ItemJnl.Validate("Item No.", Item."No.");
-                                ItemJnl.Validate(Quantity, Abs(item."Cantidad a Ajustar"));
-                                ItemJnl."Document No." := 'AJUSTINV' + Format(Today);
-                                ItemJnl."Location Code" := Item."Bodega Destino";
-                                ItemJnl."Bin Code" := Item."Ubicacion Destino";
-                                ItemJnl."AkkOn-Entry/Exit No." := ItemLedger."AkkOn-Entry/Exit No.";
-                                ItemJnl."AkkOn-Entry/Exit Date" := ItemLedger."AkkOn-Entry/Exit Date";
-                                ItemJnl."Entry/Exit Point" := ItemLedger."Entry/Exit Point";
-                                ItemJnl.Insert();
-                                Linea += 1000;
+                                END ELSE begin
+                                    BinConten.Reset();
+                                    BinConten.SetRange("Item No.", Item."No.");
+                                    BinConten.SetFilter("Quantity (Base)", '>0');
+                                    if BinConten.FindSet() then
+                                        repeat
+                                            ItemJnl.Init();
+                                            ItemJnl."Journal Batch Name" := 'DEFAULT';
+                                            ItemJnl."Journal Template Name" := 'ITEM';
+                                            ItemJnl."Posting Date" := Today;
+                                            ItemJnl."Line No." := Linea;
+                                            ItemJnl."Entry Type" := ItemJnl."Entry Type"::"Negative Adjmt.";
+                                            ItemJnl.Validate("Item No.", Item."No.");
+                                            BinConten.CalcFields("Quantity (Base)");
+                                            ItemJnl.Validate(Quantity, BinConten."Quantity (Base)");
+                                            ItemJnl."Document No." := Document;
+                                            ItemJnl."Location Code" := BinConten."Location Code";
+                                            ItemJnl."Bin Code" := BinConten."Bin Code";
+                                            ItemJnl.Insert();
+                                            Linea += 1000;
+                                        until BinConten.Next() = 0;
 
-                                BinConten.Reset();
-                                BinConten.SetRange("Item No.", Item."No.");
-                                BinConten.SetFilter("Quantity (Base)", '>0');
-                                if BinConten.FindSet() then
-                                    repeat
-                                        ItemJnl.Init();
-                                        ItemJnl."Journal Batch Name" := 'DEFAULT';
-                                        ItemJnl."Journal Template Name" := 'ITEM';
-                                        ItemJnl."Posting Date" := Today;
-                                        ItemJnl."Line No." := Linea;
-                                        ItemJnl."Entry Type" := ItemJnl."Entry Type"::"Negative Adjmt.";
-                                        ItemJnl.Validate("Item No.", Item."No.");
-                                        BinConten.CalcFields("Quantity (Base)");
-                                        ItemJnl.Validate(Quantity, BinConten."Quantity (Base)");
-                                        ItemJnl."Document No." := 'AJUSTINV' + Format(Today);
-                                        ItemJnl."Location Code" := Item."Bodega Destino";
-                                        ItemJnl."Bin Code" := Item."Ubicacion Destino";
-                                        ItemJnl.Insert();
-                                        Linea += 1000;
-                                    until BinConten.Next() = 0;
+                                    ItemJnl.Init();
+                                    ItemJnl."Journal Batch Name" := 'DEFAULT';
+                                    ItemJnl."Journal Template Name" := 'ITEM';
+                                    ItemJnl."Posting Date" := Today;
+                                    ItemJnl.Validate("Posting Date");
+                                    ItemJnl."Line No." := Linea;
+                                    ItemJnl."Entry Type" := ItemJnl."Entry Type"::"Positive Adjmt.";
+                                    ItemJnl.Validate("Item No.", Item."No.");
+                                    ItemJnl.Validate(Quantity, Abs(Item."Cantidad a Ajustar"));
+                                    ItemJnl."Document No." := Document;
+                                    ItemJnl."Location Code" := Item."Bodega Destino";
+                                    ItemJnl."Bin Code" := Item."Ubicacion Destino";
+                                    ItemJnl."AkkOn-Entry/Exit No." := ItemLedger."AkkOn-Entry/Exit No.";
+                                    ItemJnl."AkkOn-Entry/Exit Date" := ItemLedger."AkkOn-Entry/Exit Date";
+                                    ItemJnl."Entry/Exit Point" := ItemLedger."Entry/Exit Point";
+                                    ItemJnl.Insert();
+                                    Linea += 1000;
 
+                                end;
+
+                                if Item.Diferencia <= 0 then begin
+                                    BinConten.Reset();
+                                    BinConten.SetRange("Item No.", Item."No.");
+                                    BinConten.SetFilter("Quantity (Base)", '>0');
+                                    if BinConten.FindSet() then
+                                        repeat
+                                            ItemJnl.Init();
+                                            ItemJnl."Journal Batch Name" := 'DEFAULT';
+                                            ItemJnl."Journal Template Name" := 'ITEM';
+                                            ItemJnl."Posting Date" := Today;
+                                            ItemJnl."Line No." := Linea;
+                                            ItemJnl."Entry Type" := ItemJnl."Entry Type"::"Negative Adjmt.";
+                                            ItemJnl.Validate("Item No.", Item."No.");
+                                            BinConten.CalcFields("Quantity (Base)");
+                                            ItemJnl.Validate(Quantity, BinConten."Quantity (Base)");
+                                            ItemJnl."Document No." := Document;
+                                            ItemJnl."Location Code" := BinConten."Location Code";
+                                            ItemJnl."Bin Code" := BinConten."Bin Code";
+                                            ItemJnl.Insert();
+                                            Linea += 1000;
+                                        until BinConten.Next() = 0;
+                                end else begin
+                                    ItemJnl.Init();
+                                    ItemJnl."Journal Batch Name" := 'DEFAULT';
+                                    ItemJnl."Journal Template Name" := 'ITEM';
+                                    ItemJnl."Posting Date" := Today;
+                                    ItemJnl."Line No." := Linea;
+                                    ItemJnl."Entry Type" := ItemJnl."Entry Type"::"Positive Adjmt.";
+                                    ItemJnl.Validate("Item No.", Item."No.");
+                                    ItemJnl.Validate(Quantity, Item.Diferencia);
+                                    ItemJnl."Document No." := Document;
+                                    if BodegaAjuste = '' then
+                                        Error('La bodega de ajuste esta vacia');
+                                    if UbicacionDestino = '' then
+                                        Error('La Ubicacion de ajuste esta vacia');
+                                    Bodegas.get(BodegaAjuste);
+                                    bins.get(Bodegas.Code, UbicacionDestino);
+                                    ItemJnl."Location Code" := BodegaAjuste;
+                                    ItemJnl."Bin Code" := UbicacionDestino;
+                                    ItemJnl.Insert();
+                                    Linea += 1000;
+                                end;
                             until Item.Next() = 0;
                             PageItemJnl.Run();
 
@@ -178,6 +266,8 @@ page 50091 "Inventario Fisico Hexagon"
 
     end;
 
-
+    var
+        BodegaAjuste: code[50];
+        UbicacionDestino: Code[50];
 
 }

@@ -23,7 +23,7 @@ codeunit 55003 HexInventorySmax
             HexInventoryBalance."Posting Date" := ItemLedgerEntry."Posting Date";
             HexInventoryBalance."Entry Type" := ItemLedgerEntry."Entry Type";
             HexInventoryBalance."Document No." := ItemLedgerEntry."Document No.";
-            HexInventoryBalance.Description := CopyStr(ItemLedgerEntry.Description, 1, 49);
+            //HexInventoryBalance.Description := CopyStr(ItemLedgerEntry.Description, 1, 49);
             HexInventoryBalance."Location Code" := ItemLedgerEntry."Location Code";
             HexInventoryBalance.Quantity := ItemLedgerEntry.Quantity;
             HexInventoryBalance."External Document No." := ItemLedgerEntry."External Document No.";
@@ -185,11 +185,12 @@ codeunit 55003 HexInventorySmax
                 HexInventoryBalance."Posting Date" := ItemLedgerEntry."Posting Date";
                 HexInventoryBalance."Entry Type" := ItemLedgerEntry."Entry Type";
                 HexInventoryBalance."Document No." := ItemLedgerEntry."Document No.";
-                HexInventoryBalance.Description := ItemLedgerEntry.Description;
+                //HexInventoryBalance.Description := ItemLedgerEntry.Description;
                 HexInventoryBalance."Location Code" := ItemLedgerEntry."Location Code";
                 HexInventoryBalance.Quantity := 0;
                 HexInventoryBalance."External Document No." := ItemLedgerEntry."External Document No.";
-                HexInventoryBalance."Serial No." := ItemLedgerEntry."Serial No.";
+                //HexInventoryBalance."Serial No." := ItemLedgerEntry."Serial No.";
+                HexInventoryBalance."Serial No." := CopyStr(ItemLedgerEntry."Serial No.", 1, 19);
                 HexInventoryBalance."Lot No." := ItemLedgerEntry."Lot No.";
                 WarehouseEntry.SETCURRENTKEY("Reference No.", "Registering Date");
                 WarehouseEntry.SETRANGE("Reference No.", ItemLedgerEntry."Document No.");

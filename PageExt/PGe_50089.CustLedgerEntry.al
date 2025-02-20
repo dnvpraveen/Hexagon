@@ -218,6 +218,23 @@ pageextension 50089 CustLedgerEntryExt extends "Customer Ledger Entries"
 
 
             }
+            action("EnviarComplementoPago")
+            {
+                Caption = 'Enviar Complemento de Pago';
+                Image = SendElectronicDocument;
+                ApplicationArea = all;
+                trigger OnAction()
+                var
+                    EnvioCorreo: Codeunit SendMailHexagon;
+                begin
+                    if rec."Document Type" <> rec."Document Type"::Payment then
+                        Error('Este registro no es un pago');
+                    if Confirm('Desea enviar el complemento de pago para el cliente ' + rec."Customer Name" + ' por un valor de ' + Format(rec.Amount)) then begin
+                        EnvioCorreo.EnvioComplementoPago(rec."Entry No.");
+                        Message('Correo Enviado');
+                    end;
+                end;
+            }
         }
 
     }

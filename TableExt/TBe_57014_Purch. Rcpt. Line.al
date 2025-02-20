@@ -2,11 +2,35 @@ tableextension 57014 "Hex Purch. Rcpt. Line" extends "Purch. Rcpt. Line"
 {
     fields
     {
+        field(50000; "Sales Order"; Code[50])
+        {
+            Caption = 'Sales Order';
+            DataClassification = ToBeClassified;
+        }
+        field(50001; "To Stock"; Boolean)
+        {
+            Caption = 'To Stock';
+            DataClassification = ToBeClassified;
+        }
+        field(50002; "Quantity in SO"; Decimal)
+        {
+            Caption = 'Quantity in SO';
+            DataClassification = ToBeClassified;
+        }
+        field(50003; "Vendor Shipment No."; Code[35])
+        {
+            Caption = 'Vendor Shipment No.';
+            DataClassification = ToBeClassified;
+        }
+        field(50004; "Vendor Invoice No."; Code[35])
+        {
+            Caption = 'Vendor Invoice No.';
+            DataClassification = ToBeClassified;
+        }
         //Description=IFRS15
         field(54000; "Job Planning Line No."; Integer)
         {
             Description = 'Job Planning Line No.';
-
         }
 
     }

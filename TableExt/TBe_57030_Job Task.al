@@ -104,6 +104,12 @@ tableextension 57030 "Job Task" extends "Job Task"
             Description = 'Order Type';
             Editable = false;
         }
+        field(55006; Pending; Boolean)
+        {
+            Caption = 'Pending';
+            FieldClass = FlowField;
+            CalcFormula = exist("Job Task" where("Job No." = field("Job No."), "Activity Type" = const(Purchase), "IFRS15 Perf. Obligation Status" = const(Posted)));
+        }
         modify("Job Task No.")
         {
             trigger OnAfterValidate()
