@@ -2,14 +2,23 @@ pageextension 57009 "Hex Item Ledger Entries" extends "Item Ledger Entries"
 {
     layout
     {
-        // Add changes to page layout here
+        addafter("Location Code")
+        {
+            field("Bin Code"; WarehouseEnty."Bin Code")
+            {
+                ApplicationArea = all;
+            }
+        }
     }
+    trigger OnAfterGetRecord()
 
-    actions
-    {
-        // Add changes to page actions here
-    }
+    begin
+        Clear(WarehouseEnty);
+        WarehouseEnty.SetRange("Source No.", rec."Document No.");
+        WarehouseEnty.SetRange("Item No.", rec."Item No.");
+        if WarehouseEnty.FindLast() then;
+    end;
 
     var
-        myInt: Integer;
+        WarehouseEnty: Record "Warehouse Entry";
 }

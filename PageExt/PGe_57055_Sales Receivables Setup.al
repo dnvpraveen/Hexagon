@@ -20,6 +20,11 @@ pageextension 50019 "Sales Receivables Setup_HGN" extends "Sales & Receivables S
                 ApplicationArea = all;
 
             }
+            field("Email Backlog"; Rec."Email Backlog")
+            {
+                ApplicationArea = all;
+
+            }
         }
     }
 }

@@ -212,4 +212,71 @@ pageextension 57029 "Hex Job Task Lines" extends "Job Task Lines"
             IFRS15Editable := TRUE;
         // TM TF IFRS15 02/07/18 End
     END;
+
+
+    procedure UpdateBacklog()
+    var
+        Backlog: Record Backlog_HGN;
+        Ultimo: Integer;
+    begin
+
+        Backlog.Reset();
+        Backlog.SetRange("Tipo Reporte", Backlog."Tipo Reporte"::"Job Line");
+
+        if Backlog.FindSet() then
+            repeat
+                Backlog.Delete();
+            until Backlog.Next() = 0;
+        Backlog.Reset();
+        if Backlog.FindLast() then
+            Ultimo := Backlog."Entry No." + 1 else
+            Ultimo := 1;
+        rec.SetRange(Pending, true);
+        rec.SetRange("IFRS15 Perf. Obligation Status", rec."IFRS15 Perf. Obligation Status"::" ");
+        if rec.FindSet() then
+            repeat
+                Clear(JobSevicesMax);
+                JobSevicesMax.Reset();
+                JobSevicesMax.SetRange("Job No.", rec."Job No.");
+                JobSevicesMax.SetRange("Job Task No.", rec."Job Task No.");
+                if JobSevicesMax.FindSet() then;
+                rec.CalcFields(Pending);
+                DimensionValue.RESET;
+                DimensionValue.SETRANGE(Code, rec."Global Dimension 2 Code");
+                IF DimensionValue.FINDSET THEN;
+                Backlog."Entry No." := Ultimo;
+                Backlog.Init();
+                Backlog."No." := rec."Job No.";
+                Backlog."Sell-to Customer No." := JobSevicesMax."Customer No.";
+                Backlog."Sell-to Customer Name" := JobSevicesMax.Name;
+                Backlog."External Document No." := JobSevicesMax."External Doc No.";
+                Backlog."Product CAT Name" := DimensionValue.Name;
+                Backlog."PRODUCT CAT Code" := rec."Global Dimension 2 Code";
+                Backlog."Item Description" := rec.Description;
+                Backlog."Item No." := Format(rec."Activity Type");
+                Backlog."Document Date" := rec."Start Date";
+                Backlog."Promised Delivery Date" := rec."Start Date";
+                Backlog."Currency Code" := JobSevicesMax."Currency Code";
+                Backlog.Amount := rec."IFRS15 Line Amount";
+                Backlog."Amount LCY" := rec."IFRS15 Line Amount (LCY)";
+                Backlog."Tipo Reporte" := Backlog."Tipo Reporte"::"Job Line";
+                DimensionEntry.Reset();
+                DimensionEntry.SetRange("No.", rec."Job No.");
+                DimensionEntry.SetRange("Dimension Code", 'MKT SECTOR');
+                if DimensionEntry.FindSet() then begin
+                    DimensionValue.RESET;
+                    DimensionValue.SETRANGE(Code, DimensionEntry."Dimension Value Code");
+                    IF DimensionValue.FINDSET THEN;
+                    Backlog."MTK Sector Name" := DimensionValue.Name;
+                    Backlog."MTK Sector Code" := DimensionEntry."Dimension Value Code"
+                end;
+
+                Backlog.Insert();
+                Ultimo := Ultimo + 1;
+            until rec.Next() = 0;
+
+    end;
+
+
+
 }

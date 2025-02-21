@@ -21,6 +21,11 @@ tableextension 57051 "Hex SalesReceivablesSetup" extends "Sales & Receivables Se
             CaptionML = ENG = 'Email Copy Invoice', ESP = 'Copia Email Factura';
             DataClassification = ToBeClassified;
         }
+        field(50023; "Email Backlog"; Text[250])
+        {
+            CaptionML = ENG = 'Email Backlog', ESP = 'Email Backlog';
+            DataClassification = ToBeClassified;
+        }
     }
 
 }

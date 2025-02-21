@@ -1,7 +1,7 @@
 page 60013 "Backlog"
 {
     PageType = List;
-    SourceTable = BackLog_HGN;
+    SourceTable = Backlog_HGN;
     UsageCategory = Lists;
     ApplicationArea = all;
     Editable = true;
@@ -34,9 +34,116 @@ page 60013 "Backlog"
                 field(Q3; rec.q3) { ApplicationArea = All; }
                 field(Q4; rec.q4) { ApplicationArea = All; }
                 field(NextYear; rec.NextYear) { ApplicationArea = All; }
+                field("Fecha Generacion"; Rec."Fecha Generacion")
+                {
+                    Caption = 'Fecha Generacion';
+                    ApplicationArea = all;
+                }
+
 
             }
         }
+    }
+    actions
+    {
+        area(Processing)
+        {
+            action(ExportToExcel)
+            {
+                Caption = 'Export to Excel';
+                ApplicationArea = All;
+                Image = Export;
+                Promoted = true;
+                PromotedCategory = Process;
+                ToolTip = 'Exports the backlog data to an Excel file.';
+
+                trigger OnAction()
+                var
+                    ExcelBuf: Record "Excel Buffer";
+                    BacklogRec: Record Backlog_HGN;
+                    FileName: Text;
+                    TempBlob: Record TempBlob;
+                    OutStream: OutStream;
+                    InStream: InStream;
+                begin
+                    /*
+                    // Clear Excel Buffer
+                    ExcelBuf.Reset();
+                    ExcelBuf.DeleteAll();
+
+                    // Add Headers
+                    ExcelBuf.AddColumn('No.', FALSE, '', TRUE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                    ExcelBuf.AddColumn('Sell-to Customer No.', FALSE, '', TRUE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                    ExcelBuf.AddColumn('Sell-to Customer Name', FALSE, '', TRUE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                    ExcelBuf.AddColumn('Item No.', FALSE, '', TRUE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                    ExcelBuf.AddColumn('Item Description', FALSE, '', TRUE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                    ExcelBuf.AddColumn('External Document No.', FALSE, '', TRUE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                    ExcelBuf.AddColumn('PRODUCT CAT Code', FALSE, '', TRUE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                    ExcelBuf.AddColumn('Product CAT Name', FALSE, '', TRUE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                    ExcelBuf.AddColumn('MTK Sector Code', FALSE, '', TRUE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                    ExcelBuf.AddColumn('MTK Sector Name', FALSE, '', TRUE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                    ExcelBuf.AddColumn('Document Date', FALSE, '', TRUE, FALSE, FALSE, 'DD/MM/YYYY', ExcelBuf."Cell Type"::Date);
+                    ExcelBuf.AddColumn('Promised Delivery Date', FALSE, '', TRUE, FALSE, FALSE, 'DD/MM/YYYY', ExcelBuf."Cell Type"::Date);
+                    ExcelBuf.AddColumn('Currency Code', FALSE, '', TRUE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                    ExcelBuf.AddColumn('Amount', FALSE, '', TRUE, FALSE, FALSE, '#,##0.00', ExcelBuf."Cell Type"::Number);
+                    ExcelBuf.AddColumn('Amount LCY', FALSE, '', TRUE, FALSE, FALSE, '#,##0.00', ExcelBuf."Cell Type"::Number);
+                    ExcelBuf.AddColumn('Tipo Reporte', FALSE, '', TRUE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                    ExcelBuf.AddColumn('Entry No.', FALSE, '', TRUE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                    ExcelBuf.AddColumn('Q1', FALSE, '', TRUE, FALSE, FALSE, '#,##0.00', ExcelBuf."Cell Type"::Number);
+                    ExcelBuf.AddColumn('Q2', FALSE, '', TRUE, FALSE, FALSE, '#,##0.00', ExcelBuf."Cell Type"::Number);
+                    ExcelBuf.AddColumn('Q3', FALSE, '', TRUE, FALSE, FALSE, '#,##0.00', ExcelBuf."Cell Type"::Number);
+                    ExcelBuf.AddColumn('Q4', FALSE, '', TRUE, FALSE, FALSE, '#,##0.00', ExcelBuf."Cell Type"::Number);
+                    ExcelBuf.AddColumn('Next Year', FALSE, '', TRUE, FALSE, FALSE, '#,##0.00', ExcelBuf."Cell Type"::Number);
+
+                    // Iterate through Backlog records and add them to the Excel file
+                    BacklogRec.SetRange("Promised Delivery Date", 20220122D);
+                    if BacklogRec.FindSet() then
+                        repeat
+                            ExcelBuf.NewRow();
+                            ExcelBuf.AddColumn(BacklogRec."No.", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                            ExcelBuf.AddColumn(BacklogRec."Sell-to Customer No.", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                            ExcelBuf.AddColumn(BacklogRec."Sell-to Customer Name", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                            ExcelBuf.AddColumn(BacklogRec."Item No.", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                            ExcelBuf.AddColumn(BacklogRec."Item Description", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                            ExcelBuf.AddColumn(BacklogRec."External Document No.", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                            ExcelBuf.AddColumn(BacklogRec."PRODUCT CAT Code", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                            ExcelBuf.AddColumn(BacklogRec."Product CAT Name", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                            ExcelBuf.AddColumn(BacklogRec."MTK Sector Code", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                            ExcelBuf.AddColumn(BacklogRec."MTK Sector Name", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                            ExcelBuf.AddColumn(Format(BacklogRec."Document Date"), FALSE, '', FALSE, FALSE, FALSE, 'DD/MM/YYYY', ExcelBuf."Cell Type"::Date);
+                            ExcelBuf.AddColumn(Format(BacklogRec."Promised Delivery Date"), FALSE, '', FALSE, FALSE, FALSE, 'DD/MM/YYYY', ExcelBuf."Cell Type"::Date);
+                            ExcelBuf.AddColumn(BacklogRec."Currency Code", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                            ExcelBuf.AddColumn(BacklogRec."Amount", FALSE, '', FALSE, FALSE, FALSE, '#,##0.00', ExcelBuf."Cell Type"::Number);
+                            ExcelBuf.AddColumn(BacklogRec."Amount LCY", FALSE, '', FALSE, FALSE, FALSE, '#,##0.00', ExcelBuf."Cell Type"::Number);
+                            ExcelBuf.AddColumn(BacklogRec."Tipo Reporte", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                            ExcelBuf.AddColumn(BacklogRec."Entry No.", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+                            ExcelBuf.AddColumn(BacklogRec.Q1, FALSE, '', FALSE, FALSE, FALSE, '#,##0.00', ExcelBuf."Cell Type"::Number);
+                            ExcelBuf.AddColumn(BacklogRec.Q2, FALSE, '', FALSE, FALSE, FALSE, '#,##0.00', ExcelBuf."Cell Type"::Number);
+                            ExcelBuf.AddColumn(BacklogRec.Q3, FALSE, '', FALSE, FALSE, FALSE, '#,##0.00', ExcelBuf."Cell Type"::Number);
+                            ExcelBuf.AddColumn(BacklogRec.Q4, FALSE, '', FALSE, FALSE, FALSE, '#,##0.00', ExcelBuf."Cell Type"::Number);
+                            ExcelBuf.AddColumn(BacklogRec.NextYear, FALSE, '', FALSE, FALSE, FALSE, '#,##0.00', ExcelBuf."Cell Type"::Number);
+                        until BacklogRec.Next() = 0;
+
+                    // Generate the Excel file
+                    ExcelBuf.CreateBook('Backlog Report4.xlsx', 'Backlog Data');
+                    Commit();
+                    TempBlob.Blob.CreateOutStream(OutStream);
+                    ExcelBuf.SaveToStream(OutStream, true);
+                    TempBlob.Blob.CreateInStream(InStream);
+
+                    // Download the file
+                    FileName := 'BacklogData.xlsx';
+                    BackLog.Init();
+                    ;
+                    BackLog."Fecha y Hora Ejecucion" := CurrentDateTime;
+                    BackLog.Reporte.CreateInStream(InStream);
+                    BackLog.Insert();
+                    REPORT.SaveAsExcel(50001, '', OutStream);
+                    */
+                end;
+            }
+        }
+
     }
     trigger OnAfterGetRecord()
 

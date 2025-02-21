@@ -213,6 +213,83 @@ page 56010 Deferral
         rec.SetFilter("Posting Date", FORMAT(FechaSig) + '..');
     end;
 
+    procedure UpdateBacklog()
+    var
+        Backlog: Record Backlog_HGN;
+        Ultimo: Integer;
+        NextMonth: date;
+        FechaSig: Date;
+    begin
+
+        Backlog.Reset();
+        Backlog.SetRange("Tipo Reporte", Backlog."Tipo Reporte"::Deferral);
+        if Backlog.FindSet() then
+            repeat
+                Backlog.Delete();
+            until Backlog.Next() = 0;
+        Backlog.Reset();
+        if Backlog.FindLast() then
+            Ultimo := Backlog."Entry No." + 1 else
+            Ultimo := 1;
+        NextMonth := CalcDate('<+1M>', WorkDate());
+        FechaSig := DMY2Date(1, Date2DMY(NextMonth, 2), Date2DMY(NextMonth, 3));
+        rec.SetFilter("Posting Date", FORMAT(FechaSig) + '..');
+        if rec.FindSet() then
+            repeat
+                Clear(SalesCrmemo);
+                Clear(SalesInvHeader);
+                Clear(Job);
+                CustomerNo := '';
+                CustomerName := '';
+
+                if SalesCrmemo.get(rec."Document No.") then begin
+                    CustomerNo := SalesCrmemo."Sell-to Customer No.";
+                    CustomerName := SalesCrmemo."Sell-to Customer Name";
+                end;
+                if SalesInvHeader.get(rec."Document No.") then begin
+                    CustomerNo := SalesInvHeader."Sell-to Customer No.";
+                    CustomerName := SalesInvHeader."Sell-to Customer Name";
+                end;
+                if Job.get(rec."Document No.") then begin
+                    CustomerNo := job."Bill-to Customer No.";
+                    CustomerName := job."Bill-to Name";
+                    rec."External Document No." := Job."External Doc No.";
+                end;
+                Backlog."Entry No." := Ultimo;
+                Backlog.Init();
+                Backlog."No." := rec."Document No.";
+                Backlog."Sell-to Customer No." := CustomerNo;
+                Backlog."Sell-to Customer Name" := CustomerName;
+                Backlog."External Document No." := rec."External Document No.";
+                DimensionValue.Reset();
+                DimensionValue.SetRange(code, rec."Global Dimension 2 Code");
+                if DimensionValue.FindSet() then;
+                Backlog."Product CAT Name" := DimensionValue.Name;
+                Backlog."PRODUCT CAT Code" := rec."Global Dimension 2 Code";
+                Backlog."Item Description" := rec.Description;
+                Backlog."Item No." := rec."G/L Account No.";
+                Backlog."Document Date" := rec."Posting Date";
+                Backlog."Promised Delivery Date" := rec."Posting Date";
+                Backlog."Currency Code" := '';
+                Backlog.Amount := rec.Amount;
+                Backlog."Amount LCY" := rec.Amount;
+                Backlog."Tipo Reporte" := Backlog."Tipo Reporte"::Deferral;
+                DimensionEntry.Reset();
+                DimensionEntry.SetRange("Dimension Set ID", rec."Dimension Set ID");
+                DimensionEntry.SetRange("Dimension Code", 'MKT SECTOR');
+                if DimensionEntry.FindSet() then begin
+                    DimensionEntry.CalcFields("Dimension Value Name");
+                    Backlog."MTK Sector Name" := DimensionEntry."Dimension Value Name";
+                    Backlog."MTK Sector Code" := DimensionEntry."Dimension Value Code"
+                end;
+
+                Backlog.Insert();
+
+                Ultimo := Ultimo + 1;
+            until rec.Next() = 0;
+
+    end;
+
     var
         customer: Record customer;
         SalesInvHeader: Record "Sales Invoice Header";

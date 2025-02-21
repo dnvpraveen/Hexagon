@@ -1,4 +1,4 @@
-table 56053 BackLog_HGN
+table 56053 Backlog_HGN
 {
     DataClassification = ToBeClassified;
 
@@ -70,6 +70,11 @@ table 56053 BackLog_HGN
             DataClassification = ToBeClassified;
         }
         field(23; NextYear; Decimal)
+        {
+            Caption = 'Next Year';
+            DataClassification = ToBeClassified;
+        }
+        field(24; "Fecha Generacion"; date)
         {
             Caption = 'Next Year';
             DataClassification = ToBeClassified;

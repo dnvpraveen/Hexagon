@@ -18,6 +18,18 @@ pageextension 57036 "Hex Sales Order List" extends "Sales Order List"
             {
 
             }
+            field("Created By"; UserSecurityId())
+            {
+
+            }
+        }
+        addafter("Sell-to Customer Name")
+        {
+            field("Your Reference"; Rec."Your Reference")
+            {
+                ApplicationArea = all;
+            }
+
         }
 
     }

@@ -2,7 +2,7 @@
   "id": "71d155c5-f656-439e-b824-2b46daa7ca7e",
   "name": "Hexagon BC14",
   "publisher": "Hexagon AB",
-  "version": "1.0.5.4",
+  "version": "1.0.5.5",
   "brief": "",
   "description": "Hexagon ERP Customizations",
   "privacyStatement": "",
@@ -35,5 +35,5 @@
   ],
   "contextSensitiveHelpUrl": "https://Hex01.com/help/",
   "showMyCode": true,
-  "runtime": "3.0"
+  "runtime": "9.0"
 }
