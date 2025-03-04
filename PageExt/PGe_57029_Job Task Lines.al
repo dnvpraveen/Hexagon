@@ -194,6 +194,7 @@ pageextension 57029 "Hex Job Task Lines" extends "Job Task Lines"
         SalesHeader: record job;
         DimensionEntry: Record "Default Dimension";
 
+
     trigger OnAfterGetRecord()
     begin
         Clear(JobSevicesMax);
@@ -233,6 +234,7 @@ pageextension 57029 "Hex Job Task Lines" extends "Job Task Lines"
             Ultimo := 1;
         rec.SetRange(Pending, true);
         rec.SetRange("IFRS15 Perf. Obligation Status", rec."IFRS15 Perf. Obligation Status"::" ");
+        rec.SetFilter("IFRS15 Line Amount (LCY)", '<>0');
         if rec.FindSet() then
             repeat
                 Clear(JobSevicesMax);
@@ -276,7 +278,5 @@ pageextension 57029 "Hex Job Task Lines" extends "Job Task Lines"
             until rec.Next() = 0;
 
     end;
-
-
 
 }

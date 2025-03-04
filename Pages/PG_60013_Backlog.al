@@ -34,11 +34,7 @@ page 60013 "Backlog"
                 field(Q3; rec.q3) { ApplicationArea = All; }
                 field(Q4; rec.q4) { ApplicationArea = All; }
                 field(NextYear; rec.NextYear) { ApplicationArea = All; }
-                field("Fecha Generacion"; Rec."Fecha Generacion")
-                {
-                    Caption = 'Fecha Generacion';
-                    ApplicationArea = all;
-                }
+
 
 
             }
@@ -176,6 +172,8 @@ page 60013 "Backlog"
         Q4Start := DMY2DATE(1, 10, CurrentYear);
         Q4End := DMY2DATE(31, 12, CurrentYear);
         NextYearStart := DMY2DATE(1, 1, CurrentYear + 1);
+        if rec."Currency Code" = '' then
+            rec."Amount LCY" := rec.Amount;
 
         if rec."Promised Delivery Date" <> 0D THEN BEGIN
             if (rec."Promised Delivery Date" >= Q1Start) and (rec."Promised Delivery Date" <= Q1End) THEN

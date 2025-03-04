@@ -233,6 +233,7 @@ page 56010 Deferral
             Ultimo := 1;
         NextMonth := CalcDate('<+1M>', WorkDate());
         FechaSig := DMY2Date(1, Date2DMY(NextMonth, 2), Date2DMY(NextMonth, 3));
+        rec.SetFilter("G/L Account No.", '400001..410001');
         rec.SetFilter("Posting Date", FORMAT(FechaSig) + '..');
         if rec.FindSet() then
             repeat
@@ -271,8 +272,8 @@ page 56010 Deferral
                 Backlog."Document Date" := rec."Posting Date";
                 Backlog."Promised Delivery Date" := rec."Posting Date";
                 Backlog."Currency Code" := '';
-                Backlog.Amount := rec.Amount;
-                Backlog."Amount LCY" := rec.Amount;
+                Backlog.Amount := rec.Amount * -1;
+                Backlog."Amount LCY" := rec.Amount * -1;
                 Backlog."Tipo Reporte" := Backlog."Tipo Reporte"::Deferral;
                 DimensionEntry.Reset();
                 DimensionEntry.SetRange("Dimension Set ID", rec."Dimension Set ID");

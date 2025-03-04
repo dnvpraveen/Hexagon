@@ -1,4 +1,4 @@
-table 56053 Backlog_HGN
+table 56053 BackLog_HGN
 {
     DataClassification = ToBeClassified;
 

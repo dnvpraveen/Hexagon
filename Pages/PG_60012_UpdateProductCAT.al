@@ -1,4 +1,4 @@
-page 56011 "Update Product CAT"
+page 60012 "Update Product CAT"
 {
     ApplicationArea = All;
     Caption = 'Update Product CAT';

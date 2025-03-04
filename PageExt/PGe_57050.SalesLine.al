@@ -47,7 +47,6 @@ pageextension 50093 SalesLineExt extends "Sales Lines"
 
                     Backlog.Reset();
                     Backlog.SetRange("Tipo Reporte", Backlog."Tipo Reporte"::"Sales Line");
-                    Backlog.SetRange("Fecha Generacion", Today);
                     if Backlog.FindSet() then
                         repeat
                             Backlog.Delete();
@@ -128,7 +127,6 @@ pageextension 50093 SalesLineExt extends "Sales Lines"
                                 Backlog."MTK Sector Code" := DimensionEntry."Dimension Value Code"
                             end;
                         end;
-                        Backlog."Fecha Generacion" := Today;
                         Backlog.Insert();
                         Ultimo := Ultimo + 1;
                     until rec.Next() = 0;
