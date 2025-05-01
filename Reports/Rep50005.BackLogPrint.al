@@ -85,6 +85,10 @@ report 50007 BackLogPrint
                 Q4End: Date;
                 NextYearStart: Date;
             begin
+                if BackLog."Currency Code" = '' then
+                    BackLog."Amount LCY" := BackLog.Amount;
+                if BackLog."Currency Code" = 'MXN' then
+                    BackLog."Amount LCY" := BackLog.Amount;
                 BackLog.Q1 := 0;
                 BackLog.Q2 := 0;
                 BackLog.Q3 := 0;
@@ -124,9 +128,20 @@ report 50007 BackLogPrint
                     if (WorkDate() >= Q4Start) and (WorkDate() <= Q4End) THEN
                         BackLog.Q4 := BackLog."Amount LCY";
                 END;
-
+                //CHANGE 03/04/2025
                 if (BackLog."Promised Delivery Date" >= NextYearStart) THEN BEGIN
                     BackLog.NextYear := BackLog."Amount LCY";
+                END;
+                IF BackLog.Q2 <> 0 THEN
+                    BackLog.Q1 := 0;
+                IF BackLog.Q3 <> 0 THEN begin
+                    BackLog.Q1 := 0;
+                    BackLog.Q2 := 0;
+                END;
+                IF BackLog.Q4 <> 0 THEN begin
+                    BackLog.Q1 := 0;
+                    BackLog.Q2 := 0;
+                    BackLog.Q3 := 0;
                 END;
             end;
         }

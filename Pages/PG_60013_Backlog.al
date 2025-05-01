@@ -200,6 +200,19 @@ page 60013 "Backlog"
         if (rec."Promised Delivery Date" >= NextYearStart) THEN BEGIN
             REC.NextYear := REC."Amount LCY";
         END;
+        //CHANGES MADED 03/04/25
+        IF REC.Q2 <> 0 THEN
+            REC.Q1 := 0;
+        IF REC.Q3 <> 0 THEN begin
+            REC.Q1 := 0;
+            REC.Q2 := 0;
+        END;
+        IF REC.Q4 <> 0 THEN begin
+            REC.Q1 := 0;
+            REC.Q2 := 0;
+            REC.Q3 := 0;
+        END;
+
     end;
 }
 
